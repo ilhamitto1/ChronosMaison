@@ -2,6 +2,8 @@ import { Link, useParams } from 'react-router-dom'
 import { getBrandById } from '@/data/brands'
 import { getProductsByBrand } from '@/data/products'
 import { ProductGrid } from '@/components/ProductGrid'
+import { BrandLogo } from '@/components/BrandLogo'
+import { buildWhatsAppUrl } from '@/lib/utils'
 
 export function BrandPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -21,24 +23,15 @@ export function BrandPage() {
     )
   }
 
+  const whatsappMsg = `Salam, ${brand.name} brendi üzrə məhsullarla maraqlanıram.`
+
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          {brand.logo && (
-            <img
-              src={brand.logo}
-              alt={brand.name}
-              style={{
-                height: 80,
-                objectFit: 'contain',
-                filter: 'grayscale(1) invert(1) brightness(9.5)',
-                marginBottom: 16,
-              }}
-            />
-          )}
+          <BrandLogo brand={brand} className="brand-page-logo" />
           <h1>{brand.name}</h1>
-          <p>{brand.name} saat kolleksiyası</p>
+          <p>{brand.name} kolleksiyası</p>
         </div>
       </div>
       <div className="page-content">
@@ -46,10 +39,21 @@ export function BrandPage() {
           {items.length > 0 ? (
             <ProductGrid items={items} />
           ) : (
-            <p className="about-desc">
-              Bu brend üzrə məhsullar tezliklə əlavə olunacaq. Qiymət sorğusu üçün bizimlə əlaqə
-              saxlayın.
-            </p>
+            <div className="products-empty">
+              <p>
+                {brand.name} brendi üzrə məhsullar tezliklə əlavə olunacaq. Ətraflı məlumat və qiymət
+                sorğusu üçün bizimlə əlaqə saxlayın.
+              </p>
+              <a
+                href={buildWhatsAppUrl(whatsappMsg)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ins-btn"
+                style={{ display: 'inline-flex', marginTop: 16 }}
+              >
+                Qiymət sorğu ilə
+              </a>
+            </div>
           )}
         </div>
       </div>

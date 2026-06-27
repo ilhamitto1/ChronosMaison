@@ -20,47 +20,43 @@ export function ProductDetailPage() {
     )
   }
 
+  const backPaths = {
+    bags: { to: '/bags', label: 'Çantalara qayıt' },
+    jewelry: { to: '/jewelry', label: 'Zinət əşyalarına qayıt' },
+    watches: { to: '/watches', label: 'Saatlara qayıt' },
+  } as const
+  const back = backPaths[product.category]
   const message = `Salam, ${product.name} məhsulu ilə maraqlanıram. Qiymət: ${formatPrice(product.price)}`
 
   return (
-    <>
-      <div className="page-content" style={{ paddingTop: 40 }}>
-        <div className="container">
-          <div className="row" style={{ alignItems: 'flex-start', gap: 24 }}>
-            <div className="col-md-3" style={{ flex: '0 0 45%', maxWidth: '45%' }}>
-              <img
-                src={product.image}
-                alt={product.name}
-                style={{ width: '100%', borderRadius: 5, border: '2px solid var(--border-muted)' }}
-              />
-            </div>
-            <div className="col-md-3" style={{ flex: 1 }}>
-              <p style={{ color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: 2 }}>
-                {product.brand}
-              </p>
-              <h1 style={{ fontWeight: 400, color: 'var(--gold-light)', fontSize: 28, margin: '0 0 16px' }}>
-                {product.name}
-              </h1>
-              <p style={{ fontSize: 32, color: 'var(--gold)', margin: '0 0 24px' }}>
-                {formatPrice(product.price)}
-              </p>
-              <a
-                href={buildWhatsAppUrl(message)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ins-btn"
-                style={{ display: 'inline-flex' }}
-              >
-                Qiymət sorğu ilə
-              </a>
-              <p style={{ marginTop: 24, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-                {BRAND.name} olaraq orijinal və sertifikatlı məhsullar təqdim edirik. Ətraflı məlumat
-                üçün WhatsApp vasitəsilə bizimlə əlaqə saxlayın.
-              </p>
-            </div>
+    <div className="page-content product-detail">
+      <div className="container">
+        <Link to={back.to} className="product-back-link">
+          ← {back.label}
+        </Link>
+        <div className="product-detail-grid">
+          <div className="product-detail-image">
+            <img src={product.image} alt={product.name} />
+          </div>
+          <div className="product-detail-info">
+            <p className="product-detail-brand">{product.brand}</p>
+            <h1>{product.name}</h1>
+            <p className="product-detail-price">{formatPrice(product.price)}</p>
+            <a
+              href={buildWhatsAppUrl(message)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ins-btn"
+            >
+              Qiymət sorğu ilə
+            </a>
+            <p className="product-detail-note">
+              {BRAND.name} olaraq orijinal və sertifikatlı məhsullar təqdim edirik. Ətraflı məlumat
+              üçün WhatsApp vasitəsilə bizimlə əlaqə saxlayın.
+            </p>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

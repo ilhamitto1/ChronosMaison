@@ -5,6 +5,7 @@ import { AboutPage } from '@/pages/AboutPage'
 import { BrandsPage } from '@/pages/BrandsPage'
 import { WatchesPage } from '@/pages/WatchesPage'
 import { BagsPage } from '@/pages/BagsPage'
+import { JewelryPage } from '@/pages/JewelryPage'
 import { ProductsPage } from '@/pages/ProductsPage'
 import { ContactPage } from '@/pages/ContactPage'
 import { BrandPage } from '@/pages/BrandPage'
@@ -20,7 +21,7 @@ export default function App() {
           <Route path="brends" element={<BrandsPage />} />
           <Route path="watches" element={<WatchesPage />} />
           <Route path="bags" element={<BagsPage />} />
-          <Route path="jewelry" element={<BagsPage />} />
+          <Route path="jewelry" element={<JewelryPage />} />
           <Route path="products" element={<ProductsPage />} />
           <Route path="products/:id" element={<ProductDetailPage />} />
           <Route path="contact" element={<ContactPage />} />

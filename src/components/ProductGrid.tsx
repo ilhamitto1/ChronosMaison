@@ -4,9 +4,21 @@ import { formatPrice } from '@/lib/utils'
 
 interface ProductGridProps {
   items: Product[]
+  emptyMessage?: string
 }
 
-export function ProductGrid({ items }: ProductGridProps) {
+export function ProductGrid({ items, emptyMessage }: ProductGridProps) {
+  if (items.length === 0) {
+    return (
+      <div className="products-empty">
+        <p>{emptyMessage ?? 'Bu bölmədə hələ məhsul yoxdur.'}</p>
+        <Link to="/contact" className="ins-btn" style={{ display: 'inline-flex', marginTop: 16 }}>
+          Əlaqə saxlayın
+        </Link>
+      </div>
+    )
+  }
+
   return (
     <div className="products2">
       <div className="grid">

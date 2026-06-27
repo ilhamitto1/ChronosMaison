@@ -3,20 +3,26 @@ import { Link } from 'react-router-dom'
 const CATEGORIES = [
   {
     to: '/products',
-    image: '/assets/banners/new-products.png',
+    image: '/assets/banners/new-products.jpg',
     label: 'Yeni daxil olmuş məhsullar',
     large: true,
   },
   {
     to: '/watches',
-    image: '/assets/banners/watches.png',
+    image: '/assets/banners/watches.jpg',
     label: 'Saatlar',
     large: false,
   },
   {
     to: '/bags',
-    image: '/assets/banners/jewelry.png',
+    image: '/assets/banners/bags.jpg',
     label: 'Çantalar',
+    large: false,
+  },
+  {
+    to: '/jewelry',
+    image: '/assets/banners/jewelry.jpg',
+    label: 'Zinət əşyaları',
     large: false,
   },
 ]
@@ -37,28 +43,19 @@ export function Categories() {
               </div>
             </Link>
           </div>
-          <div className="col-6 categoryCol">
-            <Link to={CATEGORIES[1].to}>
-              <div className="category">
-                <img className="bgImg" src={CATEGORIES[1].image} alt="" />
-                <div className="text">
-                  <span>{CATEGORIES[1].label}</span>
-                  <img className="line" src="/img/line.svg" alt="" />
+          {CATEGORIES.slice(1).map((cat) => (
+            <div key={cat.to} className="col-12 col-md-4 categoryCol">
+              <Link to={cat.to}>
+                <div className="category">
+                  <img className="bgImg" src={cat.image} alt="" />
+                  <div className="text">
+                    <span>{cat.label}</span>
+                    <img className="line" src="/img/line.svg" alt="" />
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </div>
-          <div className="col-6 categoryCol">
-            <Link to={CATEGORIES[2].to}>
-              <div className="category">
-                <img className="bgImg" src={CATEGORIES[2].image} alt="" />
-                <div className="text">
-                  <span>{CATEGORIES[2].label}</span>
-                  <img className="line" src="/img/line.svg" alt="" />
-                </div>
-              </div>
-            </Link>
-          </div>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>

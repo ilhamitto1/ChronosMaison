@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 100" fill="none">
+  <circle cx="160" cy="32" r="18" stroke="#c9a962" stroke-width="1.5" fill="none"/>
+  <line x1="160" y1="20" x2="160" y2="26" stroke="#e8d5a3" stroke-width="1.5"/>
+  <line x1="160" y1="38" x2="160" y2="44" stroke="#e8d5a3" stroke-width="1.5"/>
+  <line x1="148" y1="32" x2="154" y2="32" stroke="#e8d5a3" stroke-width="1.5"/>
+  <line x1="166" y1="32" x2="172" y2="32" stroke="#e8d5a3" stroke-width="1.5"/>
+  <text x="160" y="72" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#e8d5a3" letter-spacing="3">LOUIS MOINET</text>
+  <text x="160" y="88" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#c9a962" letter-spacing="4">SWISS WATCHES</text>
+</svg>

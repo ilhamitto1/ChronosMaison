@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { brands } from '@/data/brands'
-import { featuredBags, featuredWatches } from '@/data/products'
+import { featuredBags, featuredJewelry, featuredWatches } from '@/data/products'
 import { BRAND } from '@/lib/constants'
 
 export function Footer() {
@@ -18,6 +18,15 @@ export function Footer() {
               </li>
               <li>
                 <Link to="/about">Haqqımızda</Link>
+              </li>
+              <li>
+                <Link to="/bags">Çantalar</Link>
+              </li>
+              <li>
+                <Link to="/jewelry">Zinət əşyaları</Link>
+              </li>
+              <li>
+                <Link to="/watches">Saatlar</Link>
               </li>
             </ul>
           </div>
@@ -59,13 +68,21 @@ export function Footer() {
           </div>
 
           <div className="col-md-3 col-6">
+            <h4>Zinət əşyaları</h4>
+            <ul>
+              {featuredJewelry.map((p) => (
+                <li key={p.id}>
+                  <Link to={`/products/${p.id}`}>{p.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="col-md-3 col-6">
             <h4>Əlaqə</h4>
             <ul>
               <li>
-                <a href={`tel:${BRAND.phoneTel}`}>{BRAND.phoneTel}</a>
-              </li>
-              <li>
-                <a href={`tel:${BRAND.phoneLandlineTel}`}>{BRAND.phoneLandlineTel}</a>
+                <a href={`tel:${BRAND.phoneTel}`}>{BRAND.phone}</a>
               </li>
               <li>
                 <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>

@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { ProductGrid } from '@/components/ProductGrid'
-import { brands } from '@/data/brands'
+import { watchBrands } from '@/data/brands'
 import { getProductsByCategory } from '@/data/products'
 
 export function WatchesPage() {
@@ -11,46 +10,39 @@ export function WatchesPage() {
     ? watches.filter((p) => p.brandId === activeBrand)
     : watches
 
-  const watchBrands = brands.filter((b) =>
-    watches.some((w) => w.brandId === b.id),
-  )
-
   return (
     <>
       <div className="page-hero">
         <div className="container">
           <h1>Saatlar</h1>
-          <p>Elit və luks saat kolleksiyamız</p>
+          <p>İsveçrə və dünya brendlərinin elit saat kolleksiyası</p>
         </div>
       </div>
       <div className="page-content">
         <div className="container">
           <div className="filterr">
-            <Link
-              to="/watches"
+            <button
+              type="button"
               className={!activeBrand ? 'active' : ''}
-              onClick={(e) => {
-                e.preventDefault()
-                setActiveBrand(null)
-              }}
+              onClick={() => setActiveBrand(null)}
             >
               Hamısı
-            </Link>
+            </button>
             {watchBrands.map((b) => (
-              <Link
+              <button
                 key={b.id}
-                to={`/watches?brand=${b.id}`}
+                type="button"
                 className={activeBrand === b.id ? 'active' : ''}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setActiveBrand(b.id)
-                }}
+                onClick={() => setActiveBrand(b.id)}
               >
                 {b.name}
-              </Link>
+              </button>
             ))}
           </div>
-          <ProductGrid items={filtered} />
+          <ProductGrid
+            items={filtered}
+            emptyMessage="Bu brend üzrə saatlar tezliklə əlavə olunacaq. Qiymət sorğusu üçün bizimlə əlaqə saxlayın."
+          />
         </div>
       </div>
     </>

@@ -17,10 +17,7 @@ export function ContactPage() {
               <div className="contact-card">
                 <h3>Telefon</h3>
                 <p>
-                  <a href={`tel:${BRAND.phoneTel}`}>Mob: {BRAND.phone}</a>
-                </p>
-                <p>
-                  <a href={`tel:${BRAND.phoneLandlineTel}`}>Tel: {BRAND.phoneLandline}</a>
+                  <a href={`tel:${BRAND.phoneTel}`}>{BRAND.phone}</a>
                 </p>
               </div>
             </div>

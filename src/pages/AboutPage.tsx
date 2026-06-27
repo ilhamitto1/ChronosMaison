@@ -1,4 +1,4 @@
-import { ABOUT_TEXT, BRAND } from '@/lib/constants'
+import { ABOUT_TEXT, ABOUT_TEXT_EXTENDED, BRAND } from '@/lib/constants'
 
 export function AboutPage() {
   return (
@@ -10,15 +10,16 @@ export function AboutPage() {
         </div>
       </div>
       <div className="page-content">
-        <div className="container">
-          <p className="about-desc" style={{ textAlign: 'justify' }}>
-            {ABOUT_TEXT}
-          </p>
-          <p className="about-desc" style={{ marginTop: 24, textAlign: 'justify' }}>
-            {BRAND.name}, Bakı şəhərinin mərkəzində İsveçrə saatlarının elit bir butikidir. Ən məşhur
-            və bahalı markaların saatlarını almanızda və ya satmanızda sizə kömək etməkdən məmnun
-            olan işimizə aşiq mütəxəssislərik.
-          </p>
+        <div className="container about-page-content">
+          <p className="about-desc">{ABOUT_TEXT}</p>
+          <p className="about-desc">{ABOUT_TEXT_EXTENDED}</p>
+          <ul className="about-features">
+            <li>Orijinal brend saatların satışı və alışı</li>
+            <li>Eksklüziv dizayner çanta kolleksiyası</li>
+            <li>Brilyant və qızıl zinət əşyaları</li>
+            <li>Peşəkar qiymət məsləhəti və autentiklik yoxlaması</li>
+            <li>WhatsApp vasitəsilə sürətli əlaqə və sorğu</li>
+          </ul>
         </div>
       </div>
     </>

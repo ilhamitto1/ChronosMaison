@@ -64,10 +64,7 @@ export function HeroCarousel() {
                 <div className="text">
                   <p>
                     <a href={`tel:${BRAND.phoneTel}`} className="d-block text-white">
-                      Mob: {BRAND.phone}
-                    </a>
-                    <a href={`tel:${BRAND.phoneLandlineTel}`} className="d-block text-white">
-                      Tel: {BRAND.phoneLandline}
+                      Tel: {BRAND.phone}
                     </a>
                     <span className="d-block">Ünvan: {BRAND.address}</span>
                   </p>
