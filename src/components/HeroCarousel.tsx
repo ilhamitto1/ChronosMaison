@@ -1,61 +1,20 @@
-import { useEffect, useState } from 'react'
-import { BRAND, WORLD_CITIES } from '@/lib/constants'
+import { BRAND } from '@/lib/constants'
 import { InstagramIcon } from '@/components/icons/InstagramIcon'
 
-function formatTime(timezone: string) {
-  return new Intl.DateTimeFormat('az-AZ', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-    timeZone: timezone,
-  }).format(new Date())
-}
-
 export function HeroCarousel() {
-  const [times, setTimes] = useState(() =>
-    WORLD_CITIES.map((c) => formatTime(c.timezone)),
-  )
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setTimes(WORLD_CITIES.map((c) => formatTime(c.timezone)))
-    }, 1000)
-    return () => clearInterval(id)
-  }, [])
-
   return (
-    <div className="carousel">
+    <section className="carousel" aria-label="Chronos Maison">
       <div className="carousel-inner">
-        <div className="carousel-item carousel-item-first active">
-          <div className="carousel-scene">
+        <div className="carousel-item active">
+          <div className="carousel-media">
             <img
-              className="hero-logo-back"
-              src={BRAND.logo}
-              alt=""
-              aria-hidden="true"
-            />
-            <img
-              className="hero-photo"
-              src="/assets/banners/hero.png"
+              className="hero-banner"
+              src="/assets/banners/herosection.png"
               alt={BRAND.name}
+              fetchPriority="high"
+              decoding="async"
             />
-          </div>
-
-          <div className="stars">
-            <div className="star-field" />
-            <div className="star-field star-field-2" />
-          </div>
-
-          <div className="saatt">
-            <div className="saatalti">
-              {WORLD_CITIES.map((city, i) => (
-                <div key={city.city} className="saat1">
-                  {city.city}
-                  <span className="time">{times[i]}</span>
-                </div>
-              ))}
-            </div>
+            <div className="hero-overlay" aria-hidden="true" />
           </div>
 
           <div className="caption">
@@ -83,6 +42,6 @@ export function HeroCarousel() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

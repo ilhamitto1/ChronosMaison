@@ -14,11 +14,11 @@ export function AboutPage() {
           <p className="about-desc">{ABOUT_TEXT}</p>
           <p className="about-desc">{ABOUT_TEXT_EXTENDED}</p>
           <ul className="about-features">
-            <li>Orijinal brend saatların satışı və alışı</li>
-            <li>Eksklüziv dizayner çanta kolleksiyası</li>
-            <li>Brilyant və qızıl zinət əşyaları</li>
-            <li>Peşəkar qiymət məsləhəti və autentiklik yoxlaması</li>
-            <li>WhatsApp vasitəsilə sürətli əlaqə və sorğu</li>
+            <li>Brend saatların satışı və alışı</li>
+            <li>Dizayner çantalar</li>
+            <li>Zinət əşyaları</li>
+            <li>Qiymət məsləhəti və autentiklik yoxlaması</li>
+            <li>WhatsApp vasitəsilə əlaqə</li>
           </ul>
         </div>
       </div>

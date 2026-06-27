@@ -381,167 +381,88 @@ button:focus {
 /* ─── Hero Carousel ─── */
 .carousel {
   position: relative;
-  height: 590px;
+  width: 100%;
+  height: auto;
   overflow: hidden;
   margin-top: 0;
+  background: #000;
 }
 
 .carousel-inner {
-  height: 100%;
+  height: auto;
 }
 
 .carousel-item {
   position: relative;
-  height: 590px;
-}
-
-.carousel-scene {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.hero-logo-back {
-  position: absolute;
-  left: 50%;
-  top: 38%;
-  transform: translate(-50%, -50%);
-  width: min(200px, 44vw);
-  height: auto;
-  z-index: 2;
-  object-fit: contain;
-  pointer-events: none;
-  filter: drop-shadow(0 6px 28px rgba(0, 0, 0, 0.45));
-}
-
-.hero-photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 46%;
-  z-index: 3;
-  display: block;
-  -webkit-mask-image: radial-gradient(
-    ellipse 40% 34% at 50% 38%,
-    rgba(0, 0, 0, 0.58) 0%,
-    rgba(0, 0, 0, 1) 78%
-  );
-  mask-image: radial-gradient(
-    ellipse 40% 34% at 50% 38%,
-    rgba(0, 0, 0, 0.58) 0%,
-    rgba(0, 0, 0, 1) 78%
-  );
-}
-
-.carousel-item > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.carousel .stars {
-  z-index: 4;
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.carousel .stars .star-field {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #fff;
-  border-radius: 50%;
-  animation: animStar 80s linear infinite;
-  box-shadow:
-    100px 200px #fff, 300px 100px #fff, 500px 400px #fff, 700px 150px #fff,
-    900px 350px #fff, 200px 500px #fff, 400px 300px #fff, 600px 50px #fff,
-    800px 450px #fff, 150px 350px #fff, 350px 150px #fff, 550px 250px #fff,
-    750px 350px #fff, 950px 100px #fff, 50px 450px #fff, 250px 50px #fff,
-    450px 450px #fff, 650px 200px #fff, 850px 300px #fff, 1050px 200px #fff;
-}
-
-.carousel .stars .star-field-2 {
-  width: 1px;
-  height: 1px;
-  animation-duration: 120s;
-  opacity: 0.7;
-}
-
-@keyframes animStar {
-  from { transform: translateY(0); }
-  to { transform: translateY(-600px); }
-}
-
-.saatt {
-  width: 100%;
-  position: absolute;
-  text-align: center;
-  top: auto;
-  bottom: 118px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  z-index: 11;
-  pointer-events: none;
-}
-
-.saatalti {
   display: flex;
-  justify-content: space-evenly;
-  width: min(500px, 92vw);
-  max-width: 92vw;
-  margin: 0 auto;
-  color: white;
-  font-size: 23px;
+  flex-direction: column;
+  height: auto;
 }
 
-.saatalti .saat1 {
-  text-align: center;
+.carousel-media {
+  position: relative;
+  width: 100%;
+  min-height: clamp(420px, 50vw, 600px);
+  overflow: hidden;
+  background: #000;
 }
 
-.saatalti .saat1 .time {
+.hero-banner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
   display: block;
-  font-size: 28px;
-  font-weight: 400;
-  margin-top: 4px;
-  color: var(--gold-light);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.12) 0%,
+    rgba(0, 0, 0, 0) 45%,
+    rgba(0, 0, 0, 0.18) 100%
+  );
 }
 
 .carousel .caption {
-  background-color: rgba(0, 0, 0, 0.65);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 12;
-  padding: 25px 0;
+  padding: 20px 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(201, 169, 98, 0.18);
 }
 
 .cap-row {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
 }
 
 .cap-row .text p {
   margin: 0;
-  font-size: 20px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.55;
 }
 
 .cap-row .text a,
 .cap-row .text span {
   display: block;
   color: white;
+}
+
+.cap-row .text a:hover {
+  color: var(--gold-light);
 }
 
 .ins-btn {
@@ -1300,6 +1221,10 @@ footer .social a:hover {
     display: flex;
   }
 
+  .site-header__actions {
+    margin-left: auto;
+  }
+
   .site-header__brand img {
     height: 64px;
   }
@@ -1331,6 +1256,18 @@ footer .social a:hover {
   }
 }
 
+@media (min-width: 769px) {
+  .carousel-media {
+    min-height: unset;
+    height: clamp(480px, 50vw, 620px);
+  }
+
+  .hero-banner {
+    object-fit: cover;
+    object-position: center 44%;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --nav-height: 78px;
@@ -1340,39 +1277,56 @@ footer .social a:hover {
     height: 58px;
   }
 
-  .carousel,
+  .carousel {
+    height: auto;
+    min-height: unset;
+    max-height: none;
+    overflow: hidden;
+  }
+
+  .carousel-inner,
   .carousel-item {
-    height: 480px;
+    height: auto;
   }
 
-  .hero-logo-back {
-    width: min(155px, 38vw);
-    top: 36%;
+  .carousel-media {
+    flex: none;
+    width: 100%;
+    min-height: unset;
+    height: auto;
+    line-height: 0;
+    background: #000;
   }
 
-  .hero-photo {
-    -webkit-mask-image: radial-gradient(
-      ellipse 46% 38% at 50% 36%,
-      rgba(0, 0, 0, 0.55) 0%,
-      rgba(0, 0, 0, 1) 80%
-    );
-    mask-image: radial-gradient(
-      ellipse 46% 38% at 50% 36%,
-      rgba(0, 0, 0, 0.55) 0%,
-      rgba(0, 0, 0, 1) 80%
-    );
+  .hero-banner {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: center top;
+    display: block;
   }
 
-  .saatt {
-    bottom: 108px;
+  .hero-overlay {
+    display: none;
   }
 
-  .saatalti {
-    font-size: 16px;
+  .carousel .caption {
+    position: relative;
+    padding: 16px 0 18px;
   }
 
-  .saatalti .saat1 .time {
-    font-size: 20px;
+  .cap-row .text p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .ins-btn {
+    width: 100%;
+    font-size: 13px;
+    padding: 12px 16px;
   }
 
   .col-6 {

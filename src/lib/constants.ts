@@ -1,7 +1,7 @@
 export const BRAND = {
   name: 'Chronos Maison',
   fullName: 'Chronos Maison',
-  tagline: 'Elit Saatlar Mərkəzi',
+  tagline: 'Brend saatlar, çantalar və zinət əşyaları',
   logo: '/img/logo-chronos.png',
   email: 'chronosmaison776@gmail.com',
   phone: '+994 (010) 100-07-76',
@@ -13,10 +13,10 @@ export const BRAND = {
 } as const
 
 export const ABOUT_TEXT =
-  'Chronos Maison — Bakıda fəaliyyət göstərən elit saat, dizayner çanta və zinət əşyası butikidir. Rolex, Patek Philippe, Audemars Piguet, Omega, Cartier və digər dünya brendlərinin orijinal saatlarının satışı, alışı və peşəkar qiymətləndirilməsi xidmətlərini təqdim edirik. Eyni zamanda Hermès, Chanel, Louis Vuitton və Dior kimi moda evlərinin eksklüziv çanta kolleksiyaları ilə Tiffany & Co., Van Cleef & Arpels və Messika zərgərlik əsərlərini sizə təklif edirik.'
+  'Chronos Maison Bakıda saat, çanta və zinət əşyası satışı ilə məşğul olan butikdir. Rolex, Patek Philippe, Omega, Cartier və digər brendlərin orijinal saatlarını təqdim edirik. Çanta və zinət əşyaları üzrə Hermès, Chanel, Louis Vuitton, Tiffany & Co. və digər brendlərlə də işləyirik.'
 
 export const ABOUT_TEXT_EXTENDED =
-  'Komandamız hər müştəriyə fərdi yanaşma ilə yanaşır: model seçimi, autentiklik yoxlaması, qiymət məsləhəti və təhlükəsiz əməliyyat prosesi bizim üçün prioritetdir. İstər yeni alış, istərsə də mövcud kolleksiyanızın satışı olsun — Chronos Maison-da hər addımda peşəkar dəstək alacaqsınız.'
+  'Satış və alış zamanı məhsulun orijinallığını yoxlayır, qiymət barədə məlumat veririk. Sualınız olsa, WhatsApp və ya telefon vasitəsilə bizimlə əlaqə saxlaya bilərsiniz.'
 
 export const WORLD_CITIES = [
   { city: 'Bakı', timezone: 'Asia/Baku' },
