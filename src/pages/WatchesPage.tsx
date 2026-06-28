@@ -13,10 +13,7 @@ export function WatchesPage() {
 
   return (
     <>
-      <PageHero
-        title="Saatlar"
-        image="/assets/banners/watches.png"
-      />
+      <PageHero title="Saatlar" />
       <div className="page-content">
         <div className="container">
           <div className="filterr">

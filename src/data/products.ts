@@ -205,17 +205,6 @@ export const products: Product[] = [
 
   // ─── Zinət əşyaları ───
   {
-    id: 'j001',
-    name: 'Harry Winston Lily Cluster Diamond Bracelet',
-    brand: 'Harry Winston',
-    brandId: 'harry-winston',
-    price: 16500,
-    image: '/assets/jewelry/harry-winston-lily-cluster-bracelet.jpg',
-    category: 'jewelry',
-    description:
-      '18 kt sarı qızıl, Lily Cluster kolleksiyası, pavé brilyantlar. Bakı bazarında təxminən 15 500–18 000 ₼.',
-  },
-  {
     id: 'j002',
     name: 'Paraiba Tourmaline High Jewelry Necklace',
     brand: 'Harry Winston',
@@ -238,6 +227,17 @@ export const products: Product[] = [
       'Frivole kolleksiyası — ağ qızıl, pavé brilyant çiçək motivləri. Between the finger üzük və açıq bilərzik. Bakı bazarında təxminən 85 000–100 000 ₼.',
   },
 ]
+
+export const categoryShowcase = {
+  watches: products.find((p) => p.id === 'w001')!,
+  jewelry: products.find((p) => p.id === 'j003')!,
+  bags: products.find((p) => p.id === 'b002')!,
+  newProducts: [
+    products.find((p) => p.id === 'w003')!,
+    products.find((p) => p.id === 'j003')!,
+    products.find((p) => p.id === 'b002')!,
+  ],
+}
 
 export const featuredWatches = products.filter((p) => p.category === 'watches').slice(0, 6)
 export const featuredBags = products.filter((p) => p.category === 'bags').slice(0, 6)

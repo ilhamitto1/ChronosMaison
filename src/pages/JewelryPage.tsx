@@ -10,7 +10,7 @@ export function JewelryPage() {
 
   return (
     <>
-      <PageHero title="Zinət əşyaları" image="/assets/banners/jewelry.jpg" />
+      <PageHero title="Zinət əşyaları" />
       <div className="page-content">
         <div className="container">
           <section className="page-section">

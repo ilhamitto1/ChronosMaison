@@ -10,11 +10,7 @@ export function BagsPage() {
 
   return (
     <>
-      <PageHero
-        title="Çantalar"
-        image="/assets/banners/bags.jpg"
-        imagePosition="center 40%"
-      />
+      <PageHero title="Çantalar" />
       <div className="page-content">
         <div className="container">
           <section className="page-section">

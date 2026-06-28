@@ -9,7 +9,7 @@ const bagsDir = path.join(root, 'public', 'assets', 'bags')
 const size = 1200
 const paddingRatio = 0.1
 const inner = Math.round(size * (1 - paddingRatio * 2))
-const bg = { r: 18, g: 18, b: 18 }
+const bg = { r: 10, g: 10, b: 10 }
 
 /** removebg PNG → çıxış faylı */
 const bagSources = {

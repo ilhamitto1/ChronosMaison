@@ -7,7 +7,7 @@ interface PageHeroProps {
 
 export function PageHero({ title, subtitle, image, imagePosition = 'center' }: PageHeroProps) {
   return (
-    <div className={`page-hero${image ? ' page-hero--image' : ''}`}>
+    <div className={`page-hero${image ? ' page-hero--image' : ' page-hero--text'}`}>
       {image ? (
         <>
           <img
