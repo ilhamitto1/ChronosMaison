@@ -7,8 +7,8 @@ import { buildWhatsAppUrl } from '@/lib/utils'
 
 const NAV_LINKS = [
   { to: '/brends', label: 'Brendlər' },
-  { to: '/jewelry', label: 'Zinət əşyaları' },
   { to: '/watches', label: 'Saatlar' },
+  { to: '/jewelry', label: 'Zinət əşyaları' },
   { to: '/bags', label: 'Çantalar' },
   { to: '/contact', label: 'Əlaqə' },
 ]

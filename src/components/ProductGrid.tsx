@@ -24,7 +24,13 @@ export function ProductGrid({ items, emptyMessage }: ProductGridProps) {
       <div className="grid">
         {items.map((product) => (
           <Link key={product.id} to={`/products/${product.id}`} className="product">
-            <img src={product.image} alt={product.name} loading="lazy" />
+            {product.category === 'bags' ? (
+              <div className="product-media product-media--bag">
+                <img src={product.image} alt={product.name} loading="lazy" />
+              </div>
+            ) : (
+              <img src={product.image} alt={product.name} loading="lazy" />
+            )}
             <div className="content">
               <h3>{product.name}</h3>
               <div className="price">{formatPrice(product.price)}</div>

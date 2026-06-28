@@ -2,14 +2,21 @@ interface PageHeroProps {
   title: string
   subtitle?: string
   image?: string
+  imagePosition?: string
 }
 
-export function PageHero({ title, subtitle, image }: PageHeroProps) {
+export function PageHero({ title, subtitle, image, imagePosition = 'center' }: PageHeroProps) {
   return (
     <div className={`page-hero${image ? ' page-hero--image' : ''}`}>
       {image ? (
         <>
-          <img className="page-hero__bg" src={image} alt="" aria-hidden="true" />
+          <img
+            className="page-hero__bg"
+            src={image}
+            alt=""
+            aria-hidden="true"
+            style={{ objectPosition: imagePosition }}
+          />
           <div className="page-hero__overlay" />
         </>
       ) : null}

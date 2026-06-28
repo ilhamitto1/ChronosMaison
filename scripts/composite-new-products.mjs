@@ -8,49 +8,38 @@ const root = path.join(__dirname, '..')
 
 const sources = [
   { file: 'public/assets/watches/rolex-daytona-two-tone.png', label: 'watch' },
-  { file: 'public/assets/jewelry/paraiba-tourmaline-necklace.jpg', label: 'jewelry' },
-  { file: 'public/assets/bags/hermes-kelly-orange.jpg', label: 'bag' },
+  { file: 'public/assets/jewelry/van-cleef-frivole-diamond-set.jpg', label: 'jewelry' },
+  { file: 'public/assets/bags/hermes-birkin-25-rouge-pivoine-swift-gold.jpg', label: 'bag' },
 ]
 
-const width = 1600
-const height = 720
-const pad = 48
-const gap = 32
-const cellW = Math.floor((width - pad * 2 - gap * 2) / 3)
-const cellH = height - pad * 2
-
-const bg = await sharp({
-  create: {
-    width,
-    height,
-    channels: 3,
-    background: { r: 18, g: 18, b: 20 },
-  },
-})
-  .png()
-  .toBuffer()
+const width = 1800
+const height = 640
+const colW = Math.floor(width / 3)
+const bgColor = { r: 14, g: 14, b: 16 }
 
 const composites = []
 
 for (let i = 0; i < sources.length; i++) {
   const srcPath = path.join(root, sources[i].file)
-  const left = pad + i * (cellW + gap)
+  const left = i * colW
 
   const resized = await sharp(srcPath)
-    .resize(cellW, cellH, { fit: 'contain', background: { r: 18, g: 18, b: 20 } })
-    .png()
+    .resize(colW, height, { fit: 'cover', position: 'centre' })
     .toBuffer()
 
-  composites.push({ input: resized, left, top: pad })
+  composites.push({ input: resized, left, top: 0 })
 }
 
 const outDir = path.join(root, 'public', 'assets', 'banners')
 fs.mkdirSync(outDir, { recursive: true })
 const outPath = path.join(outDir, 'new-products.jpg')
 
-await sharp(bg)
+await sharp({
+  create: { width, height, channels: 3, background: bgColor },
+})
   .composite(composites)
-  .jpeg({ quality: 88, mozjpeg: true })
+  .modulate({ brightness: 0.92 })
+  .jpeg({ quality: 90, mozjpeg: true })
   .toFile(outPath)
 
 console.log('Created', outPath)

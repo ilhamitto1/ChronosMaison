@@ -34,7 +34,7 @@ export function ProductDetailPage() {
           ← {back.label}
         </Link>
         <div className="product-detail-grid">
-          <div className="product-detail-image">
+          <div className={`product-detail-image${product.category === 'bags' ? ' product-detail-image--bag' : ''}`}>
             <img src={product.image} alt={product.name} />
           </div>
           <div className="product-detail-info">

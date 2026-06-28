@@ -137,58 +137,70 @@ export const products: Product[] = [
   // ─── Çantalar (Hermès) ───
   {
     id: 'b001',
-    name: 'Hermès Kelly 25 Orange Togo Gold Hardware',
+    name: 'Hermès Birkin 25 Rouge Pivoine Swift Gold Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 38500,
-    image: '/assets/bags/hermes-kelly-orange.jpg',
+    price: 54800,
+    image: '/assets/bags/hermes-birkin-25-rouge-pivoine-swift-gold.jpg',
     category: 'bags',
     description:
-      'Narıncı Togo dəri, qızıl hardware, Kelly bağlama, orijinal qutu və dust bag. Bakı bazarında təxminən 36 000–42 000 ₼.',
+      'Birkin 25, Rouge Pivoine Swift dəri, qızıl hardware, touret kilid və clochette. İkonik qırmızı ton, hamar Swift texture. Bakı bazarında təxminən 52 000–58 000 ₼.',
   },
   {
     id: 'b002',
-    name: 'Hermès Kelly 25 Black Togo Gold Hardware',
+    name: 'Hermès Birkin 30 Gold Togo Palladium Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 36000,
-    image: '/assets/bags/hermes-kelly-black.jpg',
+    price: 46500,
+    image: '/assets/bags/hermes-birkin-gold-togo-palladium.jpg',
     category: 'bags',
     description:
-      'Qara Togo dəri, qızıl hardware, ayrıca qayış ilə. Orijinal qutu və sənədlərlə. Bakı bazarında təxminən 34 000–39 000 ₼.',
+      'Klassik Gold rəngi Togo dəri, palladium hardware, ağ kontrast tikiş. Birkin 30, padlock və clochette ilə. Bakı bazarında təxminən 44 000–49 000 ₼.',
   },
   {
     id: 'b003',
-    name: 'Hermès Picotin Lock 18 Black Clemence',
+    name: 'Hermès Birkin 25 Jaune Poussin Togo Palladium Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 9800,
-    image: '/assets/bags/hermes-picotin-lock-black.jpg',
+    price: 51200,
+    image: '/assets/bags/hermes-birkin-jaune-poussin-togo-palladium.jpg',
     category: 'bags',
     description:
-      'Qara Clemence dəri, kilid bağlama, bucket siluet. Orijinal qutu ilə. Bakı bazarında təxminən 9 000–11 000 ₼.',
+      'Birkin 25, Jaune Poussin (açıq sarı) Togo dəri, palladium hardware. Nadir rəng, tonal tikiş. Bakı bazarında təxminən 48 000–54 000 ₼.',
   },
-  {
-    id: 'b004',
-    name: 'Hermès Cabas H Vertical Burgundy',
-    brand: 'Hermès',
-    brandId: 'hermes',
-    price: 7200,
-    image: '/assets/bags/hermes-cabas-vertical-burgundy.jpg',
-    category: 'bags',
-    description:
-      'Bordo dəri, vertikal H loqo, açıq tote forması. Bakı bazarında təxminən 6 500–8 000 ₼.',
-  },
+
   {
     id: 'b005',
-    name: 'Hermès Birkin 30 Two-Tone Togo Gold Hardware',
+    name: 'Hermès Mini Kelly 20 Etoupe Epsom Gold Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 52000,
-    image: '/assets/bags/hermes-birkin-two-tone.jpg',
+    price: 40200,
+    image: '/assets/bags/hermes-mini-kelly-20-etoupe-epsom-gold.jpg',
     category: 'bags',
     description:
-      'Krem və cognac iki tonlu Togo dəri, qızıl hardware, Birkin bağlama. Bakı bazarında təxminən 48 000–58 000 ₼.',
+      'Mini Kelly 20, Etoupe Epsom dəri, qızıl hardware, ağ kontrast tikiş. Sellier siluet, tək qulp. Bakı bazarında təxminən 38 000–43 000 ₼.',
+  },
+  {
+    id: 'b006',
+    name: 'Hermès Kelly 20 Sellier Orange Epsom Palladium Hardware',
+    brand: 'Hermès',
+    brandId: 'hermes',
+    price: 36800,
+    image: '/assets/bags/hermes-kelly-20-orange-sellier-palladium.jpg',
+    category: 'bags',
+    description:
+      'Kelly 20 Sellier, klassik Hermès narıncısı Epsom dəri, palladium hardware. Kəskin kənarlı struktur. Bakı bazarında təxminən 34 000–39 000 ₼.',
+  },
+  {
+    id: 'b007',
+    name: 'Hermès Kelly 25 Sellier Rouge Casaque Epsom Palladium Hardware',
+    brand: 'Hermès',
+    brandId: 'hermes',
+    price: 41500,
+    image: '/assets/bags/hermes-kelly-25-rouge-sellier-palladium.jpg',
+    category: 'bags',
+    description:
+      'Kelly 25 Sellier, Rouge Casaque Epsom dəri, palladium hardware. İkonik qırmızı ton, xarici tikiş. Bakı bazarında təxminən 39 000–44 000 ₼.',
   },
 
   // ─── Zinət əşyaları ───
@@ -213,6 +225,17 @@ export const products: Product[] = [
     category: 'jewelry',
     description:
       'Haute Joaillerie — mərkəzdə Paraiba turmalin, brilyant halo. Daşın keyfiyyətinə görə Bakıda belə parçalar adətən 450 000 ₼-dən yuxarı qiymətləndirilir.',
+  },
+  {
+    id: 'j003',
+    name: 'Van Cleef & Arpels Frivole Diamond Ring & Bracelet',
+    brand: 'Van Cleef & Arpels',
+    brandId: 'van-cleefandarpels',
+    price: 92000,
+    image: '/assets/jewelry/van-cleef-frivole-diamond-set.jpg',
+    category: 'jewelry',
+    description:
+      'Frivole kolleksiyası — ağ qızıl, pavé brilyant çiçək motivləri. Between the finger üzük və açıq bilərzik. Bakı bazarında təxminən 85 000–100 000 ₼.',
   },
 ]
 

@@ -1,7 +1,9 @@
 export const BRAND = {
   name: 'Chronos Maison',
   fullName: 'Chronos Maison',
-  tagline: 'Saatlar, çantalar və zinət əşyaları',
+  tagline: 'Saatlar, zinət əşyaları və çantalar',
+  intro:
+    'Seçilmiş brendlər bir ünvanda — saat, zinət və çanta üçün Chronos Maison birləşmə nöqtəsidir.',
   logo: '/img/logo-chronos.png',
   email: 'chronosmaison776@gmail.com',
   phone: '+994 (010) 100-07-76',

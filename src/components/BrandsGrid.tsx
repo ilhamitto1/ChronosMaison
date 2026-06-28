@@ -6,11 +6,17 @@ interface BrandsGridProps {
   brands: Brand[]
   linkPrefix?: string
   showAllLink?: string
+  centered?: boolean
 }
 
-export function BrandsGrid({ brands, linkPrefix = '/markalar', showAllLink }: BrandsGridProps) {
+export function BrandsGrid({
+  brands,
+  linkPrefix = '/markalar',
+  showAllLink,
+  centered = false,
+}: BrandsGridProps) {
   return (
-    <div className="brands-section">
+    <div className={`brands-section${centered ? ' brands-section--centered' : ''}`}>
       <div className="brands-grid">
         {brands.map((brand) => (
           <Link key={brand.id} to={`${linkPrefix}/${brand.id}`} className="brand-card">

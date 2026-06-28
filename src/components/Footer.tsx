@@ -20,7 +20,8 @@ export function Footer() {
       <div className="container">
         <div className="row">
           <div className="col-md-3 col-6">
-            <h4>Şirkət</h4>
+            <h4>Məlumatlar</h4>
+            <p className="footer-intro">{BRAND.intro}</p>
             <ul>
               <li>
                 <Link to="/">Ana səhifə</Link>
@@ -29,13 +30,13 @@ export function Footer() {
                 <Link to="/brends">Brendlər</Link>
               </li>
               <li>
-                <Link to="/bags">Çantalar</Link>
+                <Link to="/watches">Saatlar</Link>
               </li>
               <li>
                 <Link to="/jewelry">Zinət əşyaları</Link>
               </li>
               <li>
-                <Link to="/watches">Saatlar</Link>
+                <Link to="/bags">Çantalar</Link>
               </li>
               <li>
                 <Link to="/contact">Əlaqə</Link>
@@ -76,9 +77,9 @@ export function Footer() {
           </div>
 
           <div className="col-md-3 col-6">
-            <h4>Çantalar</h4>
+            <h4>Zinət əşyaları</h4>
             <ul>
-              {featuredBags.map((p) => (
+              {featuredJewelry.map((p) => (
                 <li key={p.id}>
                   <Link to={`/products/${p.id}`}>{p.name}</Link>
                 </li>
@@ -87,9 +88,9 @@ export function Footer() {
           </div>
 
           <div className="col-md-3 col-6">
-            <h4>Zinət əşyaları</h4>
+            <h4>Çantalar</h4>
             <ul>
-              {featuredJewelry.map((p) => (
+              {featuredBags.map((p) => (
                 <li key={p.id}>
                   <Link to={`/products/${p.id}`}>{p.name}</Link>
                 </li>
