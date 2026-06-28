@@ -1558,35 +1558,36 @@ footer .social a:hover {
   .whatsapp-float {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
     position: fixed;
     right: 16px;
     bottom: max(20px, env(safe-area-inset-bottom, 20px));
     z-index: 1050;
-    padding: 14px 20px 14px 16px;
-    border-radius: 999px;
-    background: #25d366;
-    color: #fff;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(10, 10, 10, 0.92);
+    border: 2px solid var(--gold);
     box-shadow:
-      0 8px 28px rgba(37, 211, 102, 0.45),
-      0 2px 8px rgba(0, 0, 0, 0.35);
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+      0 8px 24px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(201, 169, 98, 0.15);
     transition:
       transform 0.2s ease,
-      box-shadow 0.2s ease;
+      box-shadow 0.2s ease,
+      background 0.2s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .whatsapp-float:active {
-    transform: scale(0.96);
+  .whatsapp-float__icon {
+    width: 28px;
+    height: 28px;
+    fill: var(--gold);
   }
 
-  .whatsapp-float__label {
-    line-height: 1;
-    padding-right: 2px;
+  .whatsapp-float:active {
+    transform: scale(0.94);
+    background: rgba(20, 20, 20, 0.96);
   }
 
   footer {

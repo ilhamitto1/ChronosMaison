@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 const CATEGORIES = [
   {
     to: '/products',
-    image: '/assets/banners/new-products.png',
+    image: '/assets/bags/hermes-kelly-ado-vert-cypress.jpg',
     label: 'Yeni daxil olmuş məhsullar',
     large: true,
   },
