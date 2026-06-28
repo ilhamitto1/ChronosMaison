@@ -7,7 +7,6 @@ export function ContactPage() {
       <div className="page-hero">
         <div className="container">
           <h1>Əlaqə</h1>
-          <p>Bizimlə əlaqə saxlayın</p>
         </div>
       </div>
       <div className="contactStatic">

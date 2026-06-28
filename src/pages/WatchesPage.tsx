@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { PageHero } from '@/components/PageHero'
 import { ProductGrid } from '@/components/ProductGrid'
 import { watchBrands } from '@/data/brands'
 import { getProductsByCategory } from '@/data/products'
@@ -12,12 +13,10 @@ export function WatchesPage() {
 
   return (
     <>
-      <div className="page-hero">
-        <div className="container">
-          <h1>Saatlar</h1>
-          <p>İsveçrə və dünya brendlərinin elit saat kolleksiyası</p>
-        </div>
-      </div>
+      <PageHero
+        title="Saatlar"
+        image="/assets/banners/watches.png"
+      />
       <div className="page-content">
         <div className="container">
           <div className="filterr">

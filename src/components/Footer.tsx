@@ -1,10 +1,19 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { brands } from '@/data/brands'
 import { featuredBags, featuredJewelry, featuredWatches } from '@/data/products'
 import { BRAND } from '@/lib/constants'
 
+const FOOTER_BRANDS_UNTIL_ID = 'bovet'
+const cutoffIdx = brands.findIndex((b) => b.id === FOOTER_BRANDS_UNTIL_ID)
+const footerBrandsCutoff = cutoffIdx === -1 ? 9 : cutoffIdx + 1
+const footerBrandsInitial = brands.slice(0, footerBrandsCutoff)
+const footerBrandsRest = brands.slice(footerBrandsCutoff)
+
 export function Footer() {
   const year = new Date().getFullYear()
+  const [brandsExpanded, setBrandsExpanded] = useState(false)
+  const visibleBrands = brandsExpanded ? brands : footerBrandsInitial
 
   return (
     <footer>
@@ -17,7 +26,7 @@ export function Footer() {
                 <Link to="/">Ana səhifə</Link>
               </li>
               <li>
-                <Link to="/about">Haqqımızda</Link>
+                <Link to="/brends">Brendlər</Link>
               </li>
               <li>
                 <Link to="/bags">Çantalar</Link>
@@ -28,21 +37,31 @@ export function Footer() {
               <li>
                 <Link to="/watches">Saatlar</Link>
               </li>
+              <li>
+                <Link to="/contact">Əlaqə</Link>
+              </li>
             </ul>
           </div>
 
           <div className="col-md-3 col-6">
             <h4>Brendlər</h4>
             <ul className="bre">
-              {brands.map((brand) => (
-                <Link key={brand.id} className="category" to={`/markalar/${brand.id}`}>
-                  <div className="category-inner flex">{brand.name}</div>
-                </Link>
+              {visibleBrands.map((brand) => (
+                <li key={brand.id}>
+                  <Link to={`/markalar/${brand.id}`}>{brand.name}</Link>
+                </li>
               ))}
             </ul>
-            <Link className="black" to="/brends">
-              Bütün brendlər...
-            </Link>
+            {footerBrandsRest.length > 0 && (
+              <button
+                type="button"
+                className="footer-brands-toggle"
+                onClick={() => setBrandsExpanded((open) => !open)}
+                aria-expanded={brandsExpanded}
+              >
+                {brandsExpanded ? 'Gizlət' : 'Bütün brendlər'}
+              </button>
+            )}
           </div>
 
           <div className="col-md-3 col-6">

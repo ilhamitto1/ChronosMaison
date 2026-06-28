@@ -7,7 +7,6 @@ export function ProductsPage() {
       <div className="page-hero">
         <div className="container">
           <h1>Yeni daxil olmuş məhsullar</h1>
-          <p>Ən son əlavə olunan məhsullar</p>
         </div>
       </div>
       <div className="page-content">

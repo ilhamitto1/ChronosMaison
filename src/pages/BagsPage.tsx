@@ -9,23 +9,16 @@ export function BagsPage() {
 
   return (
     <>
-      <PageHero
-        title="Çantalar"
-        subtitle="Eksklüziv dizayner çantalar kolleksiyamız"
-        image="/assets/banners/bags.jpg"
-      />
+      <PageHero title="Çantalar" image="/assets/banners/bags.jpg" />
       <div className="page-content">
         <div className="container">
           <h2 className="section-page-title">Brendlər</h2>
-          <p className="section-page-desc">
-            Dünyanın ən prestijli moda evlərinin orijinal çantaları
-          </p>
           <BrandsGrid brands={bagBrands} showAllLink="/brends" />
 
           <h2 className="section-page-title" style={{ marginTop: 56 }}>
-            Çanta kolleksiyası
+            Çantalar
           </h2>
-          <ProductGrid items={bags} emptyMessage="Çanta kolleksiyası tezliklə yenilənəcək." />
+          <ProductGrid items={bags} emptyMessage="Hazırda çanta yoxdur." />
         </div>
       </div>
     </>

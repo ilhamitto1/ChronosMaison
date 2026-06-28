@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 const CATEGORIES = [
   {
     to: '/products',
-    image: '/assets/banners/new-products.jpg',
+    image: '/assets/banners/new-products.png',
     label: 'Yeni daxil olmuş məhsullar',
     large: true,
   },
   {
     to: '/watches',
-    image: '/assets/banners/watches.jpg',
+    image: '/assets/banners/watches.png',
     label: 'Saatlar',
     large: false,
   },

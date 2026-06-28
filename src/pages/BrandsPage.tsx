@@ -7,7 +7,6 @@ export function BrandsPage() {
       <div className="page-hero">
         <div className="container">
           <h1>Brendlər</h1>
-          <p>Ən prestijli dünya saat və çanta brendləri</p>
         </div>
       </div>
       <div className="page-content">

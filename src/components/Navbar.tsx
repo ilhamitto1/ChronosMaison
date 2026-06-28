@@ -6,7 +6,6 @@ import { BRAND } from '@/lib/constants'
 import { buildWhatsAppUrl } from '@/lib/utils'
 
 const NAV_LINKS = [
-  { to: '/about', label: 'Haqqımızda' },
   { to: '/brends', label: 'Brendlər' },
   { to: '/watches', label: 'Saatlar' },
   { to: '/bags', label: 'Çantalar' },

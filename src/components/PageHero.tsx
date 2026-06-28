@@ -1,6 +1,6 @@
 interface PageHeroProps {
   title: string
-  subtitle: string
+  subtitle?: string
   image?: string
 }
 
@@ -15,7 +15,7 @@ export function PageHero({ title, subtitle, image }: PageHeroProps) {
       ) : null}
       <div className="container page-hero__content">
         <h1>{title}</h1>
-        <p>{subtitle}</p>
+        {subtitle ? <p>{subtitle}</p> : null}
       </div>
     </div>
   )

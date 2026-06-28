@@ -9,25 +9,18 @@ export function JewelryPage() {
 
   return (
     <>
-      <PageHero
-        title="Zinət əşyaları"
-        subtitle="Brilyant, qızıl və eksklüziv zərgərlik kolleksiyamız"
-        image="/assets/banners/jewelry.jpg"
-      />
+      <PageHero title="Zinət əşyaları" image="/assets/banners/jewelry.jpg" />
       <div className="page-content">
         <div className="container">
           <h2 className="section-page-title">Brendlər</h2>
-          <p className="section-page-desc">
-            Dünyanın ən prestijli zərgərlik evlərinin orijinal kolleksiyaları
-          </p>
           <BrandsGrid brands={jewelryBrands} showAllLink="/brends" />
 
           <h2 className="section-page-title" style={{ marginTop: 56 }}>
-            Zinət əşyaları kolleksiyası
+            Zinət əşyaları
           </h2>
           <ProductGrid
             items={jewelry}
-            emptyMessage="Zinət əşyaları kolleksiyası tezliklə yenilənəcək."
+            emptyMessage="Hazırda zinət əşyası yoxdur."
           />
         </div>
       </div>

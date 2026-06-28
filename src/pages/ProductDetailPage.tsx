@@ -1,6 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
 import { products } from '@/data/products'
-import { BRAND } from '@/lib/constants'
 import { buildWhatsAppUrl, formatPrice } from '@/lib/utils'
 
 export function ProductDetailPage() {
@@ -42,6 +41,7 @@ export function ProductDetailPage() {
             <p className="product-detail-brand">{product.brand}</p>
             <h1>{product.name}</h1>
             <p className="product-detail-price">{formatPrice(product.price)}</p>
+            <p className="product-detail-description">{product.description}</p>
             <a
               href={buildWhatsAppUrl(message)}
               target="_blank"
@@ -51,8 +51,7 @@ export function ProductDetailPage() {
               Qiymət sorğu ilə
             </a>
             <p className="product-detail-note">
-              {BRAND.name} olaraq orijinal və sertifikatlı məhsullar təqdim edirik. Ətraflı məlumat
-              üçün WhatsApp vasitəsilə bizimlə əlaqə saxlayın.
+              Ətraflı məlumat və qiymət sorğusu üçün WhatsApp vasitəsilə bizimlə əlaqə saxlayın.
             </p>
           </div>
         </div>

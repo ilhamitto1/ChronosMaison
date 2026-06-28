@@ -31,7 +31,6 @@ export function BrandPage() {
         <div className="container">
           <BrandLogo brand={brand} className="brand-page-logo" />
           <h1>{brand.name}</h1>
-          <p>{brand.name} kolleksiyası</p>
         </div>
       </div>
       <div className="page-content">
