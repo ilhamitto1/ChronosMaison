@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom'
 const CATEGORIES = [
   {
     to: '/products',
-    image: '/assets/bags/hermes-kelly-ado-vert-cypress.jpg',
+    image: '/assets/banners/new-products.jpg',
     label: 'Yeni daxil olmuş məhsullar',
     large: true,
+  },
+  {
+    to: '/jewelry',
+    image: '/assets/banners/jewelry.jpg',
+    label: 'Zinət əşyaları',
+    large: false,
   },
   {
     to: '/watches',
@@ -17,12 +23,6 @@ const CATEGORIES = [
     to: '/bags',
     image: '/assets/banners/bags.jpg',
     label: 'Çantalar',
-    large: false,
-  },
-  {
-    to: '/jewelry',
-    image: '/assets/banners/jewelry.jpg',
-    label: 'Zinət əşyaları',
     large: false,
   },
 ]

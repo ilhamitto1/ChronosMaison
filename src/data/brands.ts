@@ -46,7 +46,6 @@ export const brands: Brand[] = [
   { id: 'patek-philippe', name: 'Patek Philippe', logo: '/assets/brands/patek-philippe.png', category: 'watches' },
   { id: 'chanel', name: 'Chanel', logo: '/assets/brands/chanel.png', category: 'bags' },
   { id: 'louis-vuitton', name: 'Louis Vuitton', logo: '/assets/brands/louis-vuitton.png', category: 'bags' },
-  { id: 'bottega-veneta', name: 'Bottega Veneta', logo: '/assets/brands/louis-vuitton.svg', category: 'bags' },
   { id: 'dior', name: 'Dior', logo: '/assets/brands/dior.svg', category: 'bags' },
   { id: 'cartier', name: 'Cartier', logo: '/assets/brands/cartier.png', category: 'both' },
   { id: 'bvlgari', name: 'Bvlgari', logo: '/assets/brands/bvlgari.png', category: 'both' },
