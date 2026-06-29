@@ -3,13 +3,15 @@ import path from 'path'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { BG } from './lib/cream-bg.mjs'
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
 const bagsDir = path.join(root, 'public', 'assets', 'bags')
 const size = 1200
 const paddingRatio = 0.1
 const inner = Math.round(size * (1 - paddingRatio * 2))
-const bg = { r: 10, g: 10, b: 10 }
+const bg = BG
 
 /** removebg PNG → çıxış faylı */
 const bagSources = {

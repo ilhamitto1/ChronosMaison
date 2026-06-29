@@ -44,7 +44,7 @@ function BrandCard({ brand }: { brand: Brand }) {
     <div className="item">
       <Link className="category" to={`/markalar/${brand.id}`}>
         <div className="brand-logo-wrap">
-          <BrandLogo brand={brand} />
+          <BrandLogo brand={brand} variant="carousel" />
         </div>
         <span className="brand-cta">{brandCtaLabel(brand.category)}</span>
       </Link>
@@ -198,7 +198,7 @@ export function BrandsCarousel() {
   }, [scheduleResume])
 
   return (
-    <section className="subCategory" aria-labelledby="brands-heading">
+    <section className="subCategory brands-showcase" aria-labelledby="brands-heading">
       <div className="container">
         <header className="brands-section-head">
           <h2 className="brendTitle" id="brands-heading">

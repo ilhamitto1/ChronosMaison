@@ -20,10 +20,11 @@ const PORTALS = [
   {
     to: '/watches',
     label: 'Saatlar',
-    image: '/assets/banners/watches.png',
-    position: '50% 44%',
+    image: '/assets/banners/watches-portal.jpg',
+    position: '50% 50%',
     hero: false,
     fit: 'cover' as const,
+    accent: 'watches' as const,
   },
   {
     to: '/bags',
@@ -31,7 +32,7 @@ const PORTALS = [
     image: '/assets/banners/bags-portal.jpg',
     position: '50% 50%',
     hero: false,
-    fit: 'contain' as const,
+    fit: 'cover' as const,
   },
 ] as const
 
@@ -57,39 +58,27 @@ function cellEntrance(reduced: boolean, index: number, hero: boolean) {
 
   if (hero) {
     return {
-      hidden: {
-        opacity: 0,
-        y: 48,
-        scale: 1.04,
-        filter: 'blur(8px)',
-      },
+      hidden: { opacity: 0, y: 32, scale: 1.02 },
       show: {
         opacity: 1,
         y: 0,
         scale: 1,
-        filter: 'blur(0px)',
-        transition: { duration: 1.15, ease: EASE_LUX },
+        transition: { duration: 1, ease: EASE_LUX },
       },
     }
   }
 
-  const fromX = index === 1 ? -40 : 40
+  const fromX = index === 1 ? -28 : 28
 
   return {
-    hidden: {
-      opacity: 0,
-      x: fromX,
-      scale: 0.93,
-      filter: 'blur(6px)',
-    },
+    hidden: { opacity: 0, x: fromX, scale: 0.97 },
     show: {
       opacity: 1,
       x: 0,
       scale: 1,
-      filter: 'blur(0px)',
       transition: {
-        duration: 1,
-        delay: 0.2 + (index - 1) * 0.15,
+        duration: 0.9,
+        delay: 0.14 + (index - 1) * 0.1,
         ease: EASE_LUX,
       },
     },
@@ -97,90 +86,71 @@ function cellEntrance(reduced: boolean, index: number, hero: boolean) {
 }
 
 const labelEntrance = {
-  hidden: { opacity: 0, y: 22 },
+  hidden: { opacity: 0, y: 14 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.85, delay: 0.25, ease: EASE_LUX },
+    transition: { duration: 0.75, delay: 0.18, ease: EASE_LUX },
   },
   rest: {},
   hover: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.06 },
+    transition: { staggerChildren: 0.05, delayChildren: 0.05 },
   },
 }
 
 const tileHover = {
   rest: {},
   hover: {
-    transition: { staggerChildren: 0.06, delayChildren: 0.03 },
+    transition: { staggerChildren: 0.05, delayChildren: 0.02 },
   },
 }
 
 const imgHover = {
   rest: { scale: 1 },
   hover: {
-    scale: 1.08,
-    transition: { duration: 1.15, ease: EASE_FLOW },
+    scale: 1.06,
+    transition: { duration: 1.1, ease: EASE_FLOW },
   },
 }
 
-const imgHoverContain = {
-  rest: { scale: 1 },
+const imgHoverWatches = {
+  rest: { scale: 1.14 },
   hover: {
-    scale: 1.04,
-    transition: { duration: 1.15, ease: EASE_FLOW },
+    scale: 1.18,
+    transition: { duration: 1.1, ease: EASE_FLOW },
   },
 }
 
 const overlayHover = {
   rest: { opacity: 1 },
   hover: {
-    opacity: 0.82,
-    transition: { duration: 0.75, ease: EASE_FLOW },
-  },
-}
-
-const sheenHover = {
-  rest: { x: '-140%', opacity: 0 },
-  hover: {
-    x: '140%',
-    opacity: [0, 0.85, 0.85, 0],
-    transition: { duration: 1.55, ease: EASE_FLOW },
+    opacity: 0.78,
+    transition: { duration: 0.65, ease: EASE_FLOW },
   },
 }
 
 const titleHover = {
-  rest: { y: 0, letterSpacing: '0.04em', scale: 1 },
+  rest: { y: 0, letterSpacing: '0.04em' },
   hover: {
-    y: -6,
-    letterSpacing: '0.08em',
-    scale: 1.02,
-    transition: { duration: 0.75, ease: EASE_FLOW },
+    y: -4,
+    letterSpacing: '0.07em',
+    transition: { duration: 0.65, ease: EASE_FLOW },
   },
 }
 
 const ornamentHover = {
   rest: {},
   hover: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.08 },
+    transition: { staggerChildren: 0.04, delayChildren: 0.06 },
   },
 }
 
-const lineLeftHover = {
-  rest: { scaleX: 0.9, opacity: 1 },
+const lineHover = {
+  rest: { scaleX: 0.92, opacity: 0.92 },
   hover: {
-    scaleX: 1.12,
+    scaleX: 1.08,
     opacity: 1,
-    transition: { duration: 0.9, ease: EASE_FLOW },
-  },
-}
-
-const lineRightHover = {
-  rest: { scaleX: 0.9, opacity: 1 },
-  hover: {
-    scaleX: 1.12,
-    opacity: 1,
-    transition: { duration: 0.9, ease: EASE_FLOW },
+    transition: { duration: 0.8, ease: EASE_FLOW },
   },
 }
 
@@ -188,8 +158,8 @@ const starHover = {
   rest: { rotate: 0, scale: 1 },
   hover: {
     rotate: 180,
-    scale: 1.15,
-    transition: { duration: 1.25, ease: EASE_FLOW },
+    scale: 1.1,
+    transition: { duration: 1.1, ease: EASE_FLOW },
   },
 }
 
@@ -203,8 +173,8 @@ function PortalOrnament({ reduced }: { reduced: boolean }) {
         <svg
           className="category-portals__ornament-star"
           viewBox="0 0 24 24"
-          width="13"
-          height="13"
+          width="14"
+          height="14"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -222,21 +192,17 @@ function PortalOrnament({ reduced }: { reduced: boolean }) {
   }
 
   return (
-    <motion.span
-      className="category-portals__ornament"
-      aria-hidden="true"
-      variants={ornamentHover}
-    >
+    <motion.span className="category-portals__ornament" aria-hidden="true" variants={ornamentHover}>
       <motion.span
         className="category-portals__ornament-line category-portals__ornament-line--left"
-        variants={lineLeftHover}
+        variants={lineHover}
         style={{ transformOrigin: 'right center' }}
       />
       <motion.svg
         className="category-portals__ornament-star"
         viewBox="0 0 24 24"
-        width="13"
-        height="13"
+        width="14"
+        height="14"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         variants={starHover}
@@ -251,7 +217,7 @@ function PortalOrnament({ reduced }: { reduced: boolean }) {
       </motion.svg>
       <motion.span
         className="category-portals__ornament-line category-portals__ornament-line--right"
-        variants={lineRightHover}
+        variants={lineHover}
         style={{ transformOrigin: 'left center' }}
       />
     </motion.span>
@@ -267,19 +233,19 @@ function PortalTile({
   index: number
   reduced: boolean
 }) {
-  const imgVariants = portal.fit === 'contain' ? imgHoverContain : imgHover
-
   return (
     <motion.div
       className={
         portal.hero
           ? 'category-portals__cell category-portals__cell--hero'
-          : 'category-portals__cell'
+          : 'accent' in portal && portal.accent === 'watches'
+            ? 'category-portals__cell category-portals__cell--watches'
+            : 'category-portals__cell'
       }
       variants={cellEntrance(reduced, index, portal.hero)}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: '-30px', amount: 0.22 }}
+      viewport={{ once: true, margin: '-30px', amount: 0.2 }}
     >
       <MotionLink
         to={portal.to}
@@ -295,33 +261,32 @@ function PortalTile({
           src={portal.image}
           alt=""
           loading="lazy"
-          variants={reduced ? undefined : imgVariants}
+          variants={
+            reduced
+              ? undefined
+              : 'accent' in portal && portal.accent === 'watches'
+                ? imgHoverWatches
+                : imgHover
+          }
         />
         <motion.span
           className="category-portals__overlay"
           aria-hidden="true"
           variants={reduced ? undefined : overlayHover}
         />
-        {!reduced && (
-          <motion.span
-            className="category-portals__sheen"
-            aria-hidden="true"
-            variants={sheenHover}
-          />
-        )}
         <motion.span
           className="category-portals__label"
           variants={reduced ? undefined : labelEntrance}
           initial={reduced ? undefined : 'hidden'}
           whileInView={reduced ? undefined : 'show'}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.45 }}
         >
-          <motion.span
+          <motion.h2
             className="category-portals__title"
             variants={reduced ? undefined : titleHover}
           >
             {portal.label}
-          </motion.span>
+          </motion.h2>
           <PortalOrnament reduced={reduced} />
         </motion.span>
       </MotionLink>
@@ -348,14 +313,13 @@ export function Categories() {
                   className="vault-spotlight__img"
                   src={VAULT_ASSETS.newArrivals}
                   alt=""
-                  loading="lazy"
+                  loading="eager"
                 />
                 <div className="vault-spotlight__shade" aria-hidden="true" />
-              </div>
-              <div className="vault-spotlight__caption">
-                <span className="vault-spotlight__num">01</span>
-                <h2 className="vault-spotlight__title">Yeni daxil olmuş məhsullar</h2>
-                <span className="vault-spotlight__rule" aria-hidden="true" />
+                <div className="vault-spotlight__caption">
+                  <h2 className="vault-spotlight__title">Yeni daxil olmuş məhsullar</h2>
+                  <PortalOrnament reduced={!!reduced} />
+                </div>
               </div>
             </Link>
           </motion.div>

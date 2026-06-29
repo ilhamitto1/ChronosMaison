@@ -9,7 +9,7 @@ export function HeroCarousel() {
           <div className="carousel-media">
             <img
               className="hero-banner"
-              src="/assets/banners/herosection.png"
+              src="/assets/banners/newherosectionphoto.png"
               alt={BRAND.name}
               fetchPriority="high"
               decoding="async"
