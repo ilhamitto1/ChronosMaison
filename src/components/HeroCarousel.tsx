@@ -22,7 +22,7 @@ export function HeroCarousel() {
               <div className="cap-row">
                 <div className="text">
                   <p>
-                    <a href={`tel:${BRAND.phoneTel}`} className="d-block text-white">
+                    <a href={`tel:${BRAND.phoneTel}`} className="d-block">
                       Tel: {BRAND.phone}
                     </a>
                     <span className="d-block">Ünvan: {BRAND.address}</span>
