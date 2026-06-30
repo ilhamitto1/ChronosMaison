@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build && node scripts/spa-fallback.mjs",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed:products": "node scripts/seed-products.mjs",
+    "seed:sql": "node scripts/generate-seed-sql.mjs"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.14",

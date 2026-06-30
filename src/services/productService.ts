@@ -1,5 +1,6 @@
 import { fallbackProducts } from '@/data/fallbackProducts'
 import { isSupabaseConfigured, getSupabase } from '@/lib/supabase'
+import { resolveImageContentType } from '@/lib/validateProductForm'
 import type {
   DbProduct,
   DbProductInsert,
@@ -165,7 +166,7 @@ export async function uploadProductImage(
     .upload(filePath, file, {
       cacheControl: '3600',
       upsert: false,
-      contentType: file.type,
+      contentType: resolveImageContentType(file),
     })
 
   if (uploadError) throw uploadError
@@ -182,4 +183,56 @@ export async function listAdminProducts(): Promise<Product[]> {
 
   if (error) throw error
   return (data ?? []).map((row) => mapDbProduct(row as DbProduct))
+}
+
+export interface SeedCatalogResult {
+  total: number
+  inserted: number
+  skipped: number
+  failed: number
+}
+
+export async function seedCatalogProducts(): Promise<SeedCatalogResult> {
+  const { catalogSeed } = await import('@/data/catalogSeed')
+
+  const { data: existing, error: listError } = await getSupabase()
+    .from('products')
+    .select('title')
+
+  if (listError) throw listError
+
+  const existingTitles = new Set(
+    (existing ?? []).map((row) => row.title.trim().toLowerCase()),
+  )
+
+  let inserted = 0
+  let skipped = 0
+  let failed = 0
+
+  for (const item of catalogSeed) {
+    if (existingTitles.has(item.title.trim().toLowerCase())) {
+      skipped += 1
+      continue
+    }
+
+    const { error } = await getSupabase().from('products').insert({
+      title: item.title,
+      category: item.category,
+      price: item.price,
+      description: item.description,
+      image_url: item.image_url,
+      brand: item.brand,
+      brand_id: item.brand_id,
+    })
+
+    if (error) {
+      failed += 1
+      continue
+    }
+
+    inserted += 1
+    existingTitles.add(item.title.trim().toLowerCase())
+  }
+
+  return { total: catalogSeed.length, inserted, skipped, failed }
 }

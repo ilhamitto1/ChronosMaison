@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { Plus, Search, X } from 'lucide-react'
+import { Download, Plus, Search, X } from 'lucide-react'
 import { AdminStats } from '@/components/admin/AdminStats'
 import { AdminToast, createToast, type ToastMessage } from '@/components/admin/AdminToast'
 import { DeleteConfirmDialog } from '@/components/admin/DeleteConfirmDialog'
@@ -10,6 +10,7 @@ import {
   createProduct,
   deleteProduct,
   listAdminProducts,
+  seedCatalogProducts,
   updateProduct,
   uploadProductImage,
 } from '@/services/productService'
@@ -37,6 +38,7 @@ export function AdminDashboardPage() {
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all')
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [seeding, setSeeding] = useState(false)
 
   const pushToast = useCallback((toast: ToastMessage) => {
     setToasts((current) => [...current, toast])
@@ -183,6 +185,34 @@ export function AdminDashboardPage() {
     }
   }
 
+  async function handleSeedCatalog() {
+    const confirmed = window.confirm(
+      'Saytdakı bütün kataloq məhsulları (saatlar, çantalar, zinət) Supabase-ə əlavə olunsun? Artıq olanlar təkrarlanmayacaq.',
+    )
+    if (!confirmed) return
+
+    setSeeding(true)
+    try {
+      const result = await seedCatalogProducts()
+      pushToast(
+        createToast(
+          'success',
+          `${result.inserted} məhsul əlavə olundu, ${result.skipped} artıq var idi${result.failed ? `, ${result.failed} xəta` : ''}.`,
+        ),
+      )
+      await loadProducts()
+    } catch (error) {
+      pushToast(
+        createToast(
+          'error',
+          error instanceof Error ? error.message : 'Kataloq idxal edilərkən xəta baş verdi.',
+        ),
+      )
+    } finally {
+      setSeeding(false)
+    }
+  }
+
   return (
     <div className="admin-dashboard">
       <div className="admin-dashboard__head">
@@ -197,6 +227,22 @@ export function AdminDashboardPage() {
       </div>
 
       <AdminStats products={products} />
+
+      <div className="admin-import-banner">
+        <div>
+          <strong>Sayt kataloqu</strong>
+          <p>Bütün saat, çanta və zinət məhsullarını bir dəfəyə panelə əlavə edin. Sonra istədiyinizi silin və ya redaktə edin.</p>
+        </div>
+        <button
+          type="button"
+          className="admin-btn admin-btn--ghost"
+          onClick={() => void handleSeedCatalog()}
+          disabled={seeding || loading}
+        >
+          <Download />
+          {seeding ? 'Əlavə olunur...' : 'Kataloqu idxal et'}
+        </button>
+      </div>
 
       <div className="admin-toolbar">
         <div className="admin-search">
@@ -236,7 +282,10 @@ export function AdminDashboardPage() {
       <Dialog.Root open={formMode !== null} onOpenChange={(open) => !open && closeForm()}>
         <Dialog.Portal>
           <Dialog.Overlay className="admin-dialog-overlay" />
-          <Dialog.Content className="admin-dialog-content">
+          <Dialog.Content
+            className="admin-dialog-content"
+            onOpenAutoFocus={(event) => event.preventDefault()}
+          >
             <div className="admin-dialog-header">
               <div>
                 <Dialog.Title className="admin-dialog-title">

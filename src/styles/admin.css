@@ -188,6 +188,45 @@ body.admin-page {
   gap: 10px;
 }
 
+.admin-import-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(184, 148, 56, 0.14);
+  box-shadow: 0 4px 16px rgba(58, 52, 41, 0.04);
+}
+
+.admin-import-banner strong {
+  display: block;
+  font-size: 14px;
+  color: #734f18;
+  margin-bottom: 4px;
+}
+
+.admin-import-banner p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(115, 79, 24, 0.62);
+  max-width: 52ch;
+}
+
+@media (max-width: 639px) {
+  .admin-import-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-import-banner .admin-btn {
+    width: 100%;
+  }
+}
+
 .admin-stat-card {
   padding: 14px 16px;
   border-radius: 14px;
@@ -734,6 +773,19 @@ body.admin-page {
   gap: 8px;
 }
 
+.admin-upload__zone input {
+  display: none;
+}
+
+.admin-upload__file-input {
+  position: fixed;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .admin-upload__zone {
   position: relative;
   display: grid;
@@ -745,22 +797,25 @@ body.admin-page {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.6);
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
   text-align: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-.admin-upload__zone:hover,
-.admin-upload__zone:focus-within,
+.admin-upload__zone:hover {
+  border-color: rgba(184, 148, 56, 0.45);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.admin-upload__zone:active {
+  transform: scale(0.99);
+}
+
 .admin-upload__zone--active {
   border-color: rgba(184, 148, 56, 0.5);
   background: rgba(255, 255, 255, 0.9);
-}
-
-.admin-upload__zone input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
 }
 
 .admin-upload__zone svg {
@@ -827,12 +882,10 @@ body.admin-page {
   height: 16px;
 }
 
-.admin-upload__hidden-input {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  pointer-events: none;
+/* label styled as button — mobile-safe file picker trigger */
+.admin-upload label.admin-btn {
+  cursor: pointer;
+  margin: 0;
 }
 
 /* ─── Login ─── */

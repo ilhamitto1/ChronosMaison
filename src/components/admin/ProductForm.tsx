@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type DragEvent, type FormEvent } from 'react'
-import { CheckCircle2, ImageUp, Loader2 } from 'lucide-react'
+import { useEffect, useId, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react'
+import { Camera, CheckCircle2, ImageUp, Loader2 } from 'lucide-react'
 import { brands } from '@/data/brands'
 import {
   hasFormErrors,
@@ -35,6 +35,7 @@ export function ProductForm({
   onSubmit,
   onCancel,
 }: ProductFormProps) {
+  const fileInputId = useId()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [values, setValues] = useState<ProductFormValues>(initialValues ?? EMPTY_VALUES)
   const [errors, setErrors] = useState<ProductFormErrors>({})
@@ -70,6 +71,11 @@ export function ProductForm({
     }))
   }
 
+  function handleFileInputChange(event: ChangeEvent<HTMLInputElement>) {
+    handleFileSelect(event.target.files?.[0] ?? null)
+    event.target.value = ''
+  }
+
   function handleFileSelect(file: File | null) {
     if (!file) return
     const imageError = validateImageFile(file)
@@ -81,7 +87,7 @@ export function ProductForm({
     setErrors((current) => ({ ...current, image: undefined }))
   }
 
-  function handleDrop(event: DragEvent<HTMLDivElement>) {
+  function handleDrop(event: DragEvent<HTMLLabelElement>) {
     event.preventDefault()
     setDragActive(false)
     handleFileSelect(event.dataTransfer.files?.[0] ?? null)
@@ -183,34 +189,36 @@ export function ProductForm({
         <div className="admin-field admin-field--full">
           <span>Şəkil</span>
           <div className="admin-upload">
+            <input
+              id={fileInputId}
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="admin-upload__file-input"
+              onChange={handleFileInputChange}
+            />
+
             {previewUrl ? (
-              <div className="admin-upload__preview">
-                <img src={previewUrl} alt="Məhsul önizləməsi" />
-                <div className="admin-upload__preview-overlay">
-                  {imageFile && (
-                    <span className="admin-upload__ready">
-                      <CheckCircle2 />
-                      Şəkil hazırdır
-                    </span>
-                  )}
-                  <button
-                    type="button"
-                    className="admin-btn admin-btn--ghost admin-btn--sm"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    Dəyişdir
-                  </button>
+              <>
+                <div className="admin-upload__preview">
+                  <img src={previewUrl} alt="Məhsul önizləməsi" />
+                  <div className="admin-upload__preview-overlay">
+                    {imageFile && (
+                      <span className="admin-upload__ready">
+                        <CheckCircle2 />
+                        Şəkil hazırdır
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/avif"
-                  className="admin-upload__hidden-input"
-                  onChange={(event) => handleFileSelect(event.target.files?.[0] ?? null)}
-                />
-              </div>
+                <label htmlFor={fileInputId} className="admin-btn admin-btn--ghost admin-btn--full">
+                  <Camera />
+                  Başqa şəkil seç
+                </label>
+              </>
             ) : (
-              <div
+              <label
+                htmlFor={fileInputId}
                 className={`admin-upload__zone${dragActive ? ' admin-upload__zone--active' : ''}`}
                 onDragEnter={(event) => {
                   event.preventDefault()
@@ -219,30 +227,15 @@ export function ProductForm({
                 onDragOver={(event) => event.preventDefault()}
                 onDragLeave={() => setDragActive(false)}
                 onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault()
-                    fileInputRef.current?.click()
-                  }
-                }}
-                role="button"
-                tabIndex={0}
               >
                 <ImageUp aria-hidden="true" />
                 <p>
-                  <strong>Şəkil seçin</strong> və ya bura sürükləyin
+                  <strong>Şəkil seçin</strong>
                 </p>
-                <p className="admin-upload__hint">JPEG, PNG, WebP — maks. 5 MB</p>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/avif"
-                  onChange={(event) => handleFileSelect(event.target.files?.[0] ?? null)}
-                  tabIndex={-1}
-                />
-              </div>
+                <p className="admin-upload__hint">Qalereya və ya kamera — JPG, PNG, HEIC</p>
+              </label>
             )}
+
             {errors.image && <small className="admin-field__error">{errors.image}</small>}
           </div>
         </div>
