@@ -1,10 +1,20 @@
 import { Link, useParams } from 'react-router-dom'
-import { products } from '@/data/products'
+import { useProduct } from '@/hooks/useProducts'
 import { buildWhatsAppUrl, formatPrice } from '@/lib/utils'
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const product = products.find((p) => p.id === id)
+  const { product, loading } = useProduct(id)
+
+  if (loading) {
+    return (
+      <div className="page-content">
+        <div className="container">
+          <p style={{ color: 'var(--gold-text)' }}>Yüklənir...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!product) {
     return (

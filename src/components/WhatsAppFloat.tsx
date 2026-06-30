@@ -1,28 +1,9 @@
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { getBrandById } from '@/data/brands'
-import { products } from '@/data/products'
 import { BRAND } from '@/lib/constants'
 import { buildWhatsAppUrl, formatPrice } from '@/lib/utils'
-
-function getWhatsAppMessage(pathname: string) {
-  const productMatch = pathname.match(/^\/products\/([^/]+)$/)
-  if (productMatch) {
-    const product = products.find((p) => p.id === productMatch[1])
-    if (product) {
-      return `Salam, ${product.name} məhsulu ilə maraqlanıram. Qiymət: ${formatPrice(product.price)}`
-    }
-  }
-
-  const brandMatch = pathname.match(/^\/markalar\/([^/]+)$/)
-  if (brandMatch) {
-    const brand = getBrandById(brandMatch[1])
-    if (brand) {
-      return `Salam, ${brand.name} brendi üzrə məhsullarla maraqlanıram.`
-    }
-  }
-
-  return BRAND.whatsappText
-}
+import { getProductById } from '@/services/productService'
 
 function WhatsAppIcon() {
   return (
@@ -34,7 +15,41 @@ function WhatsAppIcon() {
 
 export function WhatsAppFloat() {
   const { pathname } = useLocation()
-  const message = getWhatsAppMessage(pathname)
+  const [message, setMessage] = useState<string>(BRAND.whatsappText)
+
+  useEffect(() => {
+    let active = true
+
+    async function resolveMessage() {
+      const productMatch = pathname.match(/^\/products\/([^/]+)$/)
+      if (productMatch) {
+        const product = await getProductById(productMatch[1])
+        if (active && product) {
+          setMessage(
+            `Salam, ${product.name} məhsulu ilə maraqlanıram. Qiymət: ${formatPrice(product.price)}`,
+          )
+          return
+        }
+      }
+
+      const brandMatch = pathname.match(/^\/markalar\/([^/]+)$/)
+      if (brandMatch) {
+        const brand = getBrandById(brandMatch[1])
+        if (active && brand) {
+          setMessage(`Salam, ${brand.name} brendi üzrə məhsullarla maraqlanıram.`)
+          return
+        }
+      }
+
+      if (active) setMessage(BRAND.whatsappText)
+    }
+
+    void resolveMessage()
+
+    return () => {
+      active = false
+    }
+  }, [pathname])
 
   return (
     <a

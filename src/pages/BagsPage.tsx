@@ -3,10 +3,10 @@ import { PageHero } from '@/components/PageHero'
 import { PageSectionHeading } from '@/components/PageSectionHeading'
 import { ProductGrid } from '@/components/ProductGrid'
 import { bagBrands } from '@/data/brands'
-import { getProductsByCategory } from '@/data/products'
+import { useProductsByCategory } from '@/hooks/useProducts'
 
 export function BagsPage() {
-  const bags = getProductsByCategory('bags')
+  const { products: bags } = useProductsByCategory('bags')
 
   return (
     <>

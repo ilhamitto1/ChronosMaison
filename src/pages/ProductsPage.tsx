@@ -1,7 +1,9 @@
 import { ProductGrid } from '@/components/ProductGrid'
-import { products } from '@/data/products'
+import { useProducts } from '@/hooks/useProducts'
 
 export function ProductsPage() {
+  const { products } = useProducts()
+
   return (
     <>
       <div className="page-hero">

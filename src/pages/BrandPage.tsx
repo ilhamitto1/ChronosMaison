@@ -1,14 +1,14 @@
 import { Link, useParams } from 'react-router-dom'
 import { getBrandById } from '@/data/brands'
-import { getProductsByBrand } from '@/data/products'
 import { ProductGrid } from '@/components/ProductGrid'
 import { BrandLogo } from '@/components/BrandLogo'
+import { useProductsByBrand } from '@/hooks/useProducts'
 import { buildWhatsAppUrl } from '@/lib/utils'
 
 export function BrandPage() {
   const { slug } = useParams<{ slug: string }>()
   const brand = slug ? getBrandById(slug) : undefined
-  const items = slug ? getProductsByBrand(slug) : []
+  const { products: items } = useProductsByBrand(slug)
 
   if (!brand) {
     return (

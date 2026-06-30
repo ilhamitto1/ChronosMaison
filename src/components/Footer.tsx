@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { brands } from '@/data/brands'
-import { featuredBags, featuredJewelry, featuredWatches } from '@/data/products'
+import { useFeaturedProducts } from '@/hooks/useProducts'
 import { BRAND } from '@/lib/constants'
 
 const FOOTER_BRANDS_UNTIL_ID = 'bovet'
@@ -12,6 +12,7 @@ const footerBrandsRest = brands.slice(footerBrandsCutoff)
 
 export function Footer() {
   const year = new Date().getFullYear()
+  const { featuredWatches, featuredBags, featuredJewelry } = useFeaturedProducts()
   const [brandsExpanded, setBrandsExpanded] = useState(false)
   const visibleBrands = brandsExpanded ? brands : footerBrandsInitial
 

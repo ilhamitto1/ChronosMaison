@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { PageHero } from '@/components/PageHero'
 import { ProductGrid } from '@/components/ProductGrid'
 import { watchBrands } from '@/data/brands'
-import { getProductsByCategory } from '@/data/products'
+import { useProductsByCategory } from '@/hooks/useProducts'
 
 export function WatchesPage() {
   const [activeBrand, setActiveBrand] = useState<string | null>(null)
-  const watches = getProductsByCategory('watches')
+  const { products: watches } = useProductsByCategory('watches')
   const filtered = activeBrand
     ? watches.filter((p) => p.brandId === activeBrand)
     : watches

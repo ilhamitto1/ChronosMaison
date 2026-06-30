@@ -3,10 +3,10 @@ import { PageHero } from '@/components/PageHero'
 import { PageSectionHeading } from '@/components/PageSectionHeading'
 import { ProductGrid } from '@/components/ProductGrid'
 import { jewelryBrands } from '@/data/brands'
-import { getProductsByCategory } from '@/data/products'
+import { useProductsByCategory } from '@/hooks/useProducts'
 
 export function JewelryPage() {
-  const jewelry = getProductsByCategory('jewelry')
+  const { products: jewelry } = useProductsByCategory('jewelry')
 
   return (
     <>
