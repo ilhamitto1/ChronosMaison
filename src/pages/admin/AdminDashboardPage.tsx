@@ -218,7 +218,7 @@ export function AdminDashboardPage() {
       <div className="admin-dashboard__head">
         <div>
           <h1>Məhsul İdarəetməsi</h1>
-          <p>Supabase-də saxlanılan məhsulları əlavə edin, redaktə edin və ya silin.</p>
+          <p>Supabase-də saxlanılan məhsulları USD ilə idarə edin — əlavə edin, redaktə edin və ya silin.</p>
         </div>
         <div className="admin-dashboard__actions">
           {!loading && products.length === 0 && (

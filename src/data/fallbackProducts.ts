@@ -1,13 +1,13 @@
 import type { Product } from '@/types/product'
 
-/** Qiymətlər AZN (₼) — Bakı ikinci bazar / butik segmentinə uyğun (1 USD ≈ 1,70 ₼, 2026) */
+/** Qiymətlər USD ($) — luxe kataloq */
 export const fallbackProducts: Product[] = [
   {
     id: 'w001',
     name: 'Rolex Datejust 41 Blue Dial Fluted Bezel Jubilee',
     brand: 'Rolex',
     brandId: 'rolex',
-    price: 25500,
+    price: 15000,
     image: '/assets/watches/rolex-datejust-41-blue-dial.png',
     category: 'watches',
     description:
@@ -18,7 +18,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hublot Spirit of Big Bang Black Magic',
     brand: 'Hublot',
     brandId: 'hublot',
-    price: 44000,
+    price: 25900,
     image: '/assets/watches/hublot-spirit-big-bang-black.png',
     category: 'watches',
     description:
@@ -29,7 +29,7 @@ export const fallbackProducts: Product[] = [
     name: 'Rolex Cosmograph Daytona Two-Tone Ref. 116503',
     brand: 'Rolex',
     brandId: 'rolex',
-    price: 44500,
+    price: 26200,
     image: '/assets/watches/rolex-daytona-two-tone.png',
     category: 'watches',
     description:
@@ -40,7 +40,7 @@ export const fallbackProducts: Product[] = [
     name: 'Rolex Datejust 41 Everose Diamond Dial Ref. 126331',
     brand: 'Rolex',
     brandId: 'rolex',
-    price: 32000,
+    price: 18800,
     image: '/assets/watches/rolex-datejust-41-everose-diamond.png',
     category: 'watches',
     description:
@@ -51,7 +51,7 @@ export const fallbackProducts: Product[] = [
     name: 'Rolex Submariner Date «Bluesy» Ref. 126613LB',
     brand: 'Rolex',
     brandId: 'rolex',
-    price: 29500,
+    price: 17400,
     image: '/assets/watches/rolex-submariner-bluesy.png',
     category: 'watches',
     description:
@@ -62,7 +62,7 @@ export const fallbackProducts: Product[] = [
     name: 'Rolex Submariner Date «Starbucks» Ref. 126610LV',
     brand: 'Rolex',
     brandId: 'rolex',
-    price: 28000,
+    price: 16500,
     image: '/assets/watches/rolex-submariner-starbucks.png',
     category: 'watches',
     description:
@@ -73,7 +73,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hublot Big Bang Blue Chronograph',
     brand: 'Hublot',
     brandId: 'hublot',
-    price: 20000,
+    price: 11800,
     image: '/assets/watches/hublot-big-bang-blue.png',
     category: 'watches',
     description:
@@ -84,7 +84,7 @@ export const fallbackProducts: Product[] = [
     name: 'Patek Philippe Nautilus 7118/1200R Purple Dial',
     brand: 'Patek Philippe',
     brandId: 'patek-philippe',
-    price: 118000,
+    price: 69400,
     image: '/assets/watches/patek-nautilus-7118-purple.png',
     category: 'watches',
     description:
@@ -95,7 +95,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hublot Big Bang Unico White Ceramic',
     brand: 'Hublot',
     brandId: 'hublot',
-    price: 34000,
+    price: 20000,
     image: '/assets/watches/hublot-big-bang-unico-white.png',
     category: 'watches',
     description:
@@ -106,7 +106,7 @@ export const fallbackProducts: Product[] = [
     name: 'Rolex Datejust Two-Tone Champagne Diamond Dial',
     brand: 'Rolex',
     brandId: 'rolex',
-    price: 24500,
+    price: 14400,
     image: '/assets/watches/rolex-datejust-champagne-diamond.png',
     category: 'watches',
     description:
@@ -117,7 +117,7 @@ export const fallbackProducts: Product[] = [
     name: 'Rolex Datejust 41 Green Dial Fluted Bezel Jubilee',
     brand: 'Rolex',
     brandId: 'rolex',
-    price: 26500,
+    price: 15600,
     image: '/assets/watches/rolex-datejust-41-green-dial.png',
     category: 'watches',
     description:
@@ -128,7 +128,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hermès Birkin 25 Rouge Pivoine Swift Gold Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 54800,
+    price: 32200,
     image: '/assets/bags/hermes-birkin-25-rouge-pivoine-swift-gold.jpg',
     category: 'bags',
     description:
@@ -139,7 +139,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hermès Birkin 30 Gold Togo Palladium Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 46500,
+    price: 27400,
     image: '/assets/bags/hermes-birkin-gold-togo-palladium.jpg',
     category: 'bags',
     description:
@@ -150,7 +150,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hermès Birkin 25 Jaune Poussin Togo Palladium Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 51200,
+    price: 30100,
     image: '/assets/bags/hermes-birkin-jaune-poussin-togo-palladium.jpg',
     category: 'bags',
     description:
@@ -161,7 +161,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hermès Mini Kelly 20 Etoupe Epsom Gold Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 40200,
+    price: 23600,
     image: '/assets/bags/hermes-mini-kelly-20-etoupe-epsom-gold.jpg',
     category: 'bags',
     description:
@@ -172,7 +172,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hermès Kelly 20 Sellier Orange Epsom Palladium Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 36800,
+    price: 21600,
     image: '/assets/bags/hermes-kelly-20-orange-sellier-palladium.jpg',
     category: 'bags',
     description:
@@ -183,7 +183,7 @@ export const fallbackProducts: Product[] = [
     name: 'Hermès Kelly 25 Sellier Rouge Casaque Epsom Palladium Hardware',
     brand: 'Hermès',
     brandId: 'hermes',
-    price: 41500,
+    price: 24400,
     image: '/assets/bags/hermes-kelly-25-rouge-sellier-palladium.jpg',
     category: 'bags',
     description:
@@ -194,7 +194,7 @@ export const fallbackProducts: Product[] = [
     name: 'Paraiba Tourmaline High Jewelry Necklace',
     brand: 'Harry Winston',
     brandId: 'harry-winston',
-    price: 485000,
+    price: 285300,
     image: '/assets/jewelry/paraiba-tourmaline-necklace.jpg',
     category: 'jewelry',
     description:
@@ -205,7 +205,7 @@ export const fallbackProducts: Product[] = [
     name: 'Van Cleef & Arpels Frivole Diamond Ring & Bracelet',
     brand: 'Van Cleef & Arpels',
     brandId: 'van-cleefandarpels',
-    price: 92000,
+    price: 54100,
     image: '/assets/jewelry/van-cleef-frivole-diamond-set.jpg',
     category: 'jewelry',
     description:

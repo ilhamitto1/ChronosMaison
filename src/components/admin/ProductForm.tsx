@@ -127,14 +127,14 @@ export function ProductForm({
         </label>
 
         <label className="admin-field">
-          <span>Qiymət (₼)</span>
+          <span>Qiymət (USD)</span>
           <input
             type="number"
             min="0"
-            step="0.01"
+            step="1"
             value={values.price}
             onChange={(event) => updateField('price', event.target.value)}
-            placeholder="25500"
+            placeholder="15000"
           />
           {errors.price && <small className="admin-field__error">{errors.price}</small>}
         </label>

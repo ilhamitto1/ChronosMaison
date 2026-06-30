@@ -1,5 +1,5 @@
 import { Download, Pencil, Trash2 } from 'lucide-react'
-import { formatPrice } from '@/lib/utils'
+import { formatAdminPrice } from '@/lib/utils'
 import type { Product } from '@/types/product'
 import type { ProductCategory } from '@/types/database'
 
@@ -41,7 +41,7 @@ function ProductRow({
         <span className="admin-badge">{CATEGORY_LABELS[product.category]}</span>
       </td>
       <td>{product.brand || '—'}</td>
-      <td className="admin-table__price">{formatPrice(product.price)}</td>
+      <td className="admin-table__price">{formatAdminPrice(product.price)}</td>
       <td>
         <div className="admin-table__actions">
           <button
@@ -88,7 +88,7 @@ function ProductCard({
             <strong>{product.name}</strong>
             {product.brand && <span className="admin-product-card__brand">{product.brand}</span>}
           </div>
-          <span className="admin-table__price">{formatPrice(product.price)}</span>
+          <span className="admin-table__price">{formatAdminPrice(product.price)}</span>
         </div>
         <div className="admin-product-card__footer">
           <span className="admin-badge">{CATEGORY_LABELS[product.category]}</span>
