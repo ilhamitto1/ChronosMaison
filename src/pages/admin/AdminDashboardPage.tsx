@@ -220,10 +220,23 @@ export function AdminDashboardPage() {
           <h1>Məhsul İdarəetməsi</h1>
           <p>Supabase-də saxlanılan məhsulları əlavə edin, redaktə edin və ya silin.</p>
         </div>
-        <button type="button" className="admin-btn admin-btn--primary admin-dashboard__cta" onClick={openCreateForm}>
-          <Plus size={18} />
-          Yeni məhsul
-        </button>
+        <div className="admin-dashboard__actions">
+          {!loading && products.length === 0 && (
+            <button
+              type="button"
+              className="admin-btn admin-btn--primary admin-dashboard__import"
+              onClick={() => void handleSeedCatalog()}
+              disabled={seeding}
+            >
+              <Download size={18} />
+              {seeding ? 'Idxal...' : 'Kataloqu idxal et'}
+            </button>
+          )}
+          <button type="button" className="admin-btn admin-btn--primary admin-dashboard__cta" onClick={openCreateForm}>
+            <Plus size={18} />
+            Yeni məhsul
+          </button>
+        </div>
       </div>
 
       <AdminStats products={products} />
@@ -274,9 +287,12 @@ export function AdminDashboardPage() {
       <ProductTable
         products={filteredProducts}
         loading={loading}
+        catalogEmpty={!loading && products.length === 0}
+        importing={seeding}
         onEdit={openEditForm}
         onDelete={setDeleteTarget}
         onCreate={openCreateForm}
+        onImportCatalog={() => void handleSeedCatalog()}
       />
 
       <Dialog.Root open={formMode !== null} onOpenChange={(open) => !open && closeForm()}>

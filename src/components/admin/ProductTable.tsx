@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from 'lucide-react'
+import { Download, Pencil, Trash2 } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import type { Product } from '@/types/product'
 import type { ProductCategory } from '@/types/database'
@@ -12,9 +12,12 @@ const CATEGORY_LABELS: Record<ProductCategory, string> = {
 interface ProductTableProps {
   products: Product[]
   loading: boolean
+  catalogEmpty?: boolean
+  importing?: boolean
   onEdit: (product: Product) => void
   onDelete: (product: Product) => void
   onCreate: () => void
+  onImportCatalog?: () => void
 }
 
 function ProductRow({
@@ -116,9 +119,12 @@ function ProductCard({
 export function ProductTable({
   products,
   loading,
+  catalogEmpty = false,
+  importing = false,
   onEdit,
   onDelete,
   onCreate,
+  onImportCatalog,
 }: ProductTableProps) {
   if (loading) {
     return (
@@ -136,11 +142,28 @@ export function ProductTable({
     return (
       <div className="admin-surface admin-empty">
         <PackageIcon />
-        <h3>Məhsul tapılmadı</h3>
-        <p>Filtrə uyğun məhsul yoxdur və ya hələ heç bir məhsul əlavə edilməyib.</p>
-        <button type="button" className="admin-btn admin-btn--primary" onClick={onCreate}>
-          İlk məhsulu əlavə et
-        </button>
+        <h3>{catalogEmpty ? 'Kataloq boşdur' : 'Məhsul tapılmadı'}</h3>
+        <p>
+          {catalogEmpty
+            ? 'Saytdakı 19 məhsulu (saat, çanta, zinət) bir kliklə əlavə edin və ya əl ilə yeni məhsul yaradın.'
+            : 'Filtrə uyğun məhsul yoxdur. Başqa axtarış və ya kateqoriya sınayın.'}
+        </p>
+        <div className="admin-empty__actions">
+          {catalogEmpty && onImportCatalog && (
+            <button
+              type="button"
+              className="admin-btn admin-btn--primary"
+              onClick={onImportCatalog}
+              disabled={importing}
+            >
+              <Download />
+              {importing ? 'Əlavə olunur...' : 'Kataloqu idxal et (19)'}
+            </button>
+          )}
+          <button type="button" className="admin-btn admin-btn--ghost" onClick={onCreate}>
+            {catalogEmpty ? 'Əl ilə əlavə et' : 'Yeni məhsul'}
+          </button>
+        </div>
       </div>
     )
   }

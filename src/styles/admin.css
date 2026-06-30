@@ -182,10 +182,18 @@ body.admin-page {
   display: none;
 }
 
-.admin-stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+.admin-dashboard__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.admin-dashboard__import {
+  display: inline-flex;
+  flex: 1 1 auto;
+  box-shadow: 0 8px 22px rgba(115, 79, 24, 0.28);
 }
 
 .admin-import-banner {
@@ -196,9 +204,9 @@ body.admin-page {
   flex-wrap: wrap;
   padding: 14px 16px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(184, 148, 56, 0.14);
-  box-shadow: 0 4px 16px rgba(58, 52, 41, 0.04);
+  background: linear-gradient(135deg, rgba(255, 252, 245, 0.98), rgba(255, 255, 255, 0.92));
+  border: 1px solid rgba(184, 148, 56, 0.28);
+  box-shadow: 0 6px 20px rgba(115, 79, 24, 0.08);
 }
 
 .admin-import-banner strong {
@@ -225,6 +233,21 @@ body.admin-page {
   .admin-import-banner .admin-btn {
     width: 100%;
   }
+
+  .admin-dashboard__actions {
+    flex-direction: column;
+  }
+
+  .admin-dashboard__import,
+  .admin-dashboard__cta {
+    width: 100%;
+  }
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .admin-stat-card {
@@ -393,6 +416,17 @@ body.admin-page {
   margin: 0 0 20px;
   font-size: 14px;
   color: rgba(115, 79, 24, 0.65);
+}
+
+.admin-empty__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.admin-empty__actions .admin-btn {
+  min-width: min(100%, 220px);
 }
 
 .admin-skeleton-grid {
@@ -1209,6 +1243,10 @@ body.admin-page {
   }
 
   .admin-dashboard__cta {
+    display: inline-flex;
+  }
+
+  .admin-dashboard__import {
     display: inline-flex;
   }
 
