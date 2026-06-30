@@ -600,6 +600,42 @@ button:focus {
   overflow: hidden;
 }
 
+.vault-spotlight__mosaic {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  height: 100%;
+}
+
+.vault-spotlight__panel {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--bg-card);
+}
+
+.vault-spotlight__panel--cream {
+  background: var(--bg-section);
+}
+
+.vault-spotlight__panel img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: clamp(12px, 2.2vw, 26px);
+  box-sizing: border-box;
+}
+
+.vault-spotlight__panel--cover img {
+  object-fit: cover;
+  object-position: center;
+  padding: 0;
+}
+
 .vault-spotlight__img {
   display: block;
   width: 100%;
@@ -708,7 +744,7 @@ button:focus {
   height: 100%;
   object-fit: cover;
   object-position: var(--tile-position);
-  will-change: transform;
+  image-rendering: auto;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
@@ -718,8 +754,13 @@ button:focus {
   object-position: var(--tile-position);
 }
 
+.category-portals__cell--watches .category-portals__tile {
+  background: var(--bg-section);
+}
+
 .category-portals__cell--watches .category-portals__img {
-  object-position: 50% 52%;
+  object-position: 50% 50%;
+  padding: clamp(14px, 3.5vw, 28px);
 }
 
 .category-portals__tile--contain .category-portals__img {
@@ -1448,6 +1489,34 @@ footer .social a:hover {
   padding: 72px 0 64px;
 }
 
+.page-hero--product {
+  min-height: clamp(300px, 44vh, 460px);
+  padding: clamp(28px, 4vw, 48px) 0 clamp(56px, 6vw, 72px);
+  background: var(--bg-section);
+}
+
+.page-hero--product .page-hero__bg {
+  object-fit: contain;
+  object-position: center;
+  padding: clamp(16px, 3vw, 32px);
+  box-sizing: border-box;
+}
+
+.page-hero--product .page-hero__overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(245, 240, 230, 0) 0%,
+    rgba(245, 240, 230, 0.12) 45%,
+    rgba(38, 32, 26, 0.42) 100%
+  );
+}
+
+.page-hero--product h1 {
+  text-shadow:
+    0 2px 16px rgba(38, 32, 26, 0.65),
+    0 0 20px rgba(201, 169, 98, 0.2);
+}
+
 .page-hero__bg {
   position: absolute;
   inset: 0;
@@ -1455,6 +1524,7 @@ footer .social a:hover {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  image-rendering: auto;
 }
 
 .page-hero__overlay {
@@ -1462,9 +1532,9 @@ footer .social a:hover {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(8, 8, 8, 0.5) 0%,
-    rgba(8, 8, 8, 0.72) 45%,
-    rgba(8, 8, 8, 0.9) 100%
+    rgba(8, 8, 8, 0.38) 0%,
+    rgba(8, 8, 8, 0.55) 45%,
+    rgba(8, 8, 8, 0.72) 100%
   );
 }
 

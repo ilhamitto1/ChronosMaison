@@ -4,9 +4,24 @@ import { motion, useReducedMotion } from 'framer-motion'
 
 const MotionLink = motion.create(Link)
 
-const VAULT_ASSETS = {
-  newArrivals: '/assets/banners/new-products.jpg',
-} as const
+/** Orijinal məhsul faylları — məhsul səhifəsi ilə eyni keyfiyyət */
+const SPOTLIGHT_PANELS = [
+  {
+    src: '/assets/watches/rolex-daytona-two-tone.png',
+    fit: 'contain' as const,
+    cream: true,
+  },
+  {
+    src: '/assets/jewelry/van-cleef-frivole-diamond-set.jpg',
+    fit: 'cover' as const,
+    cream: false,
+  },
+  {
+    src: '/assets/bags/hermes-birkin-25-rouge-pivoine-swift-gold.jpg',
+    fit: 'cover' as const,
+    cream: false,
+  },
+] as const
 
 const PORTALS = [
   {
@@ -20,10 +35,10 @@ const PORTALS = [
   {
     to: '/watches',
     label: 'Saatlar',
-    image: '/assets/banners/watches-portal.jpg',
+    image: '/assets/watches/rolex-datejust-champagne-diamond.png',
     position: '50% 50%',
     hero: false,
-    fit: 'cover' as const,
+    fit: 'contain' as const,
     accent: 'watches' as const,
   },
   {
@@ -113,13 +128,7 @@ const imgHover = {
   },
 }
 
-const imgHoverWatches = {
-  rest: { scale: 1.14 },
-  hover: {
-    scale: 1.18,
-    transition: { duration: 1.1, ease: EASE_FLOW },
-  },
-}
+const imgHoverWatches = imgHover
 
 const overlayHover = {
   rest: { opacity: 1 },
@@ -261,6 +270,7 @@ function PortalTile({
           src={portal.image}
           alt=""
           loading="lazy"
+          decoding="async"
           variants={
             reduced
               ? undefined
@@ -309,12 +319,18 @@ export function Categories() {
           >
             <Link to="/products" className="vault-spotlight">
               <div className="vault-spotlight__visual">
-                <img
-                  className="vault-spotlight__img"
-                  src={VAULT_ASSETS.newArrivals}
-                  alt=""
-                  loading="eager"
-                />
+                <div className="vault-spotlight__mosaic" aria-hidden="true">
+                  {SPOTLIGHT_PANELS.map((panel) => (
+                    <div
+                      key={panel.src}
+                      className={`vault-spotlight__panel vault-spotlight__panel--${panel.fit}${
+                        panel.cream ? ' vault-spotlight__panel--cream' : ''
+                      }`}
+                    >
+                      <img src={panel.src} alt="" loading="eager" decoding="async" />
+                    </div>
+                  ))}
+                </div>
                 <div className="vault-spotlight__shade" aria-hidden="true" />
                 <div className="vault-spotlight__caption">
                   <h2 className="vault-spotlight__title">Yeni daxil olmuş məhsullar</h2>

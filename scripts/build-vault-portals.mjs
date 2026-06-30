@@ -5,13 +5,19 @@ import fs from 'fs'
 import path from 'path'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
-import { BG, isNearBg, processRawToCream } from './lib/cream-bg.mjs'
+import {
+  BG,
+  isNearBg,
+  processRawToCream,
+  alphaSubjectBounds,
+  cleanAlphaProduct,
+} from './lib/cream-bg.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
 const outDir = path.join(root, 'public/assets/banners')
 
-const CANVAS = 2000
+const CANVAS = 2400
 const WATCHES_PRODUCT = 'public/assets/watches/rolex-datejust-champagne-diamond.png'
 
 const CANVAS_LEGACY = 1600
@@ -310,12 +316,134 @@ async function buildWatchPortalCover(
   console.log('✓', out)
 }
 
+async function loadAlphaProductRaw(src) {
+  const inputPath = path.join(root, src)
+  if (!fs.existsSync(inputPath)) {
+    console.warn('Skip — missing:', src)
+    return null
+  }
+
+  const { data, info } = await sharp(inputPath)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+
+  cleanAlphaProduct(data, info.width, info.height)
+  return { data, width: info.width, height: info.height }
+}
+
+async function buildWatchProductPortal(
+  src,
+  out,
+  {
+    canvas = 2400,
+    fillRatio = 0.82,
+    maxUpscale = 3.8,
+    cropPad = 0.015,
+    jpegQuality = 96,
+    sharpenSigma = 0.32,
+  } = {},
+) {
+  const loaded = await loadAlphaProductRaw(src)
+  if (!loaded) return
+
+  const { data, width, height } = loaded
+  const crop = alphaSubjectBounds(data, width, height, cropPad)
+  const flat = await sharp(data, { raw: { width, height, channels: 4 } })
+    .extract(crop)
+    .png()
+    .toBuffer()
+
+  const meta = await sharp(flat).metadata()
+  const srcW = meta.width ?? 1
+  const srcH = meta.height ?? 1
+
+  const fillScale = (canvas * fillRatio) / Math.max(srcW, srcH)
+  let scale = Math.min((canvas * 0.92) / srcW, (canvas * 0.92) / srcH)
+  scale = Math.max(scale, fillScale)
+  scale = Math.min(scale, maxUpscale)
+
+  const w = Math.round(srcW * scale)
+  const h = Math.round(srcH * scale)
+
+  const subject = await sharp(flat)
+    .resize(w, h, {
+      fit: 'inside',
+      kernel: sharp.kernel.lanczos3,
+      withoutEnlargement: false,
+    })
+    .sharpen({ sigma: sharpenSigma, m1: 0.38, m2: 0.24 })
+    .png()
+    .toBuffer()
+
+  fs.mkdirSync(outDir, { recursive: true })
+
+  await sharp({
+    create: { width: canvas, height: canvas, channels: 3, background: BG },
+  })
+    .composite([
+      {
+        input: subject,
+        left: Math.round((canvas - w) / 2),
+        top: Math.round((canvas - h) / 2),
+      },
+    ])
+    .jpeg({ quality: jpegQuality, mozjpeg: true, chromaSubsampling: '4:4:4' })
+    .toFile(path.join(outDir, out))
+
+  console.log('✓', out)
+}
+
+async function buildPhotoCover(
+  src,
+  out,
+  { size = 2400, focusX = 0.5, focusY = 0.5, jpegQuality = 92 } = {},
+) {
+  const inputPath = path.join(root, src)
+  if (!fs.existsSync(inputPath)) {
+    console.warn('Skip — missing:', src)
+    return
+  }
+
+  const meta = await sharp(inputPath).metadata()
+  const width = meta.width ?? 1
+  const height = meta.height ?? 1
+  const scale = Math.max(size / width, size / height)
+  const resizedW = Math.round(width * scale)
+  const resizedH = Math.round(height * scale)
+  const cropLeft = Math.max(0, Math.min(resizedW - size, Math.round((resizedW - size) * focusX)))
+  const cropTop = Math.max(0, Math.min(resizedH - size, Math.round((resizedH - size) * focusY)))
+
+  fs.mkdirSync(outDir, { recursive: true })
+
+  await sharp(inputPath)
+    .resize(resizedW, resizedH, { fit: 'fill', kernel: sharp.kernel.lanczos3 })
+    .extract({ left: cropLeft, top: cropTop, width: size, height: size })
+    .sharpen({ sigma: 0.35, m1: 0.3, m2: 0.2 })
+    .jpeg({ quality: jpegQuality, mozjpeg: true, chromaSubsampling: '4:4:4' })
+    .toFile(path.join(outDir, out))
+
+  console.log('✓', out)
+}
+
 await buildHeroCover(
   'public/assets/banners/jewelry-portal-source.avif',
   'jewelry-portal-hero.avif',
   { canvasW: 3200, canvasH: 1600, focusX: 0.58, focusY: 0.46 },
 )
-await buildWatchPortalCover(WATCHES_PRODUCT, 'watches-portal.jpg')
+await buildWatchProductPortal(WATCHES_PRODUCT, 'watches-portal.jpg', {
+  canvas: CANVAS,
+  fillRatio: 0.82,
+  maxUpscale: 3.8,
+  jpegQuality: 96,
+})
+await buildWatchProductPortal(WATCHES_PRODUCT, 'watches-portal@2x.jpg', {
+  canvas: 3200,
+  fillRatio: 0.84,
+  maxUpscale: 4.2,
+  jpegQuality: 97,
+  sharpenSigma: 0.36,
+})
 await buildShowcase(
   'public/assets/bags/hermes-birkin-gold-togo-palladium.jpg',
   'bags-portal.jpg',

@@ -408,3 +408,161 @@ export function processRawToCream(data, width, height, { scrub = false } = {}) {
   flattenBackground(data, width, height, mask)
   if (scrub) scrubNearBlack(data, width, height)
 }
+
+/** Alpha əsaslı məhsul kəsiyi — ağ/qara haloları təmizləyir */
+export function alphaSubjectBounds(data, width, height, cropPad = 0.02) {
+  let minX = width
+  let minY = height
+  let maxX = 0
+  let maxY = 0
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * 4
+      if (data[i + 3] < 16) continue
+      if (minX > x) minX = x
+      if (minY > y) minY = y
+      if (maxX < x) maxX = x
+      if (maxY < y) maxY = y
+    }
+  }
+
+  if (maxX < minX) {
+    return { left: 0, top: 0, width, height }
+  }
+
+  const padX = Math.round((maxX - minX + 1) * cropPad)
+  const padY = Math.round((maxY - minY + 1) * cropPad)
+
+  const left = Math.max(0, minX - padX)
+  const top = Math.max(0, minY - padY)
+
+  return {
+    left,
+    top,
+    width: Math.min(width, maxX + padX + 1) - left,
+    height: Math.min(height, maxY + padY + 1) - top,
+  }
+}
+
+export function cleanAlphaProduct(data, width, height) {
+  const size = width * height
+  const transparent = new Uint8Array(size)
+
+  for (let p = 0; p < size; p++) {
+    const i = p * 4
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    const a = data[i + 3]
+
+    if (a < 24) {
+      data[i + 3] = 0
+      transparent[p] = 1
+      continue
+    }
+
+    const L = lum(r, g, b)
+    const c = chroma(r, g, b)
+
+    if (a < 255 && L > 115 && c < 44) {
+      data[i + 3] = 0
+      transparent[p] = 1
+      continue
+    }
+
+    if (a < 255 && L < 42 && c < 30) {
+      data[i + 3] = 0
+      transparent[p] = 1
+    }
+  }
+
+  for (let p = 0; p < size; p++) {
+    if (data[p * 4 + 3] < 16) transparent[p] = 1
+  }
+
+  for (let p = 0; p < size; p++) {
+    const i = p * 4
+    const a = data[i + 3]
+    if (a > 0 && a < 255) {
+      data[i + 3] = a >= 148 ? 255 : 0
+      if (data[i + 3] < 16) transparent[p] = 1
+    }
+  }
+
+  for (let p = 0; p < size; p++) {
+    if (data[p * 4 + 3] < 16) transparent[p] = 1
+  }
+
+  for (let pass = 0; pass < 6; pass++) {
+    let changed = false
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const p = y * width + x
+        if (transparent[p]) continue
+
+        const i = p * 4
+        const r = data[i]
+        const g = data[i + 1]
+        const b = data[i + 2]
+        if (isHeroGold(r, g, b)) continue
+
+        const L = lum(r, g, b)
+        const c = chroma(r, g, b)
+        const lightFringe = (L > 148 && c < 36) || (L > 102 && L <= 148 && c < 20)
+        const colorFringe =
+          (r > 70 && b > 70 && g < Math.min(r, b) - 12) ||
+          (b > r + 18 && b > g + 8 && b > 65)
+        if (!lightFringe && !colorFringe) continue
+
+        const touches =
+          (x > 0 && transparent[p - 1]) ||
+          (x < width - 1 && transparent[p + 1]) ||
+          (y > 0 && transparent[p - width]) ||
+          (y < height - 1 && transparent[p + width])
+
+        if (touches) {
+          transparent[p] = 1
+          data[i + 3] = 0
+          changed = true
+        }
+      }
+    }
+    if (!changed) break
+  }
+
+  for (let pass = 0; pass < 4; pass++) {
+    let changed = false
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const p = y * width + x
+        if (transparent[p]) continue
+
+        const i = p * 4
+        const r = data[i]
+        const g = data[i + 1]
+        const b = data[i + 2]
+        if (isHeroGold(r, g, b)) continue
+
+        const L = lum(r, g, b)
+        const c = chroma(r, g, b)
+        const darkCrumb = r < 34 && g < 34 && b < 34
+        const darkFringe = !darkCrumb && L >= 16 && L <= 58 && c < 26
+        if (!darkCrumb && !darkFringe) continue
+
+        const touches =
+          (x > 0 && transparent[p - 1]) ||
+          (x < width - 1 && transparent[p + 1]) ||
+          (y > 0 && transparent[p - width]) ||
+          (y < height - 1 && transparent[p + width])
+
+        if (touches) {
+          transparent[p] = 1
+          data[i + 3] = 0
+          changed = true
+        }
+      }
+    }
+    if (!changed) break
+  }
+}
