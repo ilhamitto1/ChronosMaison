@@ -1,4 +1,35 @@
 export type ProductCategory = 'watches' | 'bags' | 'jewelry'
+export type BrandCategory = 'watches' | 'bags' | 'jewelry' | 'both'
+
+export interface DbBrand {
+  id: string
+  slug: string
+  name: string
+  logo_url: string
+  category: BrandCategory
+  show_on_homepage: boolean
+  sort_order: number
+  created_at: string
+  updated_at: string
+}
+
+export interface DbBrandInsert {
+  slug: string
+  name: string
+  logo_url: string
+  category: BrandCategory
+  show_on_homepage?: boolean
+  sort_order?: number
+}
+
+export interface DbBrandUpdate {
+  slug?: string
+  name?: string
+  logo_url?: string
+  category?: BrandCategory
+  show_on_homepage?: boolean
+  sort_order?: number
+}
 
 export interface DbProduct {
   id: string
@@ -39,6 +70,12 @@ export interface DbProductUpdate {
 export interface Database {
   public: {
     Tables: {
+      brands: {
+        Row: DbBrand
+        Insert: DbBrandInsert
+        Update: DbBrandUpdate
+        Relationships: []
+      }
       products: {
         Row: DbProduct
         Insert: DbProductInsert

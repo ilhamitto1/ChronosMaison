@@ -1,19 +1,26 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { brands } from '@/data/brands'
+import { useBrands } from '@/hooks/useBrands'
 import { useFeaturedProducts } from '@/hooks/useProducts'
 import { BRAND } from '@/lib/constants'
 
 const FOOTER_BRANDS_UNTIL_ID = 'bovet'
-const cutoffIdx = brands.findIndex((b) => b.id === FOOTER_BRANDS_UNTIL_ID)
-const footerBrandsCutoff = cutoffIdx === -1 ? 9 : cutoffIdx + 1
-const footerBrandsInitial = brands.slice(0, footerBrandsCutoff)
-const footerBrandsRest = brands.slice(footerBrandsCutoff)
 
 export function Footer() {
   const year = new Date().getFullYear()
+  const { brands } = useBrands()
   const { featuredWatches, featuredBags, featuredJewelry } = useFeaturedProducts()
   const [brandsExpanded, setBrandsExpanded] = useState(false)
+
+  const { footerBrandsInitial, footerBrandsRest } = useMemo(() => {
+    const cutoffIdx = brands.findIndex((b) => b.id === FOOTER_BRANDS_UNTIL_ID)
+    const footerBrandsCutoff = cutoffIdx === -1 ? 9 : cutoffIdx + 1
+    return {
+      footerBrandsInitial: brands.slice(0, footerBrandsCutoff),
+      footerBrandsRest: brands.slice(footerBrandsCutoff),
+    }
+  }, [brands])
+
   const visibleBrands = brandsExpanded ? brands : footerBrandsInitial
 
   return (

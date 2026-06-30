@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { ExternalLink, LogOut } from 'lucide-react'
 import { useAdminAuth } from '@/contexts/AdminAuthContext'
 import { useAdminPage } from '@/hooks/useAdminPage'
@@ -45,6 +45,16 @@ export function AdminLayout() {
           </div>
         </div>
       </header>
+      <nav className="admin-nav" aria-label="Admin bölmələri">
+        <div className="admin-nav__inner">
+          <NavLink to="/admin/dashboard" className={({ isActive }) => `admin-nav__link${isActive ? ' admin-nav__link--active' : ''}`}>
+            Məhsullar
+          </NavLink>
+          <NavLink to="/admin/brands" className={({ isActive }) => `admin-nav__link${isActive ? ' admin-nav__link--active' : ''}`}>
+            Brendlər
+          </NavLink>
+        </div>
+      </nav>
       <main className="admin-main">
         <Outlet />
       </main>

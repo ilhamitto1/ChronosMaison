@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getBrandById } from '@/data/brands'
 import { BRAND } from '@/lib/constants'
 import { buildWhatsAppUrl, formatPrice } from '@/lib/utils'
+import { getBrandBySlug } from '@/services/brandService'
 import { getProductById } from '@/services/productService'
 
 function WhatsAppIcon() {
@@ -34,7 +34,7 @@ export function WhatsAppFloat() {
 
       const brandMatch = pathname.match(/^\/markalar\/([^/]+)$/)
       if (brandMatch) {
-        const brand = getBrandById(brandMatch[1])
+        const brand = await getBrandBySlug(brandMatch[1])
         if (active && brand) {
           setMessage(`Salam, ${brand.name} brendi üzrə məhsullarla maraqlanıram.`)
           return

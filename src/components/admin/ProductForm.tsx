@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react'
 import { Camera, CheckCircle2, ImageUp, Loader2 } from 'lucide-react'
-import { brands } from '@/data/brands'
+import { useBrands } from '@/hooks/useBrands'
 import {
   hasFormErrors,
   validateImageFile,
@@ -35,6 +35,7 @@ export function ProductForm({
   onSubmit,
   onCancel,
 }: ProductFormProps) {
+  const { brands } = useBrands()
   const fileInputId = useId()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [values, setValues] = useState<ProductFormValues>(initialValues ?? EMPTY_VALUES)

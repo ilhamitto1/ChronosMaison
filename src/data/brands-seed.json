@@ -1,0 +1,362 @@
+[
+  {
+    "slug": "louis-moinet",
+    "name": "Louis Moinet",
+    "logo_url": "/assets/brands/louis-moinet.svg",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 0
+  },
+  {
+    "slug": "richard-mille",
+    "name": "Richard Mille",
+    "logo_url": "/assets/brands/richard-mille.svg",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 1
+  },
+  {
+    "slug": "carlfbucherer",
+    "name": "Carl F. Bucherer",
+    "logo_url": "/assets/brands/carl-f-bucherer.svg",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 2
+  },
+  {
+    "slug": "maurice-lacroix",
+    "name": "Maurice Lacroix",
+    "logo_url": "/assets/brands/maurice-lacroix.svg",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 3
+  },
+  {
+    "slug": "hermes",
+    "name": "Hermès",
+    "logo_url": "/assets/brands/hermes.svg",
+    "category": "both",
+    "show_on_homepage": true,
+    "sort_order": 4
+  },
+  {
+    "slug": "messica",
+    "name": "Messika",
+    "logo_url": "/assets/brands/messika.svg",
+    "category": "jewelry",
+    "show_on_homepage": true,
+    "sort_order": 5
+  },
+  {
+    "slug": "rolex",
+    "name": "Rolex",
+    "logo_url": "/assets/brands/rolex.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 6
+  },
+  {
+    "slug": "breguet",
+    "name": "Breguet",
+    "logo_url": "/assets/brands/breguet.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 7
+  },
+  {
+    "slug": "bovet",
+    "name": "Bovet",
+    "logo_url": "/assets/brands/bovet.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 8
+  },
+  {
+    "slug": "audemars-piguet",
+    "name": "Audemars Piguet",
+    "logo_url": "/assets/brands/audemars-piguet.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 9
+  },
+  {
+    "slug": "ulysse-nardin",
+    "name": "Ulysse Nardin",
+    "logo_url": "/assets/brands/ulysse-nardin.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 10
+  },
+  {
+    "slug": "perrelet",
+    "name": "Perrelet",
+    "logo_url": "/assets/brands/perrelet.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 11
+  },
+  {
+    "slug": "roger-dubuis",
+    "name": "Roger Dubuis",
+    "logo_url": "/assets/brands/roger-dubuis.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 12
+  },
+  {
+    "slug": "romain-jerome",
+    "name": "Romain Jerome",
+    "logo_url": "/assets/brands/romain-jerome.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 13
+  },
+  {
+    "slug": "tiffany-co",
+    "name": "Tiffany & Co.",
+    "logo_url": "/assets/brands/tiffany-co.png",
+    "category": "jewelry",
+    "show_on_homepage": true,
+    "sort_order": 14
+  },
+  {
+    "slug": "urwerk",
+    "name": "Urwerk",
+    "logo_url": "/assets/brands/urwerk.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 15
+  },
+  {
+    "slug": "vacheron-constantin",
+    "name": "Vacheron Constantin",
+    "logo_url": "/assets/brands/vacheron-constantin.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 16
+  },
+  {
+    "slug": "van-cleefandarpels",
+    "name": "Van Cleef & Arpels",
+    "logo_url": "/assets/brands/van-cleef-arpels.png",
+    "category": "jewelry",
+    "show_on_homepage": true,
+    "sort_order": 17
+  },
+  {
+    "slug": "zenith",
+    "name": "Zenith",
+    "logo_url": "/assets/brands/zenith.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 18
+  },
+  {
+    "slug": "breitling",
+    "name": "Breitling",
+    "logo_url": "/assets/brands/breitling.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 19
+  },
+  {
+    "slug": "chopard",
+    "name": "Chopard",
+    "logo_url": "/assets/brands/chopard.png",
+    "category": "both",
+    "show_on_homepage": true,
+    "sort_order": 20
+  },
+  {
+    "slug": "corum",
+    "name": "Corum",
+    "logo_url": "/assets/brands/corum.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 21
+  },
+  {
+    "slug": "de-witt",
+    "name": "DeWitt",
+    "logo_url": "/assets/brands/de-witt.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 22
+  },
+  {
+    "slug": "de-grisogono",
+    "name": "de Grisogono",
+    "logo_url": "/assets/brands/de-grisogono.png",
+    "category": "jewelry",
+    "show_on_homepage": true,
+    "sort_order": 23
+  },
+  {
+    "slug": "franck-muller",
+    "name": "Franck Muller",
+    "logo_url": "/assets/brands/franck-muller.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 24
+  },
+  {
+    "slug": "girard-perreguax",
+    "name": "Girard-Perregaux",
+    "logo_url": "/assets/brands/girard-perregaux.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 25
+  },
+  {
+    "slug": "glashutte-original",
+    "name": "Glashütte Original",
+    "logo_url": "/assets/brands/glashutte-original.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 26
+  },
+  {
+    "slug": "graham",
+    "name": "Graham",
+    "logo_url": "/assets/brands/graham.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 27
+  },
+  {
+    "slug": "harry-winston",
+    "name": "Harry Winston",
+    "logo_url": "/assets/brands/harry-winston.png",
+    "category": "both",
+    "show_on_homepage": true,
+    "sort_order": 28
+  },
+  {
+    "slug": "hublot",
+    "name": "Hublot",
+    "logo_url": "/assets/brands/hublot.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 29
+  },
+  {
+    "slug": "iwc",
+    "name": "IWC Schaffhausen",
+    "logo_url": "/assets/brands/iwc.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 30
+  },
+  {
+    "slug": "jacobco",
+    "name": "Jacob & Co.",
+    "logo_url": "/assets/brands/jacob-co.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 31
+  },
+  {
+    "slug": "jeager-lecoultre",
+    "name": "Jaeger-LeCoultre",
+    "logo_url": "/assets/brands/jaeger-lecoultre.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 32
+  },
+  {
+    "slug": "jaquet-ddoz",
+    "name": "Jaquet Droz",
+    "logo_url": "/assets/brands/jaquet-droz.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 33
+  },
+  {
+    "slug": "montblanc",
+    "name": "Montblanc",
+    "logo_url": "/assets/brands/montblanc.png",
+    "category": "both",
+    "show_on_homepage": true,
+    "sort_order": 34
+  },
+  {
+    "slug": "omega",
+    "name": "Omega",
+    "logo_url": "/assets/brands/omega.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 35
+  },
+  {
+    "slug": "patek-philippe",
+    "name": "Patek Philippe",
+    "logo_url": "/assets/brands/patek-philippe.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 36
+  },
+  {
+    "slug": "chanel",
+    "name": "Chanel",
+    "logo_url": "/assets/brands/chanel.png",
+    "category": "bags",
+    "show_on_homepage": true,
+    "sort_order": 37
+  },
+  {
+    "slug": "louis-vuitton",
+    "name": "Louis Vuitton",
+    "logo_url": "/assets/brands/louis-vuitton.png",
+    "category": "bags",
+    "show_on_homepage": true,
+    "sort_order": 38
+  },
+  {
+    "slug": "dior",
+    "name": "Dior",
+    "logo_url": "/assets/brands/dior.svg",
+    "category": "bags",
+    "show_on_homepage": true,
+    "sort_order": 39
+  },
+  {
+    "slug": "cartier",
+    "name": "Cartier",
+    "logo_url": "/assets/brands/cartier.png",
+    "category": "both",
+    "show_on_homepage": true,
+    "sort_order": 40
+  },
+  {
+    "slug": "bvlgari",
+    "name": "Bvlgari",
+    "logo_url": "/assets/brands/bvlgari.png",
+    "category": "both",
+    "show_on_homepage": true,
+    "sort_order": 41
+  },
+  {
+    "slug": "u-boat",
+    "name": "U-Boat",
+    "logo_url": "/assets/brands/u-boat.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 42
+  },
+  {
+    "slug": "tag-heur",
+    "name": "TAG Heuer",
+    "logo_url": "/assets/brands/tag-heuer.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 43
+  },
+  {
+    "slug": "blancpain",
+    "name": "Blancpain",
+    "logo_url": "/assets/brands/blancpain.png",
+    "category": "watches",
+    "show_on_homepage": true,
+    "sort_order": 44
+  }
+]

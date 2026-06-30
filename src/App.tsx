@@ -28,6 +28,12 @@ const AdminDashboardPage = lazy(() =>
   })),
 )
 
+const AdminBrandsPage = lazy(() =>
+  import('@/pages/admin/AdminBrandsPage').then((module) => ({
+    default: module.AdminBrandsPage,
+  })),
+)
+
 function AdminRouteFallback() {
   useAdminPage()
   return (
@@ -48,6 +54,7 @@ export default function App() {
               <Route element={<AdminLayout />}>
                 <Route index element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<AdminDashboardPage />} />
+                <Route path="brands" element={<AdminBrandsPage />} />
               </Route>
             </Route>
 

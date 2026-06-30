@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
-import { brands, type Brand } from '@/data/brands'
 import { BrandLogo } from '@/components/BrandLogo'
+import { useHomepageBrands } from '@/hooks/useBrands'
+import type { Brand } from '@/types/brand'
 
 const IDLE_MS = 2500
 const PX_PER_SEC = 42
@@ -53,6 +54,7 @@ function BrandCard({ brand }: { brand: Brand }) {
 }
 
 export function BrandsCarousel() {
+  const brands = useHomepageBrands()
   const reduced = useReducedMotion()
   const trackRef = useRef<HTMLDivElement>(null)
   const viewportRef = useRef<HTMLDivElement>(null)
@@ -62,7 +64,7 @@ export function BrandsCarousel() {
   const resumeTimerRef = useRef<number | null>(null)
   const rafRef = useRef<number | null>(null)
   const lastFrameRef = useRef(0)
-  const loopBrands = [...brands, ...brands]
+  const loopBrands = useMemo(() => [...brands, ...brands], [brands])
 
   const clearResumeTimer = useCallback(() => {
     if (resumeTimerRef.current !== null) {
@@ -136,7 +138,7 @@ export function BrandsCarousel() {
     ro.observe(el)
 
     return () => ro.disconnect()
-  }, [measureSetWidth])
+  }, [measureSetWidth, brands])
 
   useEffect(() => {
     if (reduced) return
@@ -196,6 +198,8 @@ export function BrandsCarousel() {
   const onUserInteractEnd = useCallback(() => {
     scheduleResume()
   }, [scheduleResume])
+
+  if (brands.length === 0) return null
 
   return (
     <section className="subCategory brands-showcase" aria-labelledby="brands-heading">

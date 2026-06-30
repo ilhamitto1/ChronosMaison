@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import type { Brand } from '@/data/brands'
+import type { Brand } from '@/types/brand'
 import { getBrandCarouselLogoScale } from '@/data/brandLogoCarouselScale'
 
 interface BrandLogoProps {

@@ -1,7 +1,9 @@
 import { BrandsGrid } from '@/components/BrandsGrid'
-import { brands } from '@/data/brands'
+import { useBrands } from '@/hooks/useBrands'
 
 export function BrandsPage() {
+  const { brands } = useBrands()
+
   return (
     <>
       <div className="page-hero">

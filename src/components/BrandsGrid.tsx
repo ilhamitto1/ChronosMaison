@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import type { Brand } from '@/data/brands'
+import type { Brand } from '@/types/brand'
 import { BrandLogo } from '@/components/BrandLogo'
 
 interface BrandsGridProps {

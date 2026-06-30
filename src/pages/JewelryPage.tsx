@@ -2,10 +2,11 @@ import { BrandsGrid } from '@/components/BrandsGrid'
 import { PageHero } from '@/components/PageHero'
 import { PageSectionHeading } from '@/components/PageSectionHeading'
 import { ProductGrid } from '@/components/ProductGrid'
-import { jewelryBrands } from '@/data/brands'
+import { useBrandsByCategory } from '@/hooks/useBrands'
 import { useProductsByCategory } from '@/hooks/useProducts'
 
 export function JewelryPage() {
+  const jewelryBrands = useBrandsByCategory('jewelry')
   const { products: jewelry } = useProductsByCategory('jewelry')
 
   return (

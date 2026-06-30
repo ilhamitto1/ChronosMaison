@@ -2,10 +2,11 @@ import { BrandsGrid } from '@/components/BrandsGrid'
 import { PageHero } from '@/components/PageHero'
 import { PageSectionHeading } from '@/components/PageSectionHeading'
 import { ProductGrid } from '@/components/ProductGrid'
-import { bagBrands } from '@/data/brands'
+import { useBrandsByCategory } from '@/hooks/useBrands'
 import { useProductsByCategory } from '@/hooks/useProducts'
 
 export function BagsPage() {
+  const bagBrands = useBrandsByCategory('bags')
   const { products: bags } = useProductsByCategory('bags')
 
   return (
