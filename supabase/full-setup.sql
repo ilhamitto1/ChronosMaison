@@ -1,7 +1,12 @@
 -- ═══════════════════════════════════════════════════════════════
 -- ChronosMaison — TAM Supabase quraşdırması
 -- Admin email: chronosmaison776@gmail.com
+--
 -- Supabase → SQL Editor → bütün faylı yapışdır → Run
+--
+-- Yeni layihə: bir dəfə işə salmaq kifayətdir.
+-- Köhnə quraşdırma varsa: yenə də işə salın — aşağıdakı ALTER
+-- blokları çatışmayan saat sütunlarını əlavə edir, policy-lər yenilənir.
 -- ═══════════════════════════════════════════════════════════════
 
 -- ─── Extensions ───
@@ -32,9 +37,41 @@ create table if not exists public.products (
   image_url text not null,
   brand text,
   brand_id text,
+  -- Saat xüsusiyyətləri (admin panel + məhsul səhifəsi cədvəli)
+  case_size_mm integer
+    check (case_size_mm is null or case_size_mm > 0),
+  watch_reference text,
+  watch_collection text,
+  watch_case_material text,
+  watch_strap_material text,
+  watch_dial_color text,
+  watch_movement_type text,
+  watch_set text,
+  watch_condition text
+    check (watch_condition is null or watch_condition in ('new', 'pre-owned')),
+  has_certificate boolean,
+  watch_year integer
+    check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100)),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Köhnə products cədvəlinə saat sütunları (CREATE TABLE artıq işləyibsə)
+alter table public.products
+  add column if not exists case_size_mm integer
+    check (case_size_mm is null or case_size_mm > 0),
+  add column if not exists watch_reference text,
+  add column if not exists watch_collection text,
+  add column if not exists watch_case_material text,
+  add column if not exists watch_strap_material text,
+  add column if not exists watch_dial_color text,
+  add column if not exists watch_movement_type text,
+  add column if not exists watch_set text,
+  add column if not exists watch_condition text
+    check (watch_condition is null or watch_condition in ('new', 'pre-owned')),
+  add column if not exists has_certificate boolean,
+  add column if not exists watch_year integer
+    check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100));
 
 create index if not exists products_category_idx on public.products (category);
 create index if not exists products_created_at_idx on public.products (created_at desc);
@@ -76,14 +113,14 @@ for delete
 to authenticated
 using (auth.jwt() ->> 'email' = 'chronosmaison776@gmail.com');
 
--- Məhsul şəkilləri bucket
+-- Məhsul şəkilləri bucket (JPG, PNG, WEBP, AVIF, HEIC)
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'product-images',
   'product-images',
   true,
   5242880,
-  array['image/jpeg', 'image/png', 'image/webp', 'image/avif']
+  array['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/heic', 'image/heif']
 )
 on conflict (id) do update set
   public = excluded.public,
@@ -194,7 +231,7 @@ values (
   'brand-logos',
   true,
   5242880,
-  array['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/svg+xml']
+  array['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/svg+xml', 'image/heic', 'image/heif']
 )
 on conflict (id) do update set
   public = excluded.public,

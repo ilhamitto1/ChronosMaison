@@ -2,7 +2,7 @@ import { ProductGrid } from '@/components/ProductGrid'
 import { useProducts } from '@/hooks/useProducts'
 
 export function ProductsPage() {
-  const { products } = useProducts()
+  const { products, loading } = useProducts()
 
   return (
     <>
@@ -13,7 +13,7 @@ export function ProductsPage() {
       </div>
       <div className="page-content">
         <div className="container">
-          <ProductGrid items={products} />
+          <ProductGrid items={products} loading={loading} />
         </div>
       </div>
     </>

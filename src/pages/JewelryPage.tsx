@@ -7,7 +7,7 @@ import { useProductsByCategory } from '@/hooks/useProducts'
 
 export function JewelryPage() {
   const jewelryBrands = useBrandsByCategory('jewelry')
-  const { products: jewelry } = useProductsByCategory('jewelry')
+  const { products: jewelry, loading } = useProductsByCategory('jewelry')
 
   return (
     <>
@@ -23,6 +23,7 @@ export function JewelryPage() {
             <PageSectionHeading title="Zinət əşyaları" />
             <ProductGrid
               items={jewelry}
+              loading={loading}
               emptyMessage="Hazırda zinət əşyası yoxdur."
             />
           </section>

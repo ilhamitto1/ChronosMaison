@@ -7,7 +7,7 @@ import { useProductsByCategory } from '@/hooks/useProducts'
 export function WatchesPage() {
   const [activeBrand, setActiveBrand] = useState<string | null>(null)
   const watchBrands = useBrandsByCategory('watches')
-  const { products: watches } = useProductsByCategory('watches')
+  const { products: watches, loading } = useProductsByCategory('watches')
   const filtered = activeBrand
     ? watches.filter((p) => p.brandId === activeBrand)
     : watches
@@ -38,6 +38,7 @@ export function WatchesPage() {
           </div>
           <ProductGrid
             items={filtered}
+            loading={loading}
             emptyMessage="Bu brend üzrə saatlar tezliklə əlavə olunacaq. Qiymət sorğusu üçün bizimlə əlaqə saxlayın."
           />
         </div>

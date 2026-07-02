@@ -1,13 +1,20 @@
 import { Link } from 'react-router-dom'
 import type { Product } from '@/data/products'
 import { formatPrice } from '@/lib/utils'
+import { ProductGridSkeleton } from '@/components/ProductGridSkeleton'
+import { WatchSpecs } from '@/components/WatchSpecs'
 
 interface ProductGridProps {
   items: Product[]
+  loading?: boolean
   emptyMessage?: string
 }
 
-export function ProductGrid({ items, emptyMessage }: ProductGridProps) {
+export function ProductGrid({ items, loading = false, emptyMessage }: ProductGridProps) {
+  if (loading) {
+    return <ProductGridSkeleton />
+  }
+
   if (items.length === 0) {
     return (
       <div className="products-empty">
@@ -33,6 +40,7 @@ export function ProductGrid({ items, emptyMessage }: ProductGridProps) {
             )}
             <div className="content">
               <h3>{product.name}</h3>
+              {product.category === 'watches' && <WatchSpecs product={product} variant="card" />}
               <div className="price">{formatPrice(product.price)}</div>
             </div>
           </Link>

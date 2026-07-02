@@ -15,6 +15,20 @@ create table if not exists public.products (
   image_url text not null,
   brand text,
   brand_id text,
+  case_size_mm integer
+    check (case_size_mm is null or case_size_mm > 0),
+  watch_reference text,
+  watch_collection text,
+  watch_case_material text,
+  watch_strap_material text,
+  watch_dial_color text,
+  watch_movement_type text,
+  watch_set text,
+  watch_condition text
+    check (watch_condition is null or watch_condition in ('new', 'pre-owned')),
+  has_certificate boolean,
+  watch_year integer
+    check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100)),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

@@ -1,4 +1,11 @@
 import { fallbackProducts } from '@/data/fallbackProducts'
+import { isSchemaColumnError } from '@/lib/formatSupabaseError'
+import {
+  invalidateProductCache,
+  setCachedAllProducts,
+  setCachedProduct,
+  setCachedProductsByCategory,
+} from '@/lib/productCache'
 import { isSupabaseConfigured, getSupabase } from '@/lib/supabase'
 import { resolveImageContentType } from '@/lib/validateProductForm'
 import type {
@@ -7,9 +14,28 @@ import type {
   DbProductUpdate,
   ProductCategory,
 } from '@/types/database'
-import type { Product } from '@/types/product'
+import type { Product, ProductFormValues } from '@/types/product'
 
 const PRODUCT_BUCKET = 'product-images'
+
+const WATCH_FIELD_KEYS = [
+  'case_size_mm',
+  'watch_reference',
+  'watch_collection',
+  'watch_case_material',
+  'watch_strap_material',
+  'watch_dial_color',
+  'watch_movement_type',
+  'watch_set',
+  'watch_condition',
+  'has_certificate',
+  'watch_year',
+] as const
+
+export interface SaveProductResult {
+  product: Product
+  watchFieldsSkipped?: boolean
+}
 
 function mapDbProduct(row: DbProduct): Product {
   return {
@@ -21,7 +47,91 @@ function mapDbProduct(row: DbProduct): Product {
     image: row.image_url,
     category: row.category,
     description: row.description,
+    caseSizeMm: row.case_size_mm,
+    watchReference: row.watch_reference,
+    watchCollection: row.watch_collection,
+    watchCaseMaterial: row.watch_case_material,
+    watchStrapMaterial: row.watch_strap_material,
+    watchDialColor: row.watch_dial_color,
+    watchMovementType: row.watch_movement_type,
+    watchSet: row.watch_set,
+    watchCondition: row.watch_condition,
+    hasCertificate: row.has_certificate,
+    watchYear: row.watch_year,
   }
+}
+
+function emptyWatchFields(): Pick<
+  DbProductInsert,
+  | 'case_size_mm'
+  | 'watch_reference'
+  | 'watch_collection'
+  | 'watch_case_material'
+  | 'watch_strap_material'
+  | 'watch_dial_color'
+  | 'watch_movement_type'
+  | 'watch_set'
+  | 'watch_condition'
+  | 'has_certificate'
+  | 'watch_year'
+> {
+  return {
+    case_size_mm: null,
+    watch_reference: null,
+    watch_collection: null,
+    watch_case_material: null,
+    watch_strap_material: null,
+    watch_dial_color: null,
+    watch_movement_type: null,
+    watch_set: null,
+    watch_condition: null,
+    has_certificate: null,
+    watch_year: null,
+  }
+}
+
+function trimOrNull(value: string) {
+  const trimmed = value.trim()
+  return trimmed || null
+}
+
+function hasWatchFieldValues(input: DbProductInsert | DbProductUpdate) {
+  return WATCH_FIELD_KEYS.some((key) => {
+    const value = input[key]
+    return value != null && value !== ''
+  })
+}
+
+function stripWatchFields<T extends DbProductInsert | DbProductUpdate>(input: T): T {
+  const copy = { ...input }
+  for (const key of WATCH_FIELD_KEYS) {
+    delete copy[key]
+  }
+  return copy
+}
+
+export function buildProductPayload(
+  values: ProductFormValues,
+  imageUrl: string,
+): DbProductInsert {
+  return {
+    title: values.title.trim(),
+    category: values.category as ProductCategory,
+    price: Number(values.price),
+    description: values.description.trim(),
+    image_url: imageUrl,
+    brand: values.brand.trim() || null,
+    brand_id: values.brand_id.trim() || null,
+    ...watchFieldsFromForm(values),
+  }
+}
+
+function fallbackByCategory(category: ProductCategory) {
+  return fallbackProducts.filter((p) => p.category === category)
+}
+
+function fallbackByBrand(brandId: string) {
+  return fallbackProducts.filter((p) => p.brandId === brandId)
 }
 
 async function fetchRemoteProducts(): Promise<Product[]> {
@@ -36,17 +146,56 @@ async function fetchRemoteProducts(): Promise<Product[]> {
   return (data ?? []).map((row) => mapDbProduct(row as DbProduct))
 }
 
-function withFallback(remote: Product[]): Product[] {
-  return remote.length > 0 ? remote : fallbackProducts
+export function watchFieldsFromForm(values: ProductFormValues): Pick<
+  DbProductInsert,
+  | 'case_size_mm'
+  | 'watch_reference'
+  | 'watch_collection'
+  | 'watch_case_material'
+  | 'watch_strap_material'
+  | 'watch_dial_color'
+  | 'watch_movement_type'
+  | 'watch_set'
+  | 'watch_condition'
+  | 'has_certificate'
+  | 'watch_year'
+> {
+  if (values.category !== 'watches') {
+    return emptyWatchFields()
+  }
+
+  const caseSize = values.case_size_mm.trim()
+  const year = values.watch_year.trim()
+
+  return {
+    case_size_mm: caseSize ? Number(caseSize) : null,
+    watch_reference: trimOrNull(values.watch_reference),
+    watch_collection: trimOrNull(values.watch_collection),
+    watch_case_material: trimOrNull(values.watch_case_material),
+    watch_strap_material: trimOrNull(values.watch_strap_material),
+    watch_dial_color: trimOrNull(values.watch_dial_color),
+    watch_movement_type: trimOrNull(values.watch_movement_type),
+    watch_set: trimOrNull(values.watch_set),
+    watch_condition: values.watch_condition || null,
+    has_certificate:
+      values.has_certificate === 'yes'
+        ? true
+        : values.has_certificate === 'no'
+          ? false
+          : null,
+    watch_year: year ? Number(year) : null,
+  }
 }
 
 export async function getAllProducts(): Promise<Product[]> {
   try {
+    if (!isSupabaseConfigured) return fallbackProducts
     const remote = await fetchRemoteProducts()
-    return withFallback(remote)
+    setCachedAllProducts(remote)
+    return remote
   } catch (error) {
-    console.warn('[products] getAllProducts failed, using fallback.', error)
-    return fallbackProducts
+    console.warn('[products] getAllProducts failed.', error)
+    return isSupabaseConfigured ? [] : fallbackProducts
   }
 }
 
@@ -55,7 +204,7 @@ export async function getProductsByCategory(
 ): Promise<Product[]> {
   try {
     if (!isSupabaseConfigured) {
-      return fallbackProducts.filter((p) => p.category === category)
+      return fallbackByCategory(category)
     }
 
     const { data, error } = await getSupabase()
@@ -65,14 +214,12 @@ export async function getProductsByCategory(
       .order('created_at', { ascending: false })
 
     if (error) throw error
-
-    const remote = (data ?? []).map((row) => mapDbProduct(row as DbProduct))
-    if (remote.length > 0) return remote
-
-    return fallbackProducts.filter((p) => p.category === category)
+    const products = (data ?? []).map((row) => mapDbProduct(row as DbProduct))
+    setCachedProductsByCategory(category, products)
+    return products
   } catch (error) {
-    console.warn('[products] getProductsByCategory failed, using fallback.', error)
-    return fallbackProducts.filter((p) => p.category === category)
+    console.warn('[products] getProductsByCategory failed.', error)
+    return isSupabaseConfigured ? [] : fallbackByCategory(category)
   }
 }
 
@@ -89,19 +236,22 @@ export async function getProductById(id: string): Promise<Product | null> {
       .maybeSingle()
 
     if (error) throw error
-    if (data) return mapDbProduct(data as DbProduct)
-
-    return fallbackProducts.find((p) => p.id === id) ?? null
+    if (data) {
+      const product = mapDbProduct(data as DbProduct)
+      setCachedProduct(product)
+      return product
+    }
+    return null
   } catch (error) {
-    console.warn('[products] getProductById failed, using fallback.', error)
-    return fallbackProducts.find((p) => p.id === id) ?? null
+    console.warn('[products] getProductById failed.', error)
+    return isSupabaseConfigured ? null : (fallbackProducts.find((p) => p.id === id) ?? null)
   }
 }
 
 export async function getProductsByBrand(brandId: string): Promise<Product[]> {
   try {
     if (!isSupabaseConfigured) {
-      return fallbackProducts.filter((p) => p.brandId === brandId)
+      return fallbackByBrand(brandId)
     }
 
     const { data, error } = await getSupabase()
@@ -111,32 +261,52 @@ export async function getProductsByBrand(brandId: string): Promise<Product[]> {
       .order('created_at', { ascending: false })
 
     if (error) throw error
-
-    const remote = (data ?? []).map((row) => mapDbProduct(row as DbProduct))
-    if (remote.length > 0) return remote
-
-    return fallbackProducts.filter((p) => p.brandId === brandId)
+    const products = (data ?? []).map((row) => mapDbProduct(row as DbProduct))
+    for (const product of products) {
+      setCachedProduct(product)
+    }
+    return products
   } catch (error) {
-    console.warn('[products] getProductsByBrand failed, using fallback.', error)
-    return fallbackProducts.filter((p) => p.brandId === brandId)
+    console.warn('[products] getProductsByBrand failed.', error)
+    return isSupabaseConfigured ? [] : fallbackByBrand(brandId)
   }
 }
 
-export async function createProduct(input: DbProductInsert): Promise<Product> {
+export async function createProduct(input: DbProductInsert): Promise<SaveProductResult> {
   const { data, error } = await getSupabase()
     .from('products')
     .insert(input)
     .select('*')
     .single()
 
-  if (error) throw error
-  return mapDbProduct(data as DbProduct)
+  if (!error) {
+    invalidateProductCache()
+    return { product: mapDbProduct(data as DbProduct) }
+  }
+
+  if (isSchemaColumnError(error) && hasWatchFieldValues(input)) {
+    const { data: fallbackData, error: fallbackError } = await getSupabase()
+      .from('products')
+      .insert(stripWatchFields(input))
+      .select('*')
+      .single()
+
+    if (!fallbackError) {
+      invalidateProductCache()
+      return {
+        product: mapDbProduct(fallbackData as DbProduct),
+        watchFieldsSkipped: true,
+      }
+    }
+  }
+
+  throw error
 }
 
 export async function updateProduct(
   id: string,
   input: DbProductUpdate,
-): Promise<Product> {
+): Promise<SaveProductResult> {
   const { data, error } = await getSupabase()
     .from('products')
     .update(input)
@@ -144,13 +314,35 @@ export async function updateProduct(
     .select('*')
     .single()
 
-  if (error) throw error
-  return mapDbProduct(data as DbProduct)
+  if (!error) {
+    invalidateProductCache()
+    return { product: mapDbProduct(data as DbProduct) }
+  }
+
+  if (isSchemaColumnError(error) && hasWatchFieldValues(input)) {
+    const { data: fallbackData, error: fallbackError } = await getSupabase()
+      .from('products')
+      .update(stripWatchFields(input))
+      .eq('id', id)
+      .select('*')
+      .single()
+
+    if (!fallbackError) {
+      invalidateProductCache()
+      return {
+        product: mapDbProduct(fallbackData as DbProduct),
+        watchFieldsSkipped: true,
+      }
+    }
+  }
+
+  throw error
 }
 
 export async function deleteProduct(id: string): Promise<void> {
   const { error } = await getSupabase().from('products').delete().eq('id', id)
   if (error) throw error
+  invalidateProductCache()
 }
 
 export async function uploadProductImage(

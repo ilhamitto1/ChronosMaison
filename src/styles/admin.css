@@ -823,6 +823,48 @@ body.admin-page {
   border-top: 1px solid rgba(184, 148, 56, 0.1);
 }
 
+.admin-form__actions--sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: 8px;
+  padding: 14px 0 4px;
+  background: linear-gradient(180deg, rgba(250, 247, 242, 0.2), #faf7f2 28%);
+}
+
+.admin-form__alert {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(176, 58, 46, 0.22);
+  background: rgba(176, 58, 46, 0.08);
+  color: #8f2d22;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-form__alert svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.admin-form__alert p {
+  margin: 0;
+}
+
+.admin-form__alert ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.admin-form__alert li + li {
+  margin-top: 4px;
+}
+
 .admin-field {
   display: grid;
   gap: 6px;
@@ -830,6 +872,33 @@ body.admin-page {
 
 .admin-field--full {
   grid-column: 1 / -1;
+}
+
+.admin-form__section-label {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(115, 79, 24, 0.72);
+}
+
+.admin-form__section-hint {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(58, 52, 41, 0.62);
+}
+
+.admin-form__watch-fields {
+  padding: 14px;
+  border: 1px solid rgba(184, 148, 56, 0.16);
+  border-radius: 12px;
+  background: rgba(255, 252, 245, 0.55);
+}
+
+.admin-form__grid--watch {
+  margin-top: 4px;
 }
 
 .admin-field--checkbox {

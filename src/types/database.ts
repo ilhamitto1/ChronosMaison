@@ -40,6 +40,17 @@ export interface DbProduct {
   image_url: string
   brand: string | null
   brand_id: string | null
+  case_size_mm: number | null
+  watch_reference: string | null
+  watch_collection: string | null
+  watch_case_material: string | null
+  watch_strap_material: string | null
+  watch_dial_color: string | null
+  watch_movement_type: string | null
+  watch_set: string | null
+  watch_condition: 'new' | 'pre-owned' | null
+  has_certificate: boolean | null
+  watch_year: number | null
   created_at: string
   updated_at: string
 }
@@ -53,6 +64,17 @@ export interface DbProductInsert {
   image_url: string
   brand?: string | null
   brand_id?: string | null
+  case_size_mm?: number | null
+  watch_reference?: string | null
+  watch_collection?: string | null
+  watch_case_material?: string | null
+  watch_strap_material?: string | null
+  watch_dial_color?: string | null
+  watch_movement_type?: string | null
+  watch_set?: string | null
+  watch_condition?: 'new' | 'pre-owned' | null
+  has_certificate?: boolean | null
+  watch_year?: number | null
   created_at?: string
   updated_at?: string
 }
@@ -65,6 +87,17 @@ export interface DbProductUpdate {
   image_url?: string
   brand?: string | null
   brand_id?: string | null
+  case_size_mm?: number | null
+  watch_reference?: string | null
+  watch_collection?: string | null
+  watch_case_material?: string | null
+  watch_strap_material?: string | null
+  watch_dial_color?: string | null
+  watch_movement_type?: string | null
+  watch_set?: string | null
+  watch_condition?: 'new' | 'pre-owned' | null
+  has_certificate?: boolean | null
+  watch_year?: number | null
 }
 
 export interface Database {

@@ -7,6 +7,7 @@ import { DeleteConfirmDialog } from '@/components/admin/DeleteConfirmDialog'
 import { ProductForm, productToFormValues } from '@/components/admin/ProductForm'
 import { ProductTable } from '@/components/admin/ProductTable'
 import {
+  buildProductPayload,
   createProduct,
   deleteProduct,
   listAdminProducts,
@@ -14,6 +15,7 @@ import {
   updateProduct,
   uploadProductImage,
 } from '@/services/productService'
+import { formatSupabaseError } from '@/lib/formatSupabaseError'
 import type { ProductCategory } from '@/types/database'
 import type { Product, ProductFormValues } from '@/types/product'
 
@@ -99,38 +101,41 @@ export function AdminDashboardPage() {
     setEditingProduct(null)
   }
 
-  async function handleCreate(values: ProductFormValues, imageFile: File | null) {
-    if (!imageFile) return
+  async function handleCreate(values: ProductFormValues, imageFile: File | null): Promise<string | null> {
+    if (!imageFile) {
+      return 'Məhsul şəkli seçməlisiniz.'
+    }
 
     setSaving(true)
     try {
       const imageUrl = await uploadProductImage(imageFile)
-      await createProduct({
-        title: values.title.trim(),
-        category: values.category as ProductCategory,
-        price: Number(values.price),
-        description: values.description.trim(),
-        image_url: imageUrl,
-        brand: values.brand.trim() || null,
-        brand_id: values.brand_id.trim() || null,
-      })
-      pushToast(createToast('success', 'Məhsul uğurla əlavə olundu.'))
+      const result = await createProduct(buildProductPayload(values, imageUrl))
+
+      if (result.watchFieldsSkipped) {
+        pushToast(
+          createToast(
+            'error',
+            'Məhsul əlavə olundu, amma saat xüsusiyyətləri saxlanılmadı. Supabase-də migrate-watch-fields.sql işə salın.',
+          ),
+        )
+      } else {
+        pushToast(createToast('success', 'Məhsul uğurla əlavə olundu.'))
+      }
+
       closeForm()
       await loadProducts()
+      return null
     } catch (error) {
-      pushToast(
-        createToast(
-          'error',
-          error instanceof Error ? error.message : 'Məhsul əlavə edilərkən xəta baş verdi.',
-        ),
-      )
+      return formatSupabaseError(error)
     } finally {
       setSaving(false)
     }
   }
 
-  async function handleUpdate(values: ProductFormValues, imageFile: File | null) {
-    if (!editingProduct) return
+  async function handleUpdate(values: ProductFormValues, imageFile: File | null): Promise<string | null> {
+    if (!editingProduct) {
+      return 'Redaktə olunan məhsul tapılmadı.'
+    }
 
     setSaving(true)
     try {
@@ -139,26 +144,27 @@ export function AdminDashboardPage() {
         imageUrl = await uploadProductImage(imageFile, editingProduct.id)
       }
 
-      await updateProduct(editingProduct.id, {
-        title: values.title.trim(),
-        category: values.category as ProductCategory,
-        price: Number(values.price),
-        description: values.description.trim(),
-        image_url: imageUrl,
-        brand: values.brand.trim() || null,
-        brand_id: values.brand_id.trim() || null,
-      })
+      const result = await updateProduct(
+        editingProduct.id,
+        buildProductPayload(values, imageUrl),
+      )
 
-      pushToast(createToast('success', 'Məhsul uğurla yeniləndi.'))
+      if (result.watchFieldsSkipped) {
+        pushToast(
+          createToast(
+            'error',
+            'Məhsul yeniləndi, amma saat xüsusiyyətləri saxlanılmadı. Supabase-də migrate-watch-fields.sql işə salın.',
+          ),
+        )
+      } else {
+        pushToast(createToast('success', 'Məhsul uğurla yeniləndi.'))
+      }
+
       closeForm()
       await loadProducts()
+      return null
     } catch (error) {
-      pushToast(
-        createToast(
-          'error',
-          error instanceof Error ? error.message : 'Məhsul yenilənərkən xəta baş verdi.',
-        ),
-      )
+      return formatSupabaseError(error)
     } finally {
       setSaving(false)
     }

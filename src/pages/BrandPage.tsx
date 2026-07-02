@@ -8,7 +8,7 @@ import { buildWhatsAppUrl } from '@/lib/utils'
 export function BrandPage() {
   const { slug } = useParams<{ slug: string }>()
   const { brand, loading } = useBrand(slug)
-  const { products: items } = useProductsByBrand(slug)
+  const { products: items, loading: productsLoading } = useProductsByBrand(slug)
 
   if (loading) {
     return (
@@ -45,7 +45,9 @@ export function BrandPage() {
       </div>
       <div className="page-content">
         <div className="container">
-          {items.length > 0 ? (
+          {productsLoading ? (
+            <ProductGrid items={[]} loading />
+          ) : items.length > 0 ? (
             <ProductGrid items={items} />
           ) : (
             <div className="products-empty">

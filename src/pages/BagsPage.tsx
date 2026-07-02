@@ -7,7 +7,7 @@ import { useProductsByCategory } from '@/hooks/useProducts'
 
 export function BagsPage() {
   const bagBrands = useBrandsByCategory('bags')
-  const { products: bags } = useProductsByCategory('bags')
+  const { products: bags, loading } = useProductsByCategory('bags')
 
   return (
     <>
@@ -21,7 +21,7 @@ export function BagsPage() {
 
           <section className="page-section">
             <PageSectionHeading title="Çantalar" />
-            <ProductGrid items={bags} emptyMessage="Hazırda çanta yoxdur." />
+            <ProductGrid items={bags} loading={loading} emptyMessage="Hazırda çanta yoxdur." />
           </section>
         </div>
       </div>

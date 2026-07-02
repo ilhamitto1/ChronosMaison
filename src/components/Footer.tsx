@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { WatchSpecs } from '@/components/WatchSpecs'
 import { useBrands } from '@/hooks/useBrands'
 import { useFeaturedProducts } from '@/hooks/useProducts'
 import { BRAND } from '@/lib/constants'
@@ -78,7 +79,10 @@ export function Footer() {
             <ul>
               {featuredWatches.map((p) => (
                 <li key={p.id}>
-                  <Link to={`/products/${p.id}`}>{p.name}</Link>
+                  <Link to={`/products/${p.id}`}>
+                    <span className="footer-product-link">{p.name}</span>
+                    <WatchSpecs product={p} variant="footer" />
+                  </Link>
                 </li>
               ))}
             </ul>

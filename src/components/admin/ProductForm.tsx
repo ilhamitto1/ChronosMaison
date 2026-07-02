@@ -1,7 +1,9 @@
 import { useEffect, useId, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react'
-import { Camera, CheckCircle2, ImageUp, Loader2 } from 'lucide-react'
+import { AlertCircle, Camera, CheckCircle2, ImageUp, Loader2 } from 'lucide-react'
 import { useBrands } from '@/hooks/useBrands'
 import {
+  getErrorSummary,
+  getFirstErrorField,
   hasFormErrors,
   validateImageFile,
   validateProductForm,
@@ -16,6 +18,17 @@ const EMPTY_VALUES: ProductFormValues = {
   description: '',
   brand: '',
   brand_id: '',
+  case_size_mm: '',
+  watch_reference: '',
+  watch_collection: '',
+  watch_case_material: '',
+  watch_strap_material: '',
+  watch_dial_color: '',
+  watch_movement_type: '',
+  watch_set: '',
+  watch_condition: '',
+  has_certificate: '',
+  watch_year: '',
 }
 
 interface ProductFormProps {
@@ -23,7 +36,7 @@ interface ProductFormProps {
   existingImageUrl?: string
   submitLabel: string
   loading: boolean
-  onSubmit: (values: ProductFormValues, imageFile: File | null) => Promise<void>
+  onSubmit: (values: ProductFormValues, imageFile: File | null) => Promise<string | null>
   onCancel: () => void
 }
 
@@ -38,8 +51,10 @@ export function ProductForm({
   const { brands } = useBrands()
   const fileInputId = useId()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
   const [values, setValues] = useState<ProductFormValues>(initialValues ?? EMPTY_VALUES)
   const [errors, setErrors] = useState<ProductFormErrors>({})
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState(existingImageUrl ?? '')
   const [dragActive, setDragActive] = useState(false)
@@ -49,6 +64,7 @@ export function ProductForm({
     setPreviewUrl(existingImageUrl ?? '')
     setImageFile(null)
     setErrors({})
+    setSubmitError(null)
   }, [initialValues, existingImageUrl])
 
   useEffect(() => {
@@ -61,6 +77,7 @@ export function ProductForm({
   function updateField<K extends keyof ProductFormValues>(key: K, value: ProductFormValues[K]) {
     setValues((current) => ({ ...current, [key]: value }))
     setErrors((current) => ({ ...current, [key]: undefined, image: undefined }))
+    setSubmitError(null)
   }
 
   function handleBrandChange(brandId: string) {
@@ -86,6 +103,7 @@ export function ProductForm({
     }
     setImageFile(file)
     setErrors((current) => ({ ...current, image: undefined }))
+    setSubmitError(null)
   }
 
   function handleDrop(event: DragEvent<HTMLLabelElement>) {
@@ -94,8 +112,16 @@ export function ProductForm({
     handleFileSelect(event.dataTransfer.files?.[0] ?? null)
   }
 
+  function scrollToField(field: keyof ProductFormErrors) {
+    const root = formRef.current
+    if (!root) return
+    const target = root.querySelector<HTMLElement>(`[data-field="${field}"]`)
+    target?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setSubmitError(null)
 
     const nextErrors = validateProductForm(values, {
       requireImage: !existingImageUrl,
@@ -107,16 +133,40 @@ export function ProductForm({
 
     if (hasFormErrors(nextErrors)) {
       setErrors(nextErrors)
+      const firstField = getFirstErrorField(nextErrors)
+      if (firstField) scrollToField(firstField)
       return
     }
 
-    await onSubmit(values, imageFile)
+    const errorMessage = await onSubmit(values, imageFile)
+    if (errorMessage) {
+      setSubmitError(errorMessage)
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
   }
 
+  const errorSummary = getErrorSummary(errors)
+
   return (
-    <form className="admin-form" onSubmit={handleSubmit} noValidate>
+    <form ref={formRef} className="admin-form" onSubmit={handleSubmit} noValidate>
+      {(submitError || errorSummary.length > 0) && (
+        <div className="admin-form__alert" role="alert">
+          <AlertCircle aria-hidden="true" />
+          <div>
+            {submitError && <p>{submitError}</p>}
+            {errorSummary.length > 0 && (
+              <ul>
+                {errorSummary.map((message) => (
+                  <li key={message}>{message}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="admin-form__grid">
-        <label className="admin-field">
+        <label className="admin-field" data-field="title">
           <span>Başlıq</span>
           <input
             type="text"
@@ -127,7 +177,7 @@ export function ProductForm({
           {errors.title && <small className="admin-field__error">{errors.title}</small>}
         </label>
 
-        <label className="admin-field">
+        <label className="admin-field" data-field="price">
           <span>Qiymət (USD)</span>
           <input
             type="number"
@@ -140,7 +190,7 @@ export function ProductForm({
           {errors.price && <small className="admin-field__error">{errors.price}</small>}
         </label>
 
-        <label className="admin-field">
+        <label className="admin-field" data-field="category">
           <span>Kateqoriya</span>
           <select
             value={values.category}
@@ -166,29 +216,8 @@ export function ProductForm({
           </select>
         </label>
 
-        <label className="admin-field">
-          <span>Brand ID</span>
-          <input
-            type="text"
-            value={values.brand_id}
-            onChange={(event) => updateField('brand_id', event.target.value)}
-            placeholder="rolex"
-          />
-        </label>
-
-        <label className="admin-field admin-field--full">
-          <span>Təsvir</span>
-          <textarea
-            rows={5}
-            value={values.description}
-            onChange={(event) => updateField('description', event.target.value)}
-            placeholder="Məhsul haqqında ətraflı məlumat"
-          />
-          {errors.description && <small className="admin-field__error">{errors.description}</small>}
-        </label>
-
-        <div className="admin-field admin-field--full">
-          <span>Şəkil</span>
+        <div className="admin-field admin-field--full" data-field="image">
+          <span>Şəkil {existingImageUrl ? '' : '(mütləq)'}</span>
           <div className="admin-upload">
             <input
               id={fileInputId}
@@ -240,9 +269,170 @@ export function ProductForm({
             {errors.image && <small className="admin-field__error">{errors.image}</small>}
           </div>
         </div>
+
+        <label className="admin-field admin-field--full" data-field="description">
+          <span>{values.category === 'watches' ? 'Qısa qeyd (opsional)' : 'Təsvir'}</span>
+          <textarea
+            rows={values.category === 'watches' ? 3 : 5}
+            value={values.description}
+            onChange={(event) => updateField('description', event.target.value)}
+            placeholder={
+              values.category === 'watches'
+                ? 'Əlavə qeyd (əsas məlumatlar aşağıdakı cədvəldədir)'
+                : 'Məhsul haqqında ətraflı məlumat'
+            }
+          />
+          {errors.description && <small className="admin-field__error">{errors.description}</small>}
+        </label>
+
+        {values.category === 'watches' && (
+          <div className="admin-form__watch-fields admin-field--full">
+            <p className="admin-form__section-label">Saat xüsusiyyətləri</p>
+            <p className="admin-form__section-hint">
+              Saytda Avazli tipli cədvəl kimi görünəcək. Doldurduğunuz hər sətir məhsul səhifəsində göstərilir.
+            </p>
+            <div className="admin-form__grid admin-form__grid--watch">
+              <label className="admin-field" data-field="case_size_mm">
+                <span>Məhsulun diametri (mm)</span>
+                <input
+                  type="number"
+                  min="1"
+                  step="1"
+                  value={values.case_size_mm}
+                  onChange={(event) => updateField('case_size_mm', event.target.value)}
+                  placeholder="33"
+                />
+                {errors.case_size_mm && (
+                  <small className="admin-field__error">{errors.case_size_mm}</small>
+                )}
+              </label>
+
+              <label className="admin-field">
+                <span>Referans</span>
+                <input
+                  type="text"
+                  value={values.watch_reference}
+                  onChange={(event) => updateField('watch_reference', event.target.value)}
+                  placeholder="67651SR.ZZ.1261SR.01"
+                />
+              </label>
+
+              <label className="admin-field">
+                <span>Kolleksiya</span>
+                <input
+                  type="text"
+                  value={values.watch_collection}
+                  onChange={(event) => updateField('watch_collection', event.target.value)}
+                  placeholder="Royal Oak"
+                />
+              </label>
+
+              <label className="admin-field admin-field--full">
+                <span>Korpusun materialı</span>
+                <input
+                  type="text"
+                  value={values.watch_case_material}
+                  onChange={(event) => updateField('watch_case_material', event.target.value)}
+                  placeholder="18K Çəhrayı Qızıl + Paslanmaz Polad + Brilliant"
+                />
+              </label>
+
+              <label className="admin-field admin-field--full">
+                <span>Qayışın materialı</span>
+                <input
+                  type="text"
+                  value={values.watch_strap_material}
+                  onChange={(event) => updateField('watch_strap_material', event.target.value)}
+                  placeholder="18K Çəhrayı Qızıl + Paslanmaz Polad"
+                />
+              </label>
+
+              <label className="admin-field">
+                <span>Siferblatın rəngi</span>
+                <input
+                  type="text"
+                  value={values.watch_dial_color}
+                  onChange={(event) => updateField('watch_dial_color', event.target.value)}
+                  placeholder="Ağ"
+                />
+              </label>
+
+              <label className="admin-field">
+                <span>Mexanizm növü</span>
+                <input
+                  type="text"
+                  value={values.watch_movement_type}
+                  onChange={(event) => updateField('watch_movement_type', event.target.value)}
+                  placeholder="Mexaniki"
+                  list="watch-movement-options"
+                />
+                <datalist id="watch-movement-options">
+                  <option value="Mexaniki" />
+                  <option value="Avtomatik" />
+                  <option value="Kvars" />
+                </datalist>
+              </label>
+
+              <label className="admin-field">
+                <span>Dəst</span>
+                <input
+                  type="text"
+                  value={values.watch_set}
+                  onChange={(event) => updateField('watch_set', event.target.value)}
+                  placeholder="Full Set"
+                />
+              </label>
+
+              <label className="admin-field">
+                <span>Vəziyyəti</span>
+                <select
+                  value={values.watch_condition}
+                  onChange={(event) =>
+                    updateField('watch_condition', event.target.value as ProductFormValues['watch_condition'])
+                  }
+                >
+                  <option value="">Seçin</option>
+                  <option value="new">Yeni</option>
+                  <option value="pre-owned">Köhnə</option>
+                </select>
+              </label>
+
+              <label className="admin-field" data-field="watch_year">
+                <span>İl</span>
+                <input
+                  type="number"
+                  min="1900"
+                  max={new Date().getFullYear() + 1}
+                  step="1"
+                  value={values.watch_year}
+                  onChange={(event) => updateField('watch_year', event.target.value)}
+                  placeholder="2022"
+                />
+                {errors.watch_year && (
+                  <small className="admin-field__error">{errors.watch_year}</small>
+                )}
+              </label>
+
+              <label className="admin-field">
+                <span>Sertifikat</span>
+                <select
+                  value={values.has_certificate}
+                  onChange={(event) =>
+                    updateField('has_certificate', event.target.value as ProductFormValues['has_certificate'])
+                  }
+                >
+                  <option value="">Seçin</option>
+                  <option value="yes">Var</option>
+                  <option value="no">Yoxdur</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        )}
+
       </div>
 
-      <div className="admin-form__actions">
+      <div className="admin-form__actions admin-form__actions--sticky">
         <button type="button" className="admin-btn admin-btn--ghost" onClick={onCancel} disabled={loading}>
           Ləğv et
         </button>
@@ -269,5 +459,17 @@ export function productToFormValues(product: Product): ProductFormValues {
     description: product.description,
     brand: product.brand,
     brand_id: product.brandId,
+    case_size_mm: product.caseSizeMm != null ? String(product.caseSizeMm) : '',
+    watch_reference: product.watchReference ?? '',
+    watch_collection: product.watchCollection ?? '',
+    watch_case_material: product.watchCaseMaterial ?? '',
+    watch_strap_material: product.watchStrapMaterial ?? '',
+    watch_dial_color: product.watchDialColor ?? '',
+    watch_movement_type: product.watchMovementType ?? '',
+    watch_set: product.watchSet ?? '',
+    watch_condition: product.watchCondition ?? '',
+    has_certificate:
+      product.hasCertificate === true ? 'yes' : product.hasCertificate === false ? 'no' : '',
+    watch_year: product.watchYear != null ? String(product.watchYear) : '',
   }
 }
