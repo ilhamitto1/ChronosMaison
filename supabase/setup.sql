@@ -25,7 +25,7 @@ create table if not exists public.products (
   watch_movement_type text,
   watch_set text,
   watch_condition text
-    check (watch_condition is null or watch_condition in ('new', 'pre-owned')),
+    check (watch_condition is null or watch_condition in ('new', 'like-new', 'lightly-used')),
   has_certificate boolean,
   watch_year integer
     check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100)),

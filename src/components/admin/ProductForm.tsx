@@ -393,7 +393,8 @@ export function ProductForm({
                 >
                   <option value="">Seçin</option>
                   <option value="new">Yeni</option>
-                  <option value="pre-owned">Köhnə</option>
+                  <option value="like-new">Yeni kimi</option>
+                  <option value="lightly-used">Az işlənmiş</option>
                 </select>
               </label>
 

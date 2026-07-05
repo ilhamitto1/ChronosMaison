@@ -14,7 +14,7 @@ import type {
   DbProductUpdate,
   ProductCategory,
 } from '@/types/database'
-import type { Product, ProductFormValues } from '@/types/product'
+import type { Product, ProductFormValues, WatchCondition } from '@/types/product'
 
 const PRODUCT_BUCKET = 'product-images'
 
@@ -37,6 +37,13 @@ export interface SaveProductResult {
   watchFieldsSkipped?: boolean
 }
 
+function normalizeWatchCondition(value: string | null): WatchCondition | null {
+  if (!value) return null
+  if (value === 'pre-owned') return 'lightly-used'
+  if (value === 'new' || value === 'like-new' || value === 'lightly-used') return value
+  return null
+}
+
 function mapDbProduct(row: DbProduct): Product {
   return {
     id: row.id,
@@ -55,7 +62,7 @@ function mapDbProduct(row: DbProduct): Product {
     watchDialColor: row.watch_dial_color,
     watchMovementType: row.watch_movement_type,
     watchSet: row.watch_set,
-    watchCondition: row.watch_condition,
+    watchCondition: normalizeWatchCondition(row.watch_condition),
     hasCertificate: row.has_certificate,
     watchYear: row.watch_year,
   }

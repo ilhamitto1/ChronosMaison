@@ -5,8 +5,11 @@
 -- Supabase → SQL Editor → bütün faylı yapışdır → Run
 --
 -- Yeni layihə: bir dəfə işə salmaq kifayətdir.
--- Köhnə quraşdırma varsa: yenə də işə salın — aşağıdakı ALTER
--- blokları çatışmayan saat sütunlarını əlavə edir, policy-lər yenilənir.
+-- Köhnə quraşdırma varsa: yenə də işə salın — ALTER blokları
+-- çatışmayan sütunları əlavə edir, köhnə constraint-lər yenilənir.
+--
+-- Saat vəziyyəti (watch_condition): new | like-new | lightly-used
+--   → Yeni | Yeni kimi | Az işlənmiş
 -- ═══════════════════════════════════════════════════════════════
 
 -- ─── Extensions ───
@@ -48,7 +51,7 @@ create table if not exists public.products (
   watch_movement_type text,
   watch_set text,
   watch_condition text
-    check (watch_condition is null or watch_condition in ('new', 'pre-owned')),
+    check (watch_condition is null or watch_condition in ('new', 'like-new', 'lightly-used')),
   has_certificate boolean,
   watch_year integer
     check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100)),
@@ -67,11 +70,37 @@ alter table public.products
   add column if not exists watch_dial_color text,
   add column if not exists watch_movement_type text,
   add column if not exists watch_set text,
-  add column if not exists watch_condition text
-    check (watch_condition is null or watch_condition in ('new', 'pre-owned')),
+  add column if not exists watch_condition text,
   add column if not exists has_certificate boolean,
   add column if not exists watch_year integer
     check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100));
+
+-- Köhnə watch_condition constraint-ləri sil, sonra dəyərləri yenilə
+do $$
+declare
+  r record;
+begin
+  for r in
+    select c.conname
+    from pg_constraint c
+    join pg_class t on t.oid = c.conrelid
+    join pg_namespace n on n.oid = t.relnamespace
+    where n.nspname = 'public'
+      and t.relname = 'products'
+      and c.contype = 'c'
+      and pg_get_constraintdef(c.oid) ilike '%watch_condition%'
+  loop
+    execute format('alter table public.products drop constraint %I', r.conname);
+  end loop;
+end $$;
+
+update public.products
+set watch_condition = 'lightly-used'
+where watch_condition = 'pre-owned';
+
+alter table public.products
+  add constraint products_watch_condition_check
+  check (watch_condition is null or watch_condition in ('new', 'like-new', 'lightly-used'));
 
 create index if not exists products_category_idx on public.products (category);
 create index if not exists products_created_at_idx on public.products (created_at desc);

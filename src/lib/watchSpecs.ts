@@ -3,7 +3,8 @@ import type { WatchCondition } from '@/types/product'
 
 export const WATCH_CONDITION_LABELS: Record<WatchCondition, string> = {
   new: 'Yeni',
-  'pre-owned': 'Köhnə',
+  'like-new': 'Yeni kimi',
+  'lightly-used': 'Az işlənmiş',
 }
 
 function textValue(value: string | null | undefined) {

@@ -13,7 +13,7 @@ alter table public.products
   add column if not exists watch_movement_type text,
   add column if not exists watch_set text,
   add column if not exists watch_condition text
-    check (watch_condition is null or watch_condition in ('new', 'pre-owned')),
+    check (watch_condition is null or watch_condition in ('new', 'like-new', 'lightly-used')),
   add column if not exists has_certificate boolean,
   add column if not exists watch_year integer
     check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100));

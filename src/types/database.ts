@@ -48,7 +48,7 @@ export interface DbProduct {
   watch_dial_color: string | null
   watch_movement_type: string | null
   watch_set: string | null
-  watch_condition: 'new' | 'pre-owned' | null
+  watch_condition: 'new' | 'like-new' | 'lightly-used' | null
   has_certificate: boolean | null
   watch_year: number | null
   created_at: string
@@ -72,7 +72,7 @@ export interface DbProductInsert {
   watch_dial_color?: string | null
   watch_movement_type?: string | null
   watch_set?: string | null
-  watch_condition?: 'new' | 'pre-owned' | null
+  watch_condition?: 'new' | 'like-new' | 'lightly-used' | null
   has_certificate?: boolean | null
   watch_year?: number | null
   created_at?: string
@@ -95,7 +95,7 @@ export interface DbProductUpdate {
   watch_dial_color?: string | null
   watch_movement_type?: string | null
   watch_set?: string | null
-  watch_condition?: 'new' | 'pre-owned' | null
+  watch_condition?: 'new' | 'like-new' | 'lightly-used' | null
   has_certificate?: boolean | null
   watch_year?: number | null
 }

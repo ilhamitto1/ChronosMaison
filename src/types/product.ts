@@ -1,6 +1,6 @@
 import type { ProductCategory } from '@/types/database'
 
-export type WatchCondition = 'new' | 'pre-owned'
+export type WatchCondition = 'new' | 'like-new' | 'lightly-used'
 
 /** App-level product shape used by existing UI components. */
 export interface Product {
