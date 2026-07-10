@@ -115,7 +115,7 @@ export function AdminDashboardPage() {
         pushToast(
           createToast(
             'error',
-            'Məhsul əlavə olundu, amma saat xüsusiyyətləri saxlanılmadı. Supabase-də migrate-watch-fields.sql işə salın.',
+            'Məhsul əlavə olundu, amma bəzi sahələr saxlanılmadı. Supabase SQL Editor-də full-setup.sql faylını tam işə salın.',
           ),
         )
       } else {
@@ -153,7 +153,7 @@ export function AdminDashboardPage() {
         pushToast(
           createToast(
             'error',
-            'Məhsul yeniləndi, amma saat xüsusiyyətləri saxlanılmadı. Supabase-də migrate-watch-fields.sql işə salın.',
+            'Məhsul yeniləndi, amma bəzi sahələr saxlanılmadı. Supabase SQL Editor-də full-setup.sql faylını tam işə salın.',
           ),
         )
       } else {

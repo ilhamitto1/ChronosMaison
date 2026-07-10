@@ -1,5 +1,6 @@
 import { Download, Pencil, Trash2 } from 'lucide-react'
 import { formatAdminPrice } from '@/lib/utils'
+import { getDiscountPercent, hasDiscount, isPriceOnRequest, isSold } from '@/lib/productStatus'
 import type { Product } from '@/types/product'
 import type { ProductCategory } from '@/types/database'
 
@@ -20,6 +21,38 @@ interface ProductTableProps {
   onImportCatalog?: () => void
 }
 
+function formatProductPriceCell(product: Product) {
+  if (isSold(product)) return 'Satıldı'
+  if (isPriceOnRequest(product)) return 'Sorğu ilə'
+  return formatAdminPrice(product.price)
+}
+
+function ProductStatusBadges({ product }: { product: Product }) {
+  const badges: { label: string; className: string }[] = []
+  if (isSold(product)) {
+    badges.push({ label: 'Satıldı', className: 'admin-badge admin-badge--danger' })
+  }
+  if (isPriceOnRequest(product)) {
+    badges.push({ label: 'Sorğu', className: 'admin-badge admin-badge--info' })
+  }
+  if (hasDiscount(product)) {
+    const percent = getDiscountPercent(product)
+    if (percent != null) {
+      badges.push({ label: `-${percent}%`, className: 'admin-badge admin-badge--success' })
+    }
+  }
+  if (badges.length === 0) return null
+  return (
+    <div className="admin-table__status">
+      {badges.map((badge) => (
+        <span key={badge.label} className={badge.className}>
+          {badge.label}
+        </span>
+      ))}
+    </div>
+  )
+}
+
 function ProductRow({
   product,
   onEdit,
@@ -34,14 +67,17 @@ function ProductRow({
       <td>
         <div className="admin-table__product">
           <img src={product.image} alt={product.name} className="admin-table__thumb" loading="lazy" />
-          <span className="admin-table__title">{product.name}</span>
+          <div className="admin-table__product-meta">
+            <span className="admin-table__title">{product.name}</span>
+            <ProductStatusBadges product={product} />
+          </div>
         </div>
       </td>
       <td>
         <span className="admin-badge">{CATEGORY_LABELS[product.category]}</span>
       </td>
       <td>{product.brand || '—'}</td>
-      <td className="admin-table__price">{formatAdminPrice(product.price)}</td>
+      <td className="admin-table__price">{formatProductPriceCell(product)}</td>
       <td>
         <div className="admin-table__actions">
           <button
@@ -87,8 +123,9 @@ function ProductCard({
           <div className="admin-product-card__titles">
             <strong>{product.name}</strong>
             {product.brand && <span className="admin-product-card__brand">{product.brand}</span>}
+            <ProductStatusBadges product={product} />
           </div>
-          <span className="admin-table__price">{formatAdminPrice(product.price)}</span>
+          <span className="admin-table__price">{formatProductPriceCell(product)}</span>
         </div>
         <div className="admin-product-card__footer">
           <span className="admin-badge">{CATEGORY_LABELS[product.category]}</span>

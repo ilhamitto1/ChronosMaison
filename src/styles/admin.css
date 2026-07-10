@@ -567,6 +567,28 @@ body.admin-page {
   color: #2e7d32;
 }
 
+.admin-badge--danger {
+  background: rgba(163, 59, 59, 0.12);
+  color: #a33b3b;
+}
+
+.admin-badge--info {
+  background: rgba(25, 118, 210, 0.1);
+  color: #1565c0;
+}
+
+.admin-table__product-meta {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.admin-table__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
 .admin-brand-slug {
   display: block;
   font-size: 11px;
@@ -890,15 +912,45 @@ body.admin-page {
   color: rgba(58, 52, 41, 0.62);
 }
 
-.admin-form__watch-fields {
+.admin-form__watch-fields,
+.admin-form__status-fields {
   padding: 14px;
   border: 1px solid rgba(184, 148, 56, 0.16);
   border-radius: 12px;
   background: rgba(255, 252, 245, 0.55);
 }
 
-.admin-form__grid--watch {
+.admin-form__grid--watch,
+.admin-form__grid--status {
   margin-top: 4px;
+}
+
+.admin-form__grid--status {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.admin-form__grid--status .admin-field:last-child {
+  grid-column: 1 / -1;
+}
+
+.admin-field__hint {
+  font-size: 12px;
+  color: rgba(58, 52, 41, 0.55);
+  line-height: 1.4;
+}
+
+.admin-field input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: rgba(58, 52, 41, 0.04);
+}
+
+@media (max-width: 640px) {
+  .admin-form__grid--status {
+    grid-template-columns: 1fr;
+  }
 }
 
 .admin-field--checkbox {

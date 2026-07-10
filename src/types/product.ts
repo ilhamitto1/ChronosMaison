@@ -23,6 +23,12 @@ export interface Product {
   watchCondition?: WatchCondition | null
   hasCertificate?: boolean | null
   watchYear?: number | null
+  /** Satıldı nişanı */
+  isSold?: boolean
+  /** Qiymət göstərilmir — WhatsApp sorğusu */
+  priceOnRequest?: boolean
+  /** Köhnə qiymət (endirim üçün); null = endirim yoxdur */
+  originalPrice?: number | null
 }
 
 export interface ProductFormValues {
@@ -43,11 +49,15 @@ export interface ProductFormValues {
   watch_condition: WatchCondition | ''
   has_certificate: '' | 'yes' | 'no'
   watch_year: string
+  is_sold: boolean
+  price_on_request: boolean
+  original_price: string
 }
 
 export interface ProductFormErrors {
   title?: string
   price?: string
+  original_price?: string
   category?: string
   description?: string
   image?: string

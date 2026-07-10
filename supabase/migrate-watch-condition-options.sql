@@ -2,6 +2,7 @@
 -- Supabase → SQL Editor → Run
 --
 -- Xəta: products_watch_condition_check violates → bu faylı işə salın
+-- QEYD: Ən yaxşısı supabase/full-setup.sql-i tam işə salmaqdır.
 
 do $$
 declare
@@ -28,3 +29,5 @@ where watch_condition = 'pre-owned';
 alter table public.products
   add constraint products_watch_condition_check
   check (watch_condition is null or watch_condition in ('new', 'like-new', 'lightly-used'));
+
+notify pgrst, 'reload schema';

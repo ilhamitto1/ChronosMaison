@@ -51,6 +51,9 @@ export interface DbProduct {
   watch_condition: 'new' | 'like-new' | 'lightly-used' | null
   has_certificate: boolean | null
   watch_year: number | null
+  is_sold: boolean
+  price_on_request: boolean
+  original_price: number | null
   created_at: string
   updated_at: string
 }
@@ -75,6 +78,9 @@ export interface DbProductInsert {
   watch_condition?: 'new' | 'like-new' | 'lightly-used' | null
   has_certificate?: boolean | null
   watch_year?: number | null
+  is_sold?: boolean
+  price_on_request?: boolean
+  original_price?: number | null
   created_at?: string
   updated_at?: string
 }
@@ -98,6 +104,9 @@ export interface DbProductUpdate {
   watch_condition?: 'new' | 'like-new' | 'lightly-used' | null
   has_certificate?: boolean | null
   watch_year?: number | null
+  is_sold?: boolean
+  price_on_request?: boolean
+  original_price?: number | null
 }
 
 export interface Database {

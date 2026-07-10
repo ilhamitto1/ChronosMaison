@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { BRAND } from '@/lib/constants'
-import { buildWhatsAppUrl, formatPrice } from '@/lib/utils'
+import { buildProductWhatsAppMessage } from '@/lib/productStatus'
+import { buildWhatsAppUrl } from '@/lib/utils'
 import { getBrandBySlug } from '@/services/brandService'
 import { getProductById } from '@/services/productService'
 
@@ -25,9 +26,7 @@ export function WhatsAppFloat() {
       if (productMatch) {
         const product = await getProductById(productMatch[1])
         if (active && product) {
-          setMessage(
-            `Salam, ${product.name} məhsulu ilə maraqlanıram. Qiymət: ${formatPrice(product.price)}`,
-          )
+          setMessage(buildProductWhatsAppMessage(product))
           return
         }
       }

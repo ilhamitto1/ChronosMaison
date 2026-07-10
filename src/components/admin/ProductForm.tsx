@@ -29,6 +29,9 @@ const EMPTY_VALUES: ProductFormValues = {
   watch_condition: '',
   has_certificate: '',
   watch_year: '',
+  is_sold: false,
+  price_on_request: false,
+  original_price: '',
 }
 
 interface ProductFormProps {
@@ -178,14 +181,15 @@ export function ProductForm({
         </label>
 
         <label className="admin-field" data-field="price">
-          <span>Qiymət (USD)</span>
+          <span>Qiymət (USD){values.price_on_request ? ' — opsional' : ''}</span>
           <input
             type="number"
             min="0"
             step="1"
             value={values.price}
             onChange={(event) => updateField('price', event.target.value)}
-            placeholder="15000"
+            placeholder={values.price_on_request ? 'Boş buraxıla bilər' : '15000'}
+            disabled={values.price_on_request}
           />
           {errors.price && <small className="admin-field__error">{errors.price}</small>}
         </label>
@@ -215,6 +219,63 @@ export function ProductForm({
             ))}
           </select>
         </label>
+
+        <div className="admin-form__status-fields admin-field--full">
+          <p className="admin-form__section-label">Status və qiymət</p>
+          <p className="admin-form__section-hint">
+            Satıldı nişanı, endirim faizi və qiymət sorğusu — saytda avtomatik görünür.
+          </p>
+          <div className="admin-form__grid admin-form__grid--status">
+            <label className="admin-field admin-field--checkbox">
+              <input
+                type="checkbox"
+                checked={values.is_sold}
+                onChange={(event) => updateField('is_sold', event.target.checked)}
+              />
+              <span>Satıldı</span>
+            </label>
+
+            <label className="admin-field admin-field--checkbox">
+              <input
+                type="checkbox"
+                checked={values.price_on_request}
+                onChange={(event) => {
+                  const checked = event.target.checked
+                  setValues((current) => ({
+                    ...current,
+                    price_on_request: checked,
+                    original_price: checked ? '' : current.original_price,
+                  }))
+                  setErrors((current) => ({
+                    ...current,
+                    price: undefined,
+                    original_price: undefined,
+                  }))
+                }}
+              />
+              <span>Qiymət sorğu ilə (qiymət göstərilmir)</span>
+            </label>
+
+            <label className="admin-field" data-field="original_price">
+              <span>Köhnə qiymət (endirim üçün, USD)</span>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={values.original_price}
+                onChange={(event) => updateField('original_price', event.target.value)}
+                placeholder="Məs: 25000"
+                disabled={values.price_on_request}
+              />
+              <small className="admin-field__hint">
+                Cari qiymətdən böyük yazın — saytda avtomatik -XX% nişanı çıxır.
+              </small>
+              {errors.original_price && (
+                <small className="admin-field__error">{errors.original_price}</small>
+              )}
+            </label>
+          </div>
+        </div>
 
         <div className="admin-field admin-field--full" data-field="image">
           <span>Şəkil {existingImageUrl ? '' : '(mütləq)'}</span>
@@ -455,7 +516,7 @@ export function ProductForm({
 export function productToFormValues(product: Product): ProductFormValues {
   return {
     title: product.name,
-    price: String(product.price),
+    price: product.priceOnRequest && product.price <= 0 ? '' : String(product.price),
     category: product.category,
     description: product.description,
     brand: product.brand,
@@ -472,5 +533,8 @@ export function productToFormValues(product: Product): ProductFormValues {
     has_certificate:
       product.hasCertificate === true ? 'yes' : product.hasCertificate === false ? 'no' : '',
     watch_year: product.watchYear != null ? String(product.watchYear) : '',
+    is_sold: Boolean(product.isSold),
+    price_on_request: Boolean(product.priceOnRequest),
+    original_price: product.originalPrice != null ? String(product.originalPrice) : '',
   }
 }

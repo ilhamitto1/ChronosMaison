@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import type { Product } from '@/data/products'
-import { formatPrice } from '@/lib/utils'
+import { ProductBadges } from '@/components/ProductBadges'
 import { ProductGridSkeleton } from '@/components/ProductGridSkeleton'
+import { ProductPriceDisplay } from '@/components/ProductPriceDisplay'
 import { WatchSpecs } from '@/components/WatchSpecs'
+import { isSold } from '@/lib/productStatus'
 
 interface ProductGridProps {
   items: Product[]
@@ -30,7 +32,12 @@ export function ProductGrid({ items, loading = false, emptyMessage }: ProductGri
     <div className="products2">
       <div className="grid">
         {items.map((product) => (
-          <Link key={product.id} to={`/products/${product.id}`} className="product">
+          <Link
+            key={product.id}
+            to={`/products/${product.id}`}
+            className={`product${isSold(product) ? ' product--sold' : ''}`}
+          >
+            <ProductBadges product={product} />
             {product.category === 'bags' ? (
               <div className="product-media product-media--bag">
                 <img src={product.image} alt={product.name} loading="lazy" />
@@ -41,7 +48,7 @@ export function ProductGrid({ items, loading = false, emptyMessage }: ProductGri
             <div className="content">
               <h3>{product.name}</h3>
               {product.category === 'watches' && <WatchSpecs product={product} variant="card" />}
-              <div className="price">{formatPrice(product.price)}</div>
+              <ProductPriceDisplay product={product} className="price" compact />
             </div>
           </Link>
         ))}

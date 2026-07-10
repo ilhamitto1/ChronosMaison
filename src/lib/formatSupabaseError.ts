@@ -20,7 +20,7 @@ export function formatSupabaseError(error: unknown): string {
   const combined = [message, record.details, record.hint].filter(Boolean).join(' ').toLowerCase()
 
   if (isSchemaColumnError(error)) {
-    return 'Saat xüsusiyyəti sütunları Supabase-də yoxdur. SQL Editor-də supabase/migrate-watch-fields.sql faylını işə salın.'
+    return 'Verilənlər bazası köhnədir. Supabase SQL Editor-də supabase/full-setup.sql faylını tam işə salın (və ya migrate-product-status.sql).'
   }
 
   if (combined.includes('row-level security') || combined.includes('policy')) {

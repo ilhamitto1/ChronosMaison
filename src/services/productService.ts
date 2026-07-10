@@ -32,6 +32,10 @@ const WATCH_FIELD_KEYS = [
   'watch_year',
 ] as const
 
+const STATUS_FIELD_KEYS = ['is_sold', 'price_on_request', 'original_price'] as const
+
+const OPTIONAL_SCHEMA_KEYS = [...WATCH_FIELD_KEYS, ...STATUS_FIELD_KEYS] as const
+
 export interface SaveProductResult {
   product: Product
   watchFieldsSkipped?: boolean
@@ -65,6 +69,9 @@ function mapDbProduct(row: DbProduct): Product {
     watchCondition: normalizeWatchCondition(row.watch_condition),
     hasCertificate: row.has_certificate,
     watchYear: row.watch_year,
+    isSold: Boolean(row.is_sold),
+    priceOnRequest: Boolean(row.price_on_request),
+    originalPrice: row.original_price != null ? Number(row.original_price) : null,
   }
 }
 
@@ -102,34 +109,60 @@ function trimOrNull(value: string) {
   return trimmed || null
 }
 
-function hasWatchFieldValues(input: DbProductInsert | DbProductUpdate) {
-  return WATCH_FIELD_KEYS.some((key) => {
+function hasOptionalSchemaValues(input: DbProductInsert | DbProductUpdate) {
+  return OPTIONAL_SCHEMA_KEYS.some((key) => {
     const value = input[key]
     return value != null && value !== ''
   })
 }
 
-function stripWatchFields<T extends DbProductInsert | DbProductUpdate>(input: T): T {
+function stripOptionalSchemaFields<T extends DbProductInsert | DbProductUpdate>(input: T): T {
   const copy = { ...input }
-  for (const key of WATCH_FIELD_KEYS) {
+  for (const key of OPTIONAL_SCHEMA_KEYS) {
     delete copy[key]
   }
   return copy
+}
+
+function statusFieldsFromForm(values: ProductFormValues): Pick<
+  DbProductInsert,
+  'is_sold' | 'price_on_request' | 'original_price'
+> {
+  const priceOnRequest = values.price_on_request
+  const originalRaw = values.original_price.trim()
+  const originalPrice = originalRaw ? Number(originalRaw) : null
+
+  return {
+    is_sold: values.is_sold,
+    price_on_request: priceOnRequest,
+    original_price:
+      priceOnRequest || originalPrice == null || Number.isNaN(originalPrice)
+        ? null
+        : originalPrice,
+  }
 }
 
 export function buildProductPayload(
   values: ProductFormValues,
   imageUrl: string,
 ): DbProductInsert {
+  const priceOnRequest = values.price_on_request
+  const price = priceOnRequest
+    ? values.price.trim()
+      ? Number(values.price)
+      : 0
+    : Number(values.price)
+
   return {
     title: values.title.trim(),
     category: values.category as ProductCategory,
-    price: Number(values.price),
+    price: Number.isNaN(price) ? 0 : price,
     description: values.description.trim(),
     image_url: imageUrl,
     brand: values.brand.trim() || null,
     brand_id: values.brand_id.trim() || null,
     ...watchFieldsFromForm(values),
+    ...statusFieldsFromForm(values),
   }
 }
 
@@ -291,10 +324,10 @@ export async function createProduct(input: DbProductInsert): Promise<SaveProduct
     return { product: mapDbProduct(data as DbProduct) }
   }
 
-  if (isSchemaColumnError(error) && hasWatchFieldValues(input)) {
+  if (isSchemaColumnError(error) && hasOptionalSchemaValues(input)) {
     const { data: fallbackData, error: fallbackError } = await getSupabase()
       .from('products')
-      .insert(stripWatchFields(input))
+      .insert(stripOptionalSchemaFields(input))
       .select('*')
       .single()
 
@@ -326,10 +359,10 @@ export async function updateProduct(
     return { product: mapDbProduct(data as DbProduct) }
   }
 
-  if (isSchemaColumnError(error) && hasWatchFieldValues(input)) {
+  if (isSchemaColumnError(error) && hasOptionalSchemaValues(input)) {
     const { data: fallbackData, error: fallbackError } = await getSupabase()
       .from('products')
-      .update(stripWatchFields(input))
+      .update(stripOptionalSchemaFields(input))
       .eq('id', id)
       .select('*')
       .single()

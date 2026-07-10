@@ -10,6 +10,11 @@
 --
 -- Saat vəziyyəti (watch_condition): new | like-new | lightly-used
 --   → Yeni | Yeni kimi | Az işlənmiş
+--
+-- Məhsul statusu:
+--   is_sold            → Satıldı nişanı
+--   price_on_request   → Qiymət sorğu ilə (qiymət gizlənir)
+--   original_price     → Köhnə qiymət (endirim % üçün)
 -- ═══════════════════════════════════════════════════════════════
 
 -- ─── Extensions ───
@@ -50,19 +55,21 @@ create table if not exists public.products (
   watch_dial_color text,
   watch_movement_type text,
   watch_set text,
-  watch_condition text
-    check (watch_condition is null or watch_condition in ('new', 'like-new', 'lightly-used')),
+  watch_condition text,
   has_certificate boolean,
   watch_year integer
     check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100)),
+  -- Status: satıldı / endirim / qiymət sorğusu
+  is_sold boolean not null default false,
+  price_on_request boolean not null default false,
+  original_price numeric(12, 2),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
--- Köhnə products cədvəlinə saat sütunları (CREATE TABLE artıq işləyibsə)
+-- Köhnə products cədvəlinə çatışmayan sütunlar (CREATE TABLE artıq işləyibsə)
 alter table public.products
-  add column if not exists case_size_mm integer
-    check (case_size_mm is null or case_size_mm > 0),
+  add column if not exists case_size_mm integer,
   add column if not exists watch_reference text,
   add column if not exists watch_collection text,
   add column if not exists watch_case_material text,
@@ -72,10 +79,24 @@ alter table public.products
   add column if not exists watch_set text,
   add column if not exists watch_condition text,
   add column if not exists has_certificate boolean,
-  add column if not exists watch_year integer
-    check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100));
+  add column if not exists watch_year integer,
+  add column if not exists is_sold boolean,
+  add column if not exists price_on_request boolean,
+  add column if not exists original_price numeric(12, 2);
 
--- Köhnə watch_condition constraint-ləri sil, sonra dəyərləri yenilə
+-- Status sütunları üçün default / NOT NULL (köhnə sətirlər üçün təhlükəsiz)
+update public.products set is_sold = false where is_sold is null;
+update public.products set price_on_request = false where price_on_request is null;
+
+alter table public.products
+  alter column is_sold set default false,
+  alter column price_on_request set default false;
+
+alter table public.products
+  alter column is_sold set not null,
+  alter column price_on_request set not null;
+
+-- ─── Check constraint-ləri təmizlə və yenidən qur (təkrar Run üçün təhlükəsiz) ───
 do $$
 declare
   r record;
@@ -88,23 +109,46 @@ begin
     where n.nspname = 'public'
       and t.relname = 'products'
       and c.contype = 'c'
-      and pg_get_constraintdef(c.oid) ilike '%watch_condition%'
+      and (
+        pg_get_constraintdef(c.oid) ilike '%watch_condition%'
+        or pg_get_constraintdef(c.oid) ilike '%case_size_mm%'
+        or pg_get_constraintdef(c.oid) ilike '%watch_year%'
+        or pg_get_constraintdef(c.oid) ilike '%original_price%'
+      )
   loop
     execute format('alter table public.products drop constraint %I', r.conname);
   end loop;
 end $$;
 
+-- Köhnə dəyərləri yenilə
 update public.products
 set watch_condition = 'lightly-used'
 where watch_condition = 'pre-owned';
 
 alter table public.products
+  add constraint products_case_size_mm_check
+  check (case_size_mm is null or case_size_mm > 0);
+
+alter table public.products
   add constraint products_watch_condition_check
   check (watch_condition is null or watch_condition in ('new', 'like-new', 'lightly-used'));
+
+alter table public.products
+  add constraint products_watch_year_check
+  check (watch_year is null or (watch_year >= 1900 and watch_year <= 2100));
+
+alter table public.products
+  add constraint products_original_price_check
+  check (original_price is null or original_price >= 0);
+
+comment on column public.products.is_sold is 'Satıldı nişanı — məhsul satılıb';
+comment on column public.products.price_on_request is 'Qiymət göstərilmir — WhatsApp sorğusu';
+comment on column public.products.original_price is 'Köhnə qiymət (endirim faizini hesablamaq üçün)';
 
 create index if not exists products_category_idx on public.products (category);
 create index if not exists products_created_at_idx on public.products (created_at desc);
 create index if not exists products_brand_id_idx on public.products (brand_id);
+create index if not exists products_is_sold_idx on public.products (is_sold);
 
 drop trigger if exists products_set_updated_at on public.products;
 create trigger products_set_updated_at
@@ -307,3 +351,6 @@ using (
   bucket_id = 'brand-logos'
   and auth.jwt() ->> 'email' = 'chronosmaison776@gmail.com'
 );
+
+-- PostgREST schema cache yenilənsin (admin panel dərhal yeni sütunları görsün)
+notify pgrst, 'reload schema';

@@ -30,9 +30,29 @@ export function validateProductForm(
     errors.title = 'Məhsul adı mütləqdir.'
   }
 
-  const price = Number(values.price)
-  if (!values.price.trim() || Number.isNaN(price) || price <= 0) {
-    errors.price = 'Düzgün qiymət daxil edin.'
+  if (values.price_on_request) {
+    if (values.price.trim()) {
+      const price = Number(values.price)
+      if (Number.isNaN(price) || price < 0) {
+        errors.price = 'Düzgün qiymət daxil edin və ya boş buraxın.'
+      }
+    }
+  } else {
+    const price = Number(values.price)
+    if (!values.price.trim() || Number.isNaN(price) || price <= 0) {
+      errors.price = 'Düzgün qiymət daxil edin.'
+    }
+  }
+
+  const originalRaw = values.original_price.trim()
+  if (originalRaw && !values.price_on_request) {
+    const original = Number(originalRaw)
+    const price = Number(values.price)
+    if (Number.isNaN(original) || original <= 0) {
+      errors.original_price = 'Düzgün köhnə qiymət daxil edin.'
+    } else if (!Number.isNaN(price) && price > 0 && original <= price) {
+      errors.original_price = 'Köhnə qiymət cari qiymətdən böyük olmalıdır.'
+    }
   }
 
   if (!values.category) {
@@ -87,6 +107,7 @@ export function hasFormErrors(errors: ProductFormErrors) {
 const ERROR_FIELD_ORDER: (keyof ProductFormErrors)[] = [
   'title',
   'price',
+  'original_price',
   'category',
   'image',
   'description',
