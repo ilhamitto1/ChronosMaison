@@ -358,5 +358,29 @@
     "category": "watches",
     "show_on_homepage": true,
     "sort_order": 44
+  },
+  {
+    "slug": "pasquale-bruni",
+    "name": "Pasquale Bruni",
+    "logo_url": "/assets/brands/pasquale-bruni.svg",
+    "category": "jewelry",
+    "show_on_homepage": true,
+    "sort_order": 45
+  },
+  {
+    "slug": "roberto-coin",
+    "name": "Roberto Coin",
+    "logo_url": "/assets/brands/roberto-coin.svg",
+    "category": "jewelry",
+    "show_on_homepage": true,
+    "sort_order": 46
+  },
+  {
+    "slug": "graff",
+    "name": "Graff",
+    "logo_url": "/assets/brands/graff.svg",
+    "category": "jewelry",
+    "show_on_homepage": true,
+    "sort_order": 47
   }
 ]

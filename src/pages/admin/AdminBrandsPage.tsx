@@ -170,7 +170,7 @@ export function AdminBrandsPage() {
 
   async function handleSeedBrands() {
     const confirmed = window.confirm(
-      'Saytdakı bütün brendlər (45 ədəd) Supabase-ə əlavə olunsun? Artıq olanlar təkrarlanmayacaq.',
+      'Saytdakı bütün brendlər (48 ədəd) Supabase-ə əlavə olunsun? Artıq olanlar təkrarlanmayacaq.',
     )
     if (!confirmed) return
 
@@ -204,17 +204,16 @@ export function AdminBrandsPage() {
           <p>Ana səhifə karuseli və brend səhifələri buradan idarə olunur.</p>
         </div>
         <div className="admin-dashboard__actions">
-          {!loading && brands.length === 0 && (
-            <button
-              type="button"
-              className="admin-btn admin-btn--primary admin-dashboard__import"
-              onClick={() => void handleSeedBrands()}
-              disabled={seeding}
-            >
-              <Download size={18} />
-              {seeding ? 'Idxal...' : 'Kataloqu idxal et'}
-            </button>
-          )}
+          <button
+            type="button"
+            className="admin-btn admin-btn--ghost admin-dashboard__import"
+            onClick={() => void handleSeedBrands()}
+            disabled={seeding || loading}
+            title="Seed-də olan, DB-də olmayan brendləri əlavə edir"
+          >
+            <Download size={18} />
+            {seeding ? 'Idxal...' : 'Çatışmayanları idxal et'}
+          </button>
           <button type="button" className="admin-btn admin-btn--primary admin-dashboard__cta" onClick={openCreateForm}>
             <Plus size={18} />
             Yeni brend
@@ -226,7 +225,7 @@ export function AdminBrandsPage() {
         <div className="admin-import-banner">
           <div>
             <strong>Sayt brend kataloqu</strong>
-            <p>45 brendi bir dəfəyə əlavə edin. Sonra ana səhifədə göstəriləcəkləri seçin və ya silin.</p>
+            <p>48 brendi bir dəfəyə əlavə edin. Sonra ana səhifədə göstəriləcəkləri seçin və ya silin.</p>
           </div>
           <button
             type="button"
@@ -235,7 +234,7 @@ export function AdminBrandsPage() {
             disabled={seeding}
           >
             <Download />
-            {seeding ? 'Əlavə olunur...' : 'Kataloqu idxal et (45)'}
+            {seeding ? 'Əlavə olunur...' : 'Kataloqu idxal et (48)'}
           </button>
         </div>
       )}

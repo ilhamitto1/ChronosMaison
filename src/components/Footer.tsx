@@ -48,6 +48,9 @@ export function Footer() {
                 <Link to="/bags">Çantalar</Link>
               </li>
               <li>
+                <Link to="/products">Digər</Link>
+              </li>
+              <li>
                 <Link to="/contact">Əlaqə</Link>
               </li>
             </ul>
