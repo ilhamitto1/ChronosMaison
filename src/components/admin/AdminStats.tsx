@@ -1,4 +1,4 @@
-import { Briefcase, Gem, Package, Watch } from 'lucide-react'
+import { Briefcase, Gem, Layers, Package, Watch } from 'lucide-react'
 import type { Product } from '@/types/product'
 
 interface AdminStatsProps {
@@ -10,6 +10,7 @@ const STAT_ITEMS = [
   { key: 'watches', label: 'Saatlar', icon: Watch },
   { key: 'bags', label: 'Çantalar', icon: Briefcase },
   { key: 'jewelry', label: 'Zinət', icon: Gem },
+  { key: 'other', label: 'Digər', icon: Layers },
 ] as const
 
 export function AdminStats({ products }: AdminStatsProps) {
@@ -18,6 +19,7 @@ export function AdminStats({ products }: AdminStatsProps) {
     watches: products.filter((p) => p.category === 'watches').length,
     bags: products.filter((p) => p.category === 'bags').length,
     jewelry: products.filter((p) => p.category === 'jewelry').length,
+    other: products.filter((p) => p.category === 'other').length,
   }
 
   return (

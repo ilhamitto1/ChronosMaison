@@ -8,6 +8,7 @@ const CATEGORY_LABELS: Record<ProductCategory, string> = {
   watches: 'Saatlar',
   bags: 'Çantalar',
   jewelry: 'Zinət əşyaları',
+  other: 'Digər',
 }
 
 interface ProductTableProps {

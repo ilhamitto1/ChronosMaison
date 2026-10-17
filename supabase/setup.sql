@@ -9,7 +9,7 @@ create table if not exists public.products (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   category text not null
-    check (category in ('watches', 'bags', 'jewelry')),
+    check (category in ('watches', 'bags', 'jewelry', 'other')),
   price numeric(12, 2) not null check (price >= 0),
   description text not null default '',
   image_url text not null,

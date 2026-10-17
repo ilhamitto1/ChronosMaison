@@ -39,7 +39,7 @@ create table if not exists public.products (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   category text not null
-    check (category in ('watches', 'bags', 'jewelry')),
+    check (category in ('watches', 'bags', 'jewelry', 'other')),
   price numeric(12, 2) not null check (price >= 0),
   description text not null default '',
   image_url text not null,
@@ -114,6 +114,7 @@ begin
         or pg_get_constraintdef(c.oid) ilike '%case_size_mm%'
         or pg_get_constraintdef(c.oid) ilike '%watch_year%'
         or pg_get_constraintdef(c.oid) ilike '%original_price%'
+        or pg_get_constraintdef(c.oid) ilike '%category%'
       )
   loop
     execute format('alter table public.products drop constraint %I', r.conname);
@@ -124,6 +125,10 @@ end $$;
 update public.products
 set watch_condition = 'lightly-used'
 where watch_condition = 'pre-owned';
+
+alter table public.products
+  add constraint products_category_check
+  check (category in ('watches', 'bags', 'jewelry', 'other'));
 
 alter table public.products
   add constraint products_case_size_mm_check

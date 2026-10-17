@@ -204,6 +204,7 @@ export function ProductForm({
             <option value="watches">Saatlar</option>
             <option value="bags">Çantalar</option>
             <option value="jewelry">Zinət əşyaları</option>
+            <option value="other">Digər</option>
           </select>
           {errors.category && <small className="admin-field__error">{errors.category}</small>}
         </label>

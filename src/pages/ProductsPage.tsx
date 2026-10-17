@@ -1,4 +1,9 @@
+import { ProductGrid } from '@/components/ProductGrid'
+import { useProductsByCategory } from '@/hooks/useProducts'
+
 export function ProductsPage() {
+  const { products, loading } = useProductsByCategory('other')
+
   return (
     <>
       <div className="page-hero">
@@ -8,9 +13,11 @@ export function ProductsPage() {
       </div>
       <div className="page-content">
         <div className="container">
-          <div className="products-empty">
-            <p>Hazırda məhsul yoxdur.</p>
-          </div>
+          <ProductGrid
+            items={products}
+            loading={loading}
+            emptyMessage="Hazırda məhsul yoxdur."
+          />
         </div>
       </div>
     </>

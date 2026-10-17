@@ -1,4 +1,4 @@
-export type ProductCategory = 'watches' | 'bags' | 'jewelry'
+export type ProductCategory = 'watches' | 'bags' | 'jewelry' | 'other'
 export type BrandCategory = 'watches' | 'bags' | 'jewelry' | 'both'
 
 export interface DbBrand {

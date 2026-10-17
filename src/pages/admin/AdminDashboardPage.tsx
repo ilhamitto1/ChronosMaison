@@ -27,6 +27,7 @@ const FILTER_TABS: { value: CategoryFilter; label: string }[] = [
   { value: 'watches', label: 'Saatlar' },
   { value: 'bags', label: 'Çantalar' },
   { value: 'jewelry', label: 'Zinət' },
+  { value: 'other', label: 'Digər' },
 ]
 
 export function AdminDashboardPage() {
