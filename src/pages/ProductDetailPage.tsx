@@ -11,6 +11,7 @@ import {
   isPriceOnRequest,
   isSold,
 } from '@/lib/productStatus'
+import { PRODUCT_CATEGORY_BACK } from '@/lib/productCategories'
 import { hasWatchSpecs } from '@/lib/watchSpecs'
 import { buildWhatsAppUrl } from '@/lib/utils'
 
@@ -40,12 +41,7 @@ export function ProductDetailPage() {
     )
   }
 
-  const backPaths = {
-    bags: { to: '/bags', label: 'Çantalara qayıt' },
-    jewelry: { to: '/jewelry', label: 'Zinət əşyalarına qayıt' },
-    watches: { to: '/watches', label: 'Saatlara qayıt' },
-  } as const
-  const back = backPaths[product.category]
+  const back = PRODUCT_CATEGORY_BACK[product.category]
   const whatsAppHref = buildWhatsAppUrl(buildProductWhatsAppMessage(product))
   const sold = isSold(product)
   const inquiry = isPriceOnRequest(product)

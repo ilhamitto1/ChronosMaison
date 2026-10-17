@@ -1,15 +1,8 @@
 import { Download, Pencil, Trash2 } from 'lucide-react'
 import { formatAdminPrice } from '@/lib/utils'
 import { getDiscountPercent, hasDiscount, isPriceOnRequest, isSold } from '@/lib/productStatus'
+import { PRODUCT_CATEGORY_LABELS } from '@/lib/productCategories'
 import type { Product } from '@/types/product'
-import type { ProductCategory } from '@/types/database'
-
-const CATEGORY_LABELS: Record<ProductCategory, string> = {
-  watches: 'Saatlar',
-  bags: 'Çantalar',
-  jewelry: 'Zinət əşyaları',
-  other: 'Digər',
-}
 
 interface ProductTableProps {
   products: Product[]
@@ -75,7 +68,7 @@ function ProductRow({
         </div>
       </td>
       <td>
-        <span className="admin-badge">{CATEGORY_LABELS[product.category]}</span>
+        <span className="admin-badge">{PRODUCT_CATEGORY_LABELS[product.category]}</span>
       </td>
       <td>{product.brand || '—'}</td>
       <td className="admin-table__price">{formatProductPriceCell(product)}</td>
@@ -129,7 +122,7 @@ function ProductCard({
           <span className="admin-table__price">{formatProductPriceCell(product)}</span>
         </div>
         <div className="admin-product-card__footer">
-          <span className="admin-badge">{CATEGORY_LABELS[product.category]}</span>
+          <span className="admin-badge">{PRODUCT_CATEGORY_LABELS[product.category]}</span>
           <div className="admin-product-card__actions">
             <button
               type="button"

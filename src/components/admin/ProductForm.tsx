@@ -8,6 +8,7 @@ import {
   validateImageFile,
   validateProductForm,
 } from '@/lib/validateProductForm'
+import { PRODUCT_CATEGORY_OPTIONS } from '@/lib/productCategories'
 import type { ProductCategory } from '@/types/database'
 import type { Product, ProductFormErrors, ProductFormValues } from '@/types/product'
 
@@ -201,10 +202,11 @@ export function ProductForm({
             onChange={(event) => updateField('category', event.target.value as ProductCategory | '')}
           >
             <option value="">Seçin</option>
-            <option value="watches">Saatlar</option>
-            <option value="bags">Çantalar</option>
-            <option value="jewelry">Zinət əşyaları</option>
-            <option value="other">Digər</option>
+            {PRODUCT_CATEGORY_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
           {errors.category && <small className="admin-field__error">{errors.category}</small>}
         </label>

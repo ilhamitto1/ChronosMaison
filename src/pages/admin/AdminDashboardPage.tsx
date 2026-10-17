@@ -16,6 +16,7 @@ import {
   uploadProductImage,
 } from '@/services/productService'
 import { formatSupabaseError } from '@/lib/formatSupabaseError'
+import { PRODUCT_CATEGORY_OPTIONS } from '@/lib/productCategories'
 import type { ProductCategory } from '@/types/database'
 import type { Product, ProductFormValues } from '@/types/product'
 
@@ -24,10 +25,10 @@ type CategoryFilter = 'all' | ProductCategory
 
 const FILTER_TABS: { value: CategoryFilter; label: string }[] = [
   { value: 'all', label: 'Hamısı' },
-  { value: 'watches', label: 'Saatlar' },
-  { value: 'bags', label: 'Çantalar' },
-  { value: 'jewelry', label: 'Zinət' },
-  { value: 'other', label: 'Digər' },
+  ...PRODUCT_CATEGORY_OPTIONS.map((option) => ({
+    value: option.value,
+    label: option.value === 'jewelry' ? 'Zinət' : option.label,
+  })),
 ]
 
 export function AdminDashboardPage() {
