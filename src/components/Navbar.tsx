@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { to: '/watches', label: 'Saatlar' },
   { to: '/jewelry', label: 'Zinət əşyaları' },
   { to: '/bags', label: 'Çantalar' },
-  { to: '/products', label: 'Digər' },
+  { to: '/other', label: 'Digər' },
   { to: '/contact', label: 'Əlaqə' },
 ]
 

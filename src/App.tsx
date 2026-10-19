@@ -12,6 +12,7 @@ import { WatchesPage } from '@/pages/WatchesPage'
 import { BagsPage } from '@/pages/BagsPage'
 import { JewelryPage } from '@/pages/JewelryPage'
 import { ProductsPage } from '@/pages/ProductsPage'
+import { OtherPage } from '@/pages/OtherPage'
 import { ContactPage } from '@/pages/ContactPage'
 import { BrandPage } from '@/pages/BrandPage'
 import { ProductDetailPage } from '@/pages/ProductDetailPage'
@@ -66,6 +67,7 @@ export default function App() {
               <Route path="jewelry" element={<JewelryPage />} />
               <Route path="products" element={<ProductsPage />} />
               <Route path="products/:id" element={<ProductDetailPage />} />
+              <Route path="other" element={<OtherPage />} />
               <Route path="contact" element={<ContactPage />} />
               <Route path="markalar/:slug" element={<BrandPage />} />
             </Route>

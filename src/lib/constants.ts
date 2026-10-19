@@ -8,7 +8,7 @@ export const BRAND = {
   email: 'chronosmaison776@gmail.com',
   phone: '+994 (010) 100-07-76',
   phoneTel: '+9940101000776',
-  address: 'Xətai prospekti 15, Bakı, Azərbaycan',
+  address: 'İzmir küçəsi 9 (Heyat Palace)',
   instagram: 'https://www.instagram.com/chronosmaison',
   facebook: 'https://m.facebook.com/',
   whatsappText: 'Salam, sizə Chronos Maison saytından yazıram..',

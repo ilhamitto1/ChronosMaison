@@ -18,5 +18,5 @@ export const PRODUCT_CATEGORY_BACK: Record<ProductCategory, { to: string; label:
   watches: { to: '/watches', label: 'Saatlara qayıt' },
   bags: { to: '/bags', label: 'Çantalara qayıt' },
   jewelry: { to: '/jewelry', label: 'Zinət əşyalarına qayıt' },
-  other: { to: '/products', label: 'Digərə qayıt' },
+  other: { to: '/other', label: 'Digərə qayıt' },
 }

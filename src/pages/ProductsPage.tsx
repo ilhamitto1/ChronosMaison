@@ -1,14 +1,15 @@
 import { ProductGrid } from '@/components/ProductGrid'
-import { useProductsByCategory } from '@/hooks/useProducts'
+import { useProducts } from '@/hooks/useProducts'
 
+/** Ana səhifə «Yeni daxil olmuş məhsullar» — bütün kateqoriyalar */
 export function ProductsPage() {
-  const { products, loading } = useProductsByCategory('other')
+  const { products, loading } = useProducts()
 
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <h1>Digər</h1>
+          <h1>Yeni daxil olmuş məhsullar</h1>
         </div>
       </div>
       <div className="page-content">
